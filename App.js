@@ -3,10 +3,12 @@ import { StyleSheet, Text, View } from 'react-native';
 
 // import screen
 import Login from './screen/login';
+import Register from './screen/register';
 
 export default function App() {
   return (
     <Login />
+    // <Register />
   );
 }
 

@@ -14,12 +14,7 @@ import Register from './register';
 
 export default function Login() {
     const [Number, setNumber] = useState();
-    const [username, setUsername] = useState();
-    // useEffect(() => {
-    //   return () => {
-    //     console.log("clean up");
-    //   };
-    // }, [Number])
+    const [username, setUsername] = useState("");
     let [fontsLoaded] = useFonts({
        Small: require("../assets/fonts/Almarai-Light.ttf"),
        Bold: require("../assets/fonts/Almarai-Bold.ttf"),
@@ -58,20 +53,23 @@ export default function Login() {
                          keyboardType="numeric"
                      />
                 </View>
-                <View style={{width: '100%', height: 1, top: 600}}>
-                    {/* <TouchableOpacity
+                    <TouchableOpacity
                         style={styles.button}
                         onPress={() => setNumber(0)}
                     >
                         <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>تسجيل الدخول</Text>
-                    </TouchableOpacity>                         */}
-                    <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'black'}}>تس الدخول</Text>
-
-                </View>
-                {/* <View style={{width: 5, height: 40000, backgroundColor: 'red', left: 350}}></View> */}
+                    </TouchableOpacity> 
+                    <View style={{flexDirection: 'row', left: 75}}>
+                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}}> سجل </Text>
+                        <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}} onPress={changeScreen()}> لا تملك حساب حتى الأن؟  </Text>
+                    </View>                      
             </View>
     );
-
+    function changeScreen()
+    {
+        console.log("change screen2");
+        return <Register />
+    }
 }
 
 
@@ -151,6 +149,7 @@ const styles = StyleSheet.create({
         width: '90%',
         height: 60,
         left: '5%',
+        top: 560,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#678DF9',
