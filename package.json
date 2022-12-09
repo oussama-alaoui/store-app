@@ -9,9 +9,9 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@expo-google-fonts/noto-sans-arabic": "^0.2.2",
-    "@fontsource/noto-sans-arabic": "^4.5.13",
     "expo": "~47.0.8",
+    "expo-app-loading": "^2.1.1",
+    "expo-font": "^11.0.1",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
     "react-native": "0.70.5"
