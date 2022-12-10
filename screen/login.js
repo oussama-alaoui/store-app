@@ -1,14 +1,15 @@
 import React from "react";
-import { SafeAreaView } from "react-native";
+import { ImageBackground, SafeAreaView } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 
 // import screen
-import Register from './register';
+import Register from "./register";
 
 
 
@@ -26,7 +27,19 @@ export default function Login() {
     
     return (
             <View style={styles.container}>
-                <Image source={require('../assets/login_background.jpeg')} style={styles.background_img}/>
+                <ImageBackground
+                    style={styles.background_img}
+                    source={require('../assets/login_background.jpeg')}>
+
+                    <LinearGradient 
+                        colors={['#00000000', '#ffffff']} 
+                        style={{height : '100%', width : '100%'}}>
+
+
+
+                    </LinearGradient>
+
+                </ImageBackground>
                 <Text style={styles.title1}>السلام عليكم، </Text>
                 <Text style={styles.title2}>المرجو تسجيل الدخول</Text>
 
@@ -60,16 +73,12 @@ export default function Login() {
                         <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>تسجيل الدخول</Text>
                     </TouchableOpacity> 
                     <View style={{flexDirection: 'row', left: 75}}>
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}}> سجل </Text>
-                        <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}} onPress={changeScreen()}> لا تملك حساب حتى الأن؟  </Text>
+                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}} onPress={() => {setNumber(0) 
+                        return <Register/>}}> سجل </Text>
+                        <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}}> لا تملك حساب حتى الأن؟  </Text>
                     </View>                      
             </View>
     );
-    function changeScreen()
-    {
-        console.log("change screen2");
-        return <Register />
-    }
 }
 
 

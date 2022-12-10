@@ -1,14 +1,15 @@
 import React from "react";
-import { SafeAreaView } from "react-native";
+import { ImageBackground, SafeAreaView } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 
 // import screen
-
+import Login from "./login";
 
 
 export default function Register() {
@@ -25,9 +26,21 @@ export default function Register() {
     
     return (
             <View style={styles.container}>
-                <Image source={require('../assets/login_background.jpeg')} style={styles.background_img}/>
-                {/* <Text style={styles.title1}>السلام عليكم، </Text>
-                <Text style={styles.title2}>المرجو تسجيل الدخول</Text> */}
+                <ImageBackground
+                    style={styles.background_img}
+                    source={require('../assets/register_background.png')}>
+
+                    <LinearGradient
+                        colors={['#00000000', '#ffffff']} 
+                        style={{height : '100%', width : '100%'}}>
+
+
+
+                    </LinearGradient>
+
+                </ImageBackground>
+                <Text style={styles.title1}>السلام عليكم، </Text>
+                <Text style={styles.title2}>المرجو إنشاء حساب</Text>
 
                 <Text style={styles.username_titel}>إسم المستخدم</Text>
                 <TextInput
@@ -39,8 +52,8 @@ export default function Register() {
                 />
 
 
-                <Text style={[styles.username_titel, {top: 420}]}>رقم الهاتف</Text>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'row', top: 450}}>
+                <Text style={[styles.username_titel, {top: 380}]}>رقم الهاتف</Text>
+                <View style={{ justifyContent: 'space-between', flexDirection: 'row', top: 410}}>
                      <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '15%', height: 52, backgroundColor: '#F3F4F9',borderTopLeftRadius: 15,borderBottomLeftRadius: 15, left: 34}}>
                          <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 20,}}>+966</Text>
                      </View>
@@ -56,18 +69,14 @@ export default function Register() {
                         style={styles.button}
                         onPress={() => setNumber(0)}
                     >
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>تسجيل الدخول</Text>
+                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>إنشاء حساب</Text>
                     </TouchableOpacity> 
-                    <View style={{flexDirection: 'row', left: 75, flexDirection: 'row-reverse',}}>
-                        <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}}> لا تملك حساب حتى الأن؟  </Text>
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}} onPress={() => setUsername("")}> سجل </Text>
+                    <View style={{flexDirection: 'row', flexDirection: 'row-reverse', alignItems: "center", left: -65}}>
+                        <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}}> هل لديك حساب؟</Text>
+                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}} onPress={() => setUsername("")}> تسجيل الدخول </Text>
                     </View>                      
             </View>
     );
-    function changeScreen()
-    {
-        setUsername("");
-    }
 }
 
 
@@ -80,8 +89,9 @@ const styles = StyleSheet.create({
 
     background_img: {
         position: 'absolute',
-        width: 360,
-        height: 220,
+        width: 402,
+        height: 175,
+        top: -5,
     },
 
     title1: {
@@ -89,7 +99,7 @@ const styles = StyleSheet.create({
         width: 288,
         height: 100,
         left: 65,
-        top: 230,
+        top: 190,
         fontFamily: "Bold",
         fontStyle: 'normal',
         fontSize: 25,
@@ -103,7 +113,7 @@ const styles = StyleSheet.create({
         width: 400,
         height: 100,
         left: -47,
-        top: 265,
+        top: 225,
         fontFamily: "Bold",
         fontStyle: 'normal',
         fontSize: 25,
@@ -118,7 +128,7 @@ const styles = StyleSheet.create({
         width: 101,
         height: 34,
         left: 250,
-        top: 320,
+        top: 290,
         fontFamily: 'Small',
         fontStyle: 'normal',
         fontWeight: '600',
@@ -134,7 +144,7 @@ const styles = StyleSheet.create({
         width: 320,
         height: 52,
         left: 30,
-        top: 350,
+        top: 320,
         backgroundColor: '#F3F4F9',
         fontFamily: 'Small',
         fontStyle: 'normal',

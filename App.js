@@ -4,11 +4,13 @@ import { StyleSheet, Text, View } from 'react-native';
 // import screen
 import Login from './screen/login';
 import Register from './screen/register';
+import Verification_phone from './screen/verification_phone';
 
 export default function App() {
   return (
-    <Login />
-    // <Register />
+      // <Login />
+     // <Register /> 
+      <Verification_phone />
   );
 }
 
