@@ -5,12 +5,16 @@ import { StyleSheet, Text, View } from 'react-native';
 import Login from './screen/login';
 import Register from './screen/register';
 import Verification_phone from './screen/verification_phone';
+import Verification_done from './screen/verification_done';
+import Home_cars from './screen/home_car';
 
 export default function App() {
   return (
       // <Login />
      // <Register /> 
-      <Verification_phone />
+      // <Verification_phone />
+      // <Verification_done />
+      <Home_cars />
   );
 }
 
