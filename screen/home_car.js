@@ -75,11 +75,22 @@ import { LinearGradient } from "expo-linear-gradient";
             </View>
             
             <View style={styles.body}>
-                <View style={{width: '90%', height: '18%', backgroundColor: '#fff', borderRadius: 10, top: 10, justifyContent: 'center'}}>
-                    <View style={{width: '50%', height: '40%', left: '44%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
-                        <Image source={require('../assets/plate_car1.png')} style={{width: 140, height: 30, resizeMode: 'contain'}}/>
+                <View style={{width: '90%', height: '24%', backgroundColor: '#fff', borderRadius: 10, top: 10, justifyContent: 'space-around', flexDirection: 'row'}}>
+
+                    <View style={{width: '100%', height: '60%', alignItems: 'center', flexDirection: 'row', left: 110}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <View>
+                                <Text style={{fontSize: 11, fontFamily: 'Bold', letterSpacing: 2, color: '#00084F', paddingTop: 15}}>أسامة العلوي</Text>
+                                <Text style={{fontSize: 7, fontFamily: 'Small', color: 'gray', paddingTop: 5, left: 30}}>@oussama</Text>
+                            </View>
+                            <Image source={require('../assets/user_1.png')} style={{width: 40, height: 40, resizeMode: 'contain', top: 5}}/>
+                        </View>
+                        <Text style={{fontSize: 11, fontFamily: 'Bold', letterSpacing: 2, color: '#00084F', paddingTop: 15}}>أسامة </Text>
+                        <Text style={{fontSize: 7, fontFamily: 'Small', color: 'gray', paddingTop: 5, left: 30}}>@oussama</Text>
                     </View>
-                    
+                    <View style={{width: '40%', height: '40%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '15%', left: -40}}>
+                        <Image source={require('../assets/plate_car1.png')} style={{width: 110, height: 30, resizeMode: 'contain'}}/>
+                    </View>
                 </View>
             </View>
         </View>
