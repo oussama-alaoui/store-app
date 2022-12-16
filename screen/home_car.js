@@ -75,24 +75,89 @@ import { LinearGradient } from "expo-linear-gradient";
             </View>
             
             <View style={styles.body}>
-                <View style={{width: '90%', height: '24%', backgroundColor: '#fff', borderRadius: 10, top: 10, justifyContent: 'space-around', flexDirection: 'row'}}>
-
-                    <View style={{width: '100%', height: '60%', alignItems: 'center', flexDirection: 'row', left: 110}}>
-                        <View style={{flexDirection: 'row'}}>
-                            <View>
-                                <Text style={{fontSize: 11, fontFamily: 'Bold', letterSpacing: 2, color: '#00084F', paddingTop: 15}}>أسامة العلوي</Text>
-                                <Text style={{fontSize: 7, fontFamily: 'Small', color: 'gray', paddingTop: 5, left: 30}}>@oussama</Text>
+                <View style={{width: '95%', height: '24%', backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row'}}>
+                        
+                        {/* 1st colum */}
+                        <View style={{width: '20%', height: '86%', borderRadius: 10, top: '6%', left: 5}}>
+                            <View style={{width: '100%', height: '50%'}}>
+                            <Image source={require('../assets/aimer.png')} style={{width: 20, height: 20}}/>
                             </View>
-                            <Image source={require('../assets/user_1.png')} style={{width: 40, height: 40, resizeMode: 'contain', top: 5}}/>
+                            <View style={{width: '100%', height: '20%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 2}}>
+                                <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>لا يوجد</Text>
+                                <View style={{width: 2, height: 20, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
+                                <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
+                            </View>
                         </View>
-                        <Text style={{fontSize: 11, fontFamily: 'Bold', letterSpacing: 2, color: '#00084F', paddingTop: 15}}>أسامة </Text>
-                        <Text style={{fontSize: 7, fontFamily: 'Small', color: 'gray', paddingTop: 5, left: 30}}>@oussama</Text>
-                    </View>
-                    <View style={{width: '40%', height: '40%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '15%', left: -40}}>
-                        <Image source={require('../assets/plate_car1.png')} style={{width: 110, height: 30, resizeMode: 'contain'}}/>
-                    </View>
+                        
+                        {/* 2st colum */}
+                        <View style={{width: '35%', height: '80%', borderRadius: 10, top: '5%'}}>
+                            <View style={{width: '100%', height: '50%', flexDirection: 'row'}}>
+                            <View style={{width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center', top: 16, left: 0}}>
+                                    <Text style={{fontSize: 15, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3', right: 22, top:7}}>أسامة العلوي</Text>
+                            </View>
+                            <Image source={require('../assets/user_1.png')} style={{width: 47, height: 50, resizeMode: 'contain', right: 22}}/>
+                            </View>
+                            
+                            <View style={{width: '100%', height: '50%', justifyContent: 'space-around', alignItems: 'center'}}>
+                                <View style={{width: '100%', height: '30%', flexDirection: 'row', justifyContent: 'space-around', top: 10}}>
+                                    <Text style={{fontSize: 10, fontFamily: 'X_Bold', color: 'black', left: 28}}>الرياض</Text>
+                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: 'gray', left: 4}}>المدينة :</Text>
+                                </View>
+                                <View style={{width: '100%', height: '30%', flexDirection: 'row', justifyContent: 'space-around'}}>
+                                    <Text style={{fontSize: 10, fontFamily: 'X_Bold', color: '#9597DF', left: 15}}>350-50 ريال</Text>
+                                    <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: 'gray'}}>سعر  :</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        {/* 3st colum */}
+                        <View style={{width: '40%', height: '65%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '9%'}}>
+                            <Image source={require('../assets/plate_car1.png')} style={{width: 110, height: 30, resizeMode: 'contain'}}/>
+                        </View>
+                </View>
+                <View style={{width: '95%', height: '24%', backgroundColor: '#fff', borderRadius: 10, top: '2%', justifyContent: 'space-around', flexDirection: 'row'}}>
+                        
+                        {/* 1st colum */}
+                        <View style={{width: '20%', height: '86%', borderRadius: 10, top: '6%', left: 5}}>
+                            <View style={{width: '100%', height: '50%'}}>
+                            <Image source={require('../assets/aimer.png')} style={{width: 20, height: 20}}/>
+                            </View>
+                            <View style={{width: '100%', height: '20%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 2}}>
+                                <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>لا يوجد</Text>
+                                <View style={{width: 2, height: 20, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
+                                <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
+                            </View>
+                        </View>
+                        
+                        {/* 2st colum */}
+                        <View style={{width: '35%', height: '80%', borderRadius: 10, top: '5%'}}>
+                            <View style={{width: '100%', height: '50%', flexDirection: 'row'}}>
+                            <View style={{width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center', top: 16, left: 0}}>
+                                    <Text style={{fontSize: 15, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3', right: 22, top:7}}>أسامة العلوي</Text>
+                            </View>
+                            <Image source={require('../assets/user_1.png')} style={{width: 47, height: 50, resizeMode: 'contain', right: 22}}/>
+                            </View>
+                            
+                            <View style={{width: '100%', height: '50%', justifyContent: 'space-around', alignItems: 'center'}}>
+                                <View style={{width: '100%', height: '30%', flexDirection: 'row', justifyContent: 'space-around', top: 10}}>
+                                    <Text style={{fontSize: 10, fontFamily: 'X_Bold', color: 'black', left: 28}}>الرياض</Text>
+                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: 'gray', left: 4}}>المدينة :</Text>
+                                </View>
+                                <View style={{width: '100%', height: '30%', flexDirection: 'row', justifyContent: 'space-around'}}>
+                                    <Text style={{fontSize: 10, fontFamily: 'X_Bold', color: '#9597DF', left: 15}}>350-50 ريال</Text>
+                                    <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: 'gray'}}>سعر  :</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        {/* 3st colum */}
+                        <View style={{width: '40%', height: '65%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '9%'}}>
+                            <Image source={require('../assets/plate_car1.png')} style={{width: 110, height: 30, resizeMode: 'contain'}}/>
+                        </View>
                 </View>
             </View>
+
+            
         </View>
     )
 
@@ -107,7 +172,7 @@ const styles = StyleSheet.create({
     header: {
         width: '100%',
         height: 170,
-        top: 19,
+        top: 26,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -129,7 +194,8 @@ const styles = StyleSheet.create({
     body: {
         width: '100%',
         height: '90%',
-        backgroundColor: '#F9F9FF',
+        top: 5,
+        backgroundColor: '#F0F0FF',
         alignItems: 'center',
     },
 
