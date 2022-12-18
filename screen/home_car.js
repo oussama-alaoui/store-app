@@ -8,7 +8,7 @@ import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, ScrollView } from "react-native";
 
- export default function Home_cars () {
+ export default function Home_cars ({navigation}) {
 
     const [Number, setNumber] = useState();
     const [category, setCategory] = useState(1);
@@ -59,7 +59,7 @@ import { FlatList, ScrollView } from "react-native";
 
 
                 <View style={styles.bottom}>
-                    <TouchableOpacity style={{width: '23%', height: 37, backgroundColor: '#ECEFFF', borderRadius: 9, justifyContent: 'center', alignItems: 'center', marginRight:53, marginLeft: 13, flexDirection: 'row', justifyContent: 'space-around', borderColor: '#C7C9F9', borderWidth: 2}}>
+                    <TouchableOpacity style={{width: '23%', height: 37, backgroundColor: '#ECEFFF', borderRadius: 9, justifyContent: 'center', alignItems: 'center', marginRight:50, marginLeft: 13, flexDirection: 'row', justifyContent: 'space-around', borderColor: '#C7C9F9', borderWidth: 2}}>
                          <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3'}}>إضافة إعلان</Text>
                          <Image source={require('../assets/plus.png')} />
                     </TouchableOpacity>
@@ -69,10 +69,9 @@ import { FlatList, ScrollView } from "react-native";
                     <View style={{width: '40%', height: 37, justifyContent: 'center', alignItems: 'center'}}>
                         <View style={{ justifyContent: 'space-between', flexDirection: 'row', }}>
                                 <TextInput
-                                    style={[styles.input, {top: 0, width: '75%', borderTopLeftRadius: 10, borderBottomLeftRadius: 10, backgroundColor: '#F3F4F9', writingDirection: "ltr", padding: 10, fontSize: 12, fontFamily: 'Small'}]}
+                                    style={[styles.input, {top: 0, width: '77%', borderTopLeftRadius: 10, borderBottomLeftRadius: 10, backgroundColor: '#F3F4F9', writingDirection: "ltr", padding: 10, fontSize: 12, fontFamily: 'Small'}]}
                                     onChangeText={setNumber}
-                                    value={category}
-                                    letterSpacing={2}
+                                    value={Number}
                                     maxLength={10}
                                     placeholder=" البحث برقم الإعلان"
                                     keyboardType="numeric"
@@ -91,7 +90,7 @@ import { FlatList, ScrollView } from "react-native";
                             return (
                                 
                                 console.log('here'),
-                                <View style={{width: '95%', height: 140, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1}}>
+                                <View style={{width: '95%', height: 140, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 15}}>
                                         
                                         {/* 1st colum */}
                                         <View style={{width: '20%', height: '86%', borderRadius: 10, top: '6%', left: 5}}>
@@ -109,7 +108,7 @@ import { FlatList, ScrollView } from "react-native";
                                         <View style={{width: '35%', height: '80%', borderRadius: 10, top: '5%'}}>
                                             <View style={{width: '100%', height: '50%', flexDirection: 'row'}}>
                                             <View style={{width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center', top: 16, left: 0}}>
-                                                    <Text style={{fontSize: 15, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3', right: 22, top:7}}>{item.user} </Text>
+                                                    <Text style={{fontSize: 13, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3', right: 22, top:7}}>{item.user} </Text>
                                             </View>
                                             <Image source={require('../assets/user_1.png')} style={{width: 47, height: 50, resizeMode: 'contain', right: 22}}/>
                                             </View>
@@ -135,9 +134,10 @@ import { FlatList, ScrollView } from "react-native";
                             
                         })
                         }
-
                 </View>
             </ScrollView>
+
+          
             
         </View>
     )
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     body: {
         width: '100%',
         height: 'auto',
-        top: 5,
+        top: 10,
         flex: 1,
         backgroundColor: '#F0F0FF',
         alignItems: 'center',
@@ -200,5 +200,16 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
 
         elevation: 6,
-    }
+    },
+
+    bar_navigation: {
+        width: '100%',
+        height: 60,
+        backgroundColor: 'red',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        flexDirection: 'row',
+        top: 10,
+        borderRadius: 10,
+    },
 });

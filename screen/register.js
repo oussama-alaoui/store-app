@@ -8,11 +8,9 @@ import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 
-// import screen
-import Login from "./login";
 
 
-export default function Register() {
+export default function Register({navigation}) {
     const [Number, setNumber] = useState();
     const [username, setUsername] = useState("");
     let [fontsLoaded] = useFonts({
@@ -67,13 +65,13 @@ export default function Register() {
                 </View>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => setNumber(0)}
+                        onPress={() => navigation.navigate('Verification_phone')}
                     >
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>إنشاء حساب</Text>
+                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white',}}>إنشاء حساب</Text>
                     </TouchableOpacity> 
                     <View style={{flexDirection: 'row', flexDirection: 'row-reverse', alignItems: "center", left: -65}}>
-                        <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}}> هل لديك حساب؟</Text>
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}} onPress={() => setUsername("")}> تسجيل الدخول </Text>
+                        <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 16, color: 'gray', top: 570,alignItems:'center'}}> هل لديك حساب؟</Text>
+                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'gray', top: 570,alignItems:'center'}} onPress={() => navigation.navigate('Login')}> سجيل الدخول </Text>
                     </View>                      
             </View>
     );

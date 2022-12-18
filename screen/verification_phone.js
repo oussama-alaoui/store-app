@@ -7,7 +7,7 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function Verification_phone() {
+export default function Verification_phone({navigation}) {
     const [Number, setNumber] = useState();
     // const [Date, setDate] = useState(new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear());
 
@@ -80,7 +80,7 @@ export default function Verification_phone() {
 
             <TouchableOpacity
                         style={styles.button}
-                        onPress={() => setNumber(0)}
+                        onPress={() => navigationå.navigate('Home')}
                     >
                         <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>تفعيل الحساب</Text>
             </TouchableOpacity> 

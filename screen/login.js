@@ -13,13 +13,14 @@ import Register from "./register";
 
 
 
-export default function Login() {
+export default function Login({navigation}) {
     const [Number, setNumber] = useState();
     const [username, setUsername] = useState("");
     let [fontsLoaded] = useFonts({
        Small: require("../assets/fonts/Almarai-Light.ttf"),
        Bold: require("../assets/fonts/Almarai-Bold.ttf"),
        X_Bold: require("../assets/fonts/Almarai-ExtraBold.ttf"),
+       noto: require("../assets/fonts/NotoSansArabic-VariableFont_wdth,wght.ttf"),
     });
     if (!fontsLoaded) {
         return <Text>Loading...</Text>;
@@ -32,7 +33,7 @@ export default function Login() {
                     source={require('../assets/login_background.jpeg')}>
 
                     <LinearGradient 
-                        colors={['#00000000', '#ffffff']} 
+                        colors={['#00000000', '#ECECFF']} 
                         style={{height : '100%', width : '100%'}}>
 
 
@@ -45,7 +46,7 @@ export default function Login() {
 
                 <Text style={styles.username_titel}>إسم المستخدم</Text>
                 <TextInput
-                    style={[styles.input, {borderRadius: 15}]}
+                    style={[styles.input, {borderRadius: 10}]}
                     onChangeText={setUsername}
                     value={username}
                     placeholder="username"
@@ -53,13 +54,13 @@ export default function Login() {
                 />
 
 
-                <Text style={[styles.username_titel, {top: 420}]}>رقم الهاتف</Text>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'row', top: 450}}>
-                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '15%', height: 52, backgroundColor: '#F3F4F9',borderTopLeftRadius: 15,borderBottomLeftRadius: 15, left: 34}}>
-                         <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 20,}}>+966</Text>
+                <Text style={[styles.username_titel, {top: 395}]}>رقم الهاتف</Text>
+                <View style={{ justifyContent: 'space-between', flexDirection: 'row', top: 425}}>
+                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '11%', height: 42, backgroundColor: '#F3F4F9',borderTopLeftRadius: 10,borderBottomLeftRadius: 10, left: 14}}>
+                         <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 16,}}>+966</Text>
                      </View>
                      <TextInput
-                         style={[styles.input, {top: 0, width: '75%', left: 80, borderTopRightRadius: 15, borderBottomRightRadius: 15}]}
+                         style={[styles.input, {top: 0, width: '80%', left: 52, borderTopRightRadius: 10, borderBottomRightRadius: 10}]}
                          onChangeText={setNumber}
                          value={Number}
                          placeholder=" 12 345 6789"
@@ -68,15 +69,16 @@ export default function Login() {
                 </View>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => setNumber(0)}
+                        onPress={() => navigation.navigate('Verification_phone')}
                     >
                         <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>تسجيل الدخول</Text>
                     </TouchableOpacity> 
-                    <View style={{flexDirection: 'row', left: 75}}>
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}} onPress={() => {setNumber(0) 
-                        return <Register/>}}> سجل </Text>
-                        <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 16, color: 'black', top: 570,alignItems:'center'}}> لا تملك حساب حتى الأن؟  </Text>
-                    </View>                      
+                    <View style={{flexDirection: 'row', left: 87}}>
+                        <Text style={{fontFamily: 'X_Bold',fontSize: 13, color: 'gray', top: 594,alignItems:'center'}} onPress={() => navigation.navigate('Register')}> سجل </Text>
+                        <Text style={{fontFamily: 'Bold',fontSize: 13, color: 'gray', top: 594,alignItems:'center'}}> لا تملك حساب حتى الأن؟  </Text>
+                    </View>
+                {/* <View style={{width: 2, height: '100%', backgroundColor: 'red', left: 14}}>  
+                </View>            */}
             </View>
     );
 }
@@ -99,9 +101,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: 288,
         height: 100,
-        left: 65,
+        left: 54,
         top: 230,
-        fontFamily: "Bold",
+        fontFamily: "X_Bold",
         fontStyle: 'normal',
         fontSize: 25,
         lineHeight: 42,
@@ -113,9 +115,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: 400,
         height: 100,
-        left: -47,
+        left: -58,
         top: 265,
-        fontFamily: "Bold",
+        fontFamily: "X_Bold",
         fontStyle: 'normal',
         fontSize: 25,
         lineHeight: 42,
@@ -128,12 +130,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: 101,
         height: 34,
-        left: 250,
-        top: 320,
-        fontFamily: 'Small',
+        left: 230,
+        top: 310,
+        fontFamily: 'Bold',
         fontStyle: 'normal',
         fontWeight: '600',
-        fontSize: 16,
+        fontSize: 13,
         lineHeight: 34,
         textAlign: 'right',
         color: '#292B56',
@@ -142,15 +144,15 @@ const styles = StyleSheet.create({
 
     input: {
         position: 'absolute',
-        width: 320,
-        height: 52,
-        left: 30,
-        top: 350,
-        backgroundColor: '#F3F4F9',
+        width: '90%',
+        height: 42,
+        left: 16,
+        top: 340,
+        backgroundColor: '#F6F7FC',
         fontFamily: 'Small',
         fontStyle: 'normal',
         fontWeight: '600',
-        fontSize: 20,
+        fontSize: 16,
         padding: 10,
     },
 
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
         width: '90%',
         height: 60,
         left: '5%',
-        top: 560,
+        top: 570,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#678DF9',
