@@ -11,9 +11,9 @@ export default function Search({navigation}) {
     const [Number, setNumber] = useState();
 
     let [fontsLoaded] = useFonts({
-        Small: require("../assets/fonts/Almarai-Light.ttf"),
-        Bold: require("../assets/fonts/Almarai-Bold.ttf"),
-        X_Bold: require("../assets/fonts/Almarai-ExtraBold.ttf"),
+        Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
+        Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
+        X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
     if (!fontsLoaded) {
         return <Text>Loading...</Text>;
