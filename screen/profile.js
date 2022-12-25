@@ -85,11 +85,11 @@ export default function Profile({navigation}) {
                         {arr.map((item, index) => {
                             return (
                                 console.log("here"),
-                                 <View style={{width: '90%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1}}>
+                                 <TouchableOpacity style={{width: '90%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1}} onPress={() => setNumber(8)}>
                                 <View style={{width: '100%', height: '78%', borderRadius: 10, justifyContent: 'center', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
                                 {/* 1st colum */}
-                                            <View style={{width: '20%', height: '100%', borderRadius: 10, top: '9%'}}>
-                                                <View style={{width: '110%', height: '24%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 5}}>
+                                            <View style={{width: '24%', height: '100%', borderRadius: 10, top: '7%'}}>
+                                                <View style={{width: '100%', height: '35%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 4}}>
                                                 <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max} ريال</Text>
                                                     <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
                                                     <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
@@ -98,14 +98,14 @@ export default function Profile({navigation}) {
                                             </View>
                                             
                                             {/* 2st colum */}
-                                            <View style={{width: '40%', height: '89%', borderRadius: 10, top: '5%'}}>
+                                            <View style={{width: '35%', height: '89%', borderRadius: 10, top: '5%'}}>
                                                 <View style={{width: '100%', height: '58%', justifyContent: 'space-around', alignItems: 'center'}}>
                                                     <View style={{width: '100%', height: '41%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                        <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black', left: 37}}>{item.city}</Text>
+                                                        <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black', left: 29}}>{item.city}</Text>
                                                         <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray', left: 12}}>المدينة </Text>
                                                     </View>
                                                     <View style={{width: '100%', height: '39%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                        <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 13}}>{item.price_now}-{item.price} ريال</Text>
+                                                        <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5}}>{item.price_now}-{item.price} ريال</Text>
                                                         <Text style={{fontSize: 12, fontFamily: 'Small', letterSpacing: 2, color: 'gray', left: 4}}>السعر </Text>
                                                     </View>
                                                 </View>
@@ -131,7 +131,7 @@ export default function Profile({navigation}) {
                                         <Image source={require('../assets/user.png')} style={{width: 15, height: 15, marginLeft: 3}}/>
                                     </View>
                                 </View>
-                            </View>
+                                </TouchableOpacity>
                             )
                         })}
                     </View>
