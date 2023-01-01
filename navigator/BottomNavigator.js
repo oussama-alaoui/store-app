@@ -19,8 +19,8 @@ const Tab = createBottomTabNavigator();
 
 export default function BottomNav() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
+      <Tab.Navigator 
+        initialRouteName="Home_cars"
         screenOptions={{ 
           tabBarActiveTintColor: 'white',
           tabBarInactiveTintColor: 'rgba(255,255,255,0.4)',
@@ -116,7 +116,6 @@ export default function BottomNav() {
             },}} 
         /> 
       </Tab.Navigator>
-    </NavigationContainer>
   );
 }
 

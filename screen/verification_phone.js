@@ -6,6 +6,7 @@ import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import BottomNav from "../navigator/BottomNavigator";
 
 export default function Verification_phone({navigation}) {
     const [Number, setNumber] = useState();
@@ -79,8 +80,8 @@ export default function Verification_phone({navigation}) {
             </View>
 
             <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => navigation.navigate('BottomTab', {screen: 'Home'})}
+                        style={styles.button} 
+                        onPress={() => navigation.navigate('Bottom')}
                     >
                         <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>تفعيل الحساب</Text>
             </TouchableOpacity> 
