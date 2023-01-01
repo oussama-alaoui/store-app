@@ -9,12 +9,8 @@ import { Svg } from 'react-native-svg';
 import Login from './screen/login';
 import Register from './screen/register';
 import Verification_phone from './screen/verification_phone';
-import Home_cars from './screen/home_car';
-import Add_product from './screen/add_product';
-import Search from './screen/search';
-import Messages from './screen/messages';
-import Profile from './screen/profile';
 import Product_detail from './screen/product_detail';
+import BottomNav from './navigator/BottomNavigator';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -117,14 +113,30 @@ export default function App() {
     //           );
     //         },}} 
     //     /> 
+
+    //     <Tab.Screen name="Product_details" component={Product_detail}
+    //               options={{
+    //                 headerShown: false,
+    //                 navigation :Tab.navigation,
+    //                 title: 'Product_details',
+    //                 tabBarVisible: 'true',
+    //                 }} 
+    //       />
     //   </Tab.Navigator>
     // </NavigationContainer>
-    <Product_detail />
-    // <Login />
-    //  <Register /> 
-    // <Verification_phone />
-    // <Verification_done />
-    // <Home_cars />
+
+
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+        <Stack.Screen name="Verification_phone" component={Verification_phone} options={{ headerShown: false }} />
+        <Stack.Screen name="Home" component={BottomNav} options={{ headerShown: false }} />
+        <Stack.Screen name="Product_details" component={Product_detail} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+
+
   );
 }
 

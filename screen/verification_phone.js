@@ -80,7 +80,7 @@ export default function Verification_phone({navigation}) {
 
             <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigationå.navigate('Home')}
+                        onPress={() => navigation.navigate('BottomTab', {screen: 'Home'})}
                     >
                         <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>تفعيل الحساب</Text>
             </TouchableOpacity> 
