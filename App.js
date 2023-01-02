@@ -20,22 +20,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        
-        {isLogin ? (
-          <Stack.Screen name="Bottom" component={BottomNav} options={{ headerShown: false }} />
-        ) : (
-          <>
-            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-            <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-            <Stack.Screen name="Verification_phone" component={Verification_phone} options={{ headerShown: false }} />
-          </>
-        )}
-
-        {/* <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
         <Stack.Screen name="Verification_phone" component={Verification_phone} options={{ headerShown: false }} />
         <Stack.Screen name="Bottom" component={BottomNav} options={{ headerShown: false }} />
-        <Stack.Screen name="Product_details" component={Product_detail} options={{ headerShown: false }} /> */}
+        <Stack.Screen name="Product_detail" component={Product_detail} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
 

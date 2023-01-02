@@ -90,7 +90,7 @@ import { FlatList, ScrollView } from "react-native";
                             return (
                                 
                                 console.log('here'),
-                                <View style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}}>
+                                <TouchableOpacity style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => navigation.navigate('Product_detail')}>
                                         
                                         {/* 1st colum */}
                                         <View style={{width: '20%', height: '86%', borderRadius: 10, top: '3%', left: 5}}>
@@ -129,7 +129,7 @@ import { FlatList, ScrollView } from "react-native";
                                         <View style={{width: '36%', height: '50%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '10%'}}>
                                             <Image source={require('../assets/plate_car1.png')} style={{width: 110, height: 30, resizeMode: 'contain'}}/>
                                         </View>
-                                </View>
+                                </TouchableOpacity>
                             )
                             
                         })

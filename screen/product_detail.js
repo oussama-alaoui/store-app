@@ -22,7 +22,7 @@ export default function Product_detail({ navigation })
      if (!fontsLoaded) {
          return <Text>Loading...</Text>;
      }
-    var number = "+212669471651";
+    var number = "+212659814951";
      const copyToClipboard = () => {
         Clipboard.setString('012548');
     }
@@ -31,14 +31,14 @@ export default function Product_detail({ navigation })
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate()} >
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')} >
                     <Image
                         style={{ width: 24, height: 24}}
                         source={require("../assets/back.png")}
                     />
                 </TouchableOpacity>
                 <View style={{ width: "30%", alignItems: "center", justifyContent: 'space-between', flexDirection: 'row'}}>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate()} >
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')} >
                         <Image
                             style={{ width: 24, height: 24}}
                             source={require("../assets/heart.png")}
