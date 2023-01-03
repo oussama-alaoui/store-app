@@ -7,6 +7,7 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import BottomNav from "../navigator/BottomNavigator";
+import { StatusBar } from "expo-status-bar";
 
 export default function Verification_phone({navigation}) {
     const [Number, setNumber] = useState();
@@ -26,6 +27,7 @@ export default function Verification_phone({navigation}) {
 
     return (
         <View style={styles.container}>
+            <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
             <View style={styles.big_box}>
                 <Text style={{fontFamily: 'X_Bold',fontWeight: '600',fontSize: 24, top: '7%', color: '#001970'}}>إدخل الرقم المرسل</Text>
                 <Text style={{fontFamily: 'Bold',fontSize: 11, top: '7%', color: '#9A9999'}}>المرجو إدخال الرمز المرسل لرقم الهاتف</Text>

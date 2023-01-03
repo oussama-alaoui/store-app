@@ -10,6 +10,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 // import screen
 import Register from "./register";
+import { StatusBar } from "expo-status-bar";
 
 
 
@@ -27,6 +28,8 @@ export default function Login({navigation}) {
     }
     
     return (
+        <SafeAreaView style={styles.container}>
+            <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
             <View style={styles.container}>
                 <ImageBackground
                     style={styles.background_img}
@@ -41,7 +44,7 @@ export default function Login({navigation}) {
                     </LinearGradient>
 
                 </ImageBackground>
-                <Text style={styles.title1}>السلام عليكم، </Text>
+                <Text style={styles.title1}>السلام  </Text>
                 <Text style={styles.title2}>المرجو تسجيل الدخول</Text>
 
                 <Text style={styles.username_titel}>إسم المستخدم</Text>
@@ -74,12 +77,13 @@ export default function Login({navigation}) {
                         <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>تسجيل الدخول</Text>
                     </TouchableOpacity> 
                     <View style={{flexDirection: 'row', left: 89}}>
-                        <Text style={{fontFamily: 'Black',fontSize: 13, color: '#7E7E7E', top: 594,alignItems:'center'}} onPress={() => navigation.navigate('Register')}>سجل</Text>
-                        <Text style={{fontFamily: 'Bold',fontSize: 12, color: '#A8A8A8', top: 594,alignItems:'center'}}> لا تملك حساب حتى الأن؟  </Text>
+                        <Text style={{fontFamily: 'Black',fontSize: 13, color: '#7E7E7E', top: 554,alignItems:'center'}} onPress={() => navigation.navigate('Register')}>سجل</Text>
+                        <Text style={{fontFamily: 'Bold',fontSize: 12, color: '#A8A8A8', top: 554,alignItems:'center'}}> لا تملك حساب حتى الأن؟  </Text>
                     </View>
                 {/* <View style={{width: 2, height: '100%', backgroundColor: 'red', left: 330}}>  
                 </View>            */}
             </View>
+        </SafeAreaView>
     );
 }
 
@@ -158,7 +162,7 @@ const styles = StyleSheet.create({
         width: '90%',
         height: 60,
         left: '5%',
-        top: 570,
+        top: 550,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#678DF9',

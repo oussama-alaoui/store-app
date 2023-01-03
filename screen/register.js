@@ -7,6 +7,7 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { BottomTabBar } from "@react-navigation/bottom-tabs";
+import { StatusBar } from "expo-status-bar";
 
 
 
@@ -25,7 +26,9 @@ export default function Register({navigation}) {
     }
     
     return (
+        
             <View style={styles.container}>
+            <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
             <ImageBackground
                 style={styles.background_img}
                 source={require('../assets/register_background.png')}>
@@ -72,8 +75,8 @@ export default function Register({navigation}) {
                     <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>تسجيل الدخول</Text>
                 </TouchableOpacity> 
                 <View style={{flexDirection: 'row', left: 89}}>
-                    <Text style={{fontFamily: 'Black',fontSize: 13, color: '#7E7E7E', top: 594,alignItems:'center'}} onPress={() => navigation.navigate('Login')}> سجل </Text>
-                    <Text style={{fontFamily: 'Bold',fontSize: 12, color: '#A8A8A8', top: 594,alignItems:'center'}}> لا تملك حساب حتى الأن؟  </Text>
+                    <Text style={{fontFamily: 'Black',fontSize: 13, color: '#7E7E7E', top: 554,alignItems:'center'}} onPress={() => navigation.navigate('Login')}> سجل </Text>
+                    <Text style={{fontFamily: 'Bold',fontSize: 12, color: '#A8A8A8', top: 554,alignItems:'center'}}> لا تملك حساب حتى الأن؟  </Text>
                 </View>
             {/* <View style={{width: 2, height: '100%', backgroundColor: 'red', left: 330}}>  
             </View>            */}
@@ -157,7 +160,7 @@ const styles = StyleSheet.create({
         width: '90%',
         height: 60,
         left: '5%',
-        top: 570,
+        top: 550,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#678DF9',

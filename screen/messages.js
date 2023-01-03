@@ -23,7 +23,7 @@ export default function Messages({navigation}) {
 
     return (
         <View style={styles.container}>
-            <Text style={{fontFamily: "Bold", fontSize: 26, color: "#000", marginTop: 50, marginBottom: 25}}>الرسائل</Text>
+            <Text style={{fontFamily: "Bold", fontSize: 26, color: "#000", marginTop: 20, marginBottom: 20}}>الرسائل</Text>
             <View style={{width: "100%", paddingHorizontal: 20, backgroundColor: 'gray', height: 1.5, opacity: 0.3}}></View>
             <View style={{ width: "100%", height: 90, borderRadius: 20, flexDirection: 'row', alignItems: "center", marginRight: "40%"}}>
                 <View style={{ width: "100%", height: 80, justifyContent: "center"}}>

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 export default function Profile({navigation}) {
     const arr = [
@@ -30,9 +31,12 @@ export default function Profile({navigation}) {
     if (!fontsLoaded) {
         return <Text>Loading...</Text>;
     }
+
     return (
         console.log(Number),
-        <SafeAreaView style={styles.container}>
+        
+        <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+            <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
             <View style={styles.header}>
 
                 <View style={styles.top}>
@@ -70,7 +74,7 @@ export default function Profile({navigation}) {
                 </View>
             </View>
             
-            <View style={{width: '100%', height: '100%', top: 190, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1FBFF'}}>
+            <View style={{width: '100%', height: '100%', top: 150, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1FBFF'}}>
                     <View style={{width: '90%', height: 33, justifyContent: 'space-between', margin: 10, flexDirection: 'row'}}>
 
                         <TouchableOpacity style={{width: 80, height: 30, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row'}} onPress={() => setNumber(3)}>
@@ -153,7 +157,6 @@ const styles = StyleSheet.create({
     header: {
         width: '100%',
         height: 149,
-        top: 26,
         backgroundColor: '#4D62EE',
         alignItems: 'center',
     },
@@ -175,7 +178,7 @@ const styles = StyleSheet.create({
     },
 
     body: {
-        marginBottom: 340,
+        marginBottom: 300,
         width: '100%',
         flex: 1,
         height: 'auto',

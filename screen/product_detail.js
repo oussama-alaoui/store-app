@@ -7,6 +7,7 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, ScrollView, Clipboard } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 
 
@@ -71,7 +72,7 @@ export default function Product_detail({ navigation })
                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>70 ريال</Text>
                 </View>
                 <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>الرياض</Text>
-                <View style={{ width: "45%", height: 40, alignItems: "center", justifyContent: "center", marginTop: 6, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
+                <View style={{ width: "30%", height: 40, alignItems: "center", justifyContent: "center", borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                     <TouchableOpacity style={[styles.button4, {backgroundColor: '#d7ebd5'}]} onPress={() => {
                                                                                                             let msg = "type something";
                                                                                                             let phoneWithCountryCode = number;
@@ -92,7 +93,7 @@ export default function Product_detail({ navigation })
                                                                                                             }
                                                                                                         }}>
                         <Image
-                            style={{ width: 30, height: 30, resizeMode: 'contain'}}
+                            style={{ width: 20, height: 20, resizeMode: 'contain'}}
                             source={require("../assets/whatsapp.png")}
                         />
                     </TouchableOpacity>
@@ -103,15 +104,15 @@ export default function Product_detail({ navigation })
                                                                                                                 else {phoneNumber = `telprompt:${number}`; }
                                                                                                                 Linking.openURL(phoneNumber)}} >
                         <Image
-                            style={ {width: 30, height: 30, resizeMode: 'contain'}}
+                            style={ {width: 20, height: 20, resizeMode: 'contain'}}
                             source={require("../assets/telephone-call.png")}
                         />
                     </TouchableOpacity>
                 </View>
-                <View style={{ width: "90%", height: 1, alignItems: "center", justifyContent: "center", marginTop: 10, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
+                <View style={{ width: "90%", height: 1, alignItems: "center", justifyContent: "center", marginTop: 5, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                 </View>
 
-                <View style={{ width: "90%", height: 50, alignItems: "center", justifyContent: "center", marginTop: '55%', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", zIndex: 1}}>
+                <View style={{ width: "90%", height: 50, alignItems: "center", justifyContent: "center", marginTop: '52%', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", zIndex: 1}}>
                     <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate()} >
                         <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff'}}>وضع مزايد</Text>
                     </TouchableOpacity>
@@ -144,7 +145,7 @@ export default function Product_detail({ navigation })
             </View>
             <ScrollView style={{flex:1, width: "100%", height: "auto",top: '8%', alignItem: 'center', marginBottom: 120}} scrollEnabled={true}>
                 <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginRight: '5%'}}>وصف الإعلان</Text>
-                <Text style={{ fontFamily: "Small", fontSize: 16, color: '#616161', marginRight: '5%', lineHeight: 25}}>لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.</Text>
+                <Text style={{ fontFamily: "Bold", fontSize: 14, color: '#616162', marginRight: '5%', lineHeight: 25}}>لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.</Text>
                 
                 <View style={{ width: "90%", height: 45, alignItems: "center", flexDirection: 'row', marginLeft: '5%'}}>
                     <View style={{ width: "30%", height: 1, marginTop: 10, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
@@ -235,7 +236,7 @@ const dialCall = (number) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        top: '2%',
+        paddingTop: StatusBar.currentHeight,
         backgroundColor: "#fff",
         alignItems: "center",
     },
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
 
     body: {
         width: "100%",
-        height: "46%",
+        height: "46.3%",
         marginTop: 6,
         alignItems: "center",
     },
@@ -285,8 +286,8 @@ const styles = StyleSheet.create({
     },
 
     button4: {
-        width: '40%',
-        height: 50,
+        width: 40,
+        height: 30,
         opacity: 0.7,
         borderRadius: 13,
         alignItems: "center",

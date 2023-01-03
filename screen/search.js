@@ -21,10 +21,10 @@ export default function Search({navigation}) {
 
     return (
         <View style={styles.container}>
-            <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: "30%", marginRight: 10, color: "#302C6B"}}>
+            <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: "10%", marginRight: 10, color: "#302C6B"}}>
                 البحث على إعلان
             </Text>
-            <View style={{top: "5%" ,backgroundColor: "#F2F2FF", width: "100%", height: "75%", alignItems: "center"}}>
+            <View style={{top: "5%" ,backgroundColor: "#F2F2FF", width: "100%", height: "83%", alignItems: "center"}}>
                 <View style={{ width: "80%", height: "80%", backgroundColor: "#F2F2FF", flexDirection: "row", justifyContent: "space-between", marginTop: 20}}>
                     <TouchableOpacity onPress={() => setCategory(3)} style={{ width: "32%", justifyContent: "center", height: "10%", backgroundColor: category == 3 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center"}}>
                         <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 3 ? "#fff" : "#000"}}>دباب </Text>
