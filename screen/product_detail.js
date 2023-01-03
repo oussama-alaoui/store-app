@@ -32,7 +32,7 @@ export default function Product_detail({ navigation })
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')} >
+                <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()} >
                     <Image
                         style={{ width: 24, height: 24}}
                         source={require("../assets/back.png")}

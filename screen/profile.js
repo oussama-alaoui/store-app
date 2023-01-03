@@ -40,42 +40,42 @@ export default function Profile({navigation}) {
             <View style={styles.header}>
 
                 <View style={styles.top}>
-                    <TouchableOpacity style={{width: 45, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => setNumber(3)}>
-                        <Image source={require('../assets/logout.png')} style={{width: 20, height: 20}}/>
+                    <TouchableOpacity style={{width: '13%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => setNumber(3)}>
+                        <Image source={require('../assets/logout.png')} style={{width: '45%', height: '53%'}}/>
                     </TouchableOpacity>
-                    <View style={{width: 45, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}}>
-                        <Image source={require('../assets/heart.png')} style={{width: 20, height: 20}}/>
-                    </View>
+                    <TouchableOpacity style={{width: '13%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.navigate('Favorite_product')}>
+                        <Image source={require('../assets/heart.png')} style={{width: '45%', height: '53%'}}/>
+                    </TouchableOpacity>
                 </View>
-                <View style={{width: 100, height: 103, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFf', borderRadius: 13, top: '40%'}}>
-                    <Image source={require('../assets/user_1.png')} style={{width: 101, height: 103}}/>
+                <View style={{width: '33%', height: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFf', borderRadius: 13, top: '40%'}}>
+                    <Image source={require('../assets/user_1.png')} style={{width: '90%', height: '90%'}}/>
                 </View>
 
                 <View style={styles.bottom}>
-                    <TouchableOpacity style={{width: 100, height: 30, alignItems: 'center', backgroundColor: '#fff', flexDirection: 'row',justifyContent: 'space-between'}}
+                    <TouchableOpacity style={{width: '30%', height: 30, alignItems: 'center', backgroundColor: '#fff', flexDirection: 'row',justifyContent: 'space-between'}}
                         onPress={() => setNumber(3)}
                     >
-                        <Image source={require('../assets/star_active.png')} style={{width: 16, height: 16}}/>
-                        <Image source={require('../assets/star_active.png')} style={{width: 16, height: 16}}/>
-                        <Image source={require('../assets/star_active.png')} style={{width: 16, height: 16}}/>
-                        <Image source={require('../assets/star_active.png')} style={{width: 16, height: 16}}/>
-                        <Image source={require('../assets/star_inactive.png')} style={{width: 16, height: 16}}/>
+                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
+                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
+                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
+                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
+                        <Image source={require('../assets/star_inactive.png')} style={{width: '15%', height: '55%'}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{width: 110, height: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13}} onPress={() => setNumber(3)}>
+                    <TouchableOpacity style={{width: '30%', height: '75%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13}} onPress={() => setNumber(3)}>
                         <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>دفع للموقع</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={{width: '100%', height: 30, top: 39, justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{width: '100%', height: '20%', top: '30%', justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>أسامة العلوي</Text>
-                    <TouchableOpacity style={{width: 110, height: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => setNumber(3)}>
+                    <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => setNumber(3)}>
                         <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>الرسائل</Text>
                     </TouchableOpacity>
                 </View>
             </View>
             
             <View style={{width: '100%', height: '100%', top: 150, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1FBFF'}}>
-                    <View style={{width: '90%', height: 33, justifyContent: 'space-between', margin: 10, flexDirection: 'row'}}>
+                    <View style={{width: '90%', height: '5%', justifyContent: 'space-between', margin: 10, flexDirection: 'row'}}>
 
                         <TouchableOpacity style={{width: 80, height: 30, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row'}} onPress={() => setNumber(3)}>
                             <Image source={require('../assets/plus.png')} style={{width: 16, height: 16}}/>
@@ -156,67 +156,32 @@ const styles = StyleSheet.create({
     },
     header: {
         width: '100%',
-        height: 149,
+        height: '22%',
         backgroundColor: '#4D62EE',
         alignItems: 'center',
     },
 
     top: {
         width: '94%',
-        height: 37,
-        top: 10,
+        height: '25%',
+        top: '4%',
         justifyContent: 'space-between',
         flexDirection: 'row',
     },
 
     bottom: {
         width: '94%',
-        height: 45,
+        height: '25%',
         top: 15,
         justifyContent: 'space-between',
         flexDirection: 'row',
     },
 
     body: {
-        marginBottom: 300,
+        marginBottom: '90%',
         width: '100%',
         flex: 1,
         height: 'auto',
         alignItems: 'center',
-    },
-
-    box_category_inactive: {
-        width: '25%', 
-        height: 90,
-        opacity: 0.2,
-        borderWidth: 2,
-        borderColor: '#7E7E7E',
-        backgroundColor: '#fff', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        borderRadius: 15
-    },
-
-    box_category_active: {
-        width: '25%', 
-        height: 90, 
-        borderWidth: 2,
-        borderColor: '#7E7E7E',
-        backgroundColor: '#fff', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        borderRadius: 15
-
-    },
-
-    bar_navigation: {
-        width: '100%',
-        height: 60,
-        backgroundColor: 'red',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        flexDirection: 'row',
-        top: 10,
-        borderRadius: 10,
     },
 });
