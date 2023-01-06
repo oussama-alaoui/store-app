@@ -7,7 +7,7 @@
     "icon": "./assets/aimer.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/aimer.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

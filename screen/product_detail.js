@@ -8,8 +8,9 @@ import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, ScrollView, Clipboard } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { Dimensions } from "react-native";
 
-
+const { width, height } = Dimensions.get('window');
 
 
 export default function Product_detail({ navigation })
@@ -143,7 +144,7 @@ export default function Product_detail({ navigation })
                 </View>
                 
             </View>
-            <ScrollView style={{flex:1, width: "100%", height: "auto",top: '8%', alignItem: 'center', marginBottom: 120}} scrollEnabled={true}>
+            <ScrollView style={{flex:1, width: "100%", height: "auto", marginTop: "14%", alignItem: 'center'}} scrollEnabled={true}>
                 <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginRight: '5%'}}>وصف الإعلان</Text>
                 <Text style={{ fontFamily: "Bold", fontSize: 14, color: '#616162', marginRight: '5%', lineHeight: 25}}>لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.</Text>
                 
@@ -156,7 +157,7 @@ export default function Product_detail({ navigation })
                     <View style={{ width: "30%", height: 1, marginTop: 10, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                     </View>
                 </View>
-                <View style={{ width: "90%", height: 'auto', marginLeft: '5%', justifyContent: "center"}}>
+                <View style={{ width: "90%", height: 'auto', marginLeft: '5%', justifyContent: "center", marginBottom: "20%"}}>
                     <View style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
                         <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
                             <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
@@ -215,6 +216,15 @@ export default function Product_detail({ navigation })
                         <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
                             <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
                             <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>80 ريال</Text>
+                        </View>
+                        <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
+                            <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
+                        </View>
+                    </View>
+                    <View style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
+                        <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
+                            <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
+                            <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>85 ريال</Text>
                         </View>
                         <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
                             <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>

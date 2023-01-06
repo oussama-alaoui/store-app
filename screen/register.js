@@ -1,6 +1,6 @@
 import React from "react";
 import { ImageBackground, SafeAreaView } from "react-native";
-import { StyleSheet, Text, View, Image} from "react-native";
+import { StyleSheet, Text, View, Image, Dimensions} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
 import { useState } from "react";
@@ -10,77 +10,79 @@ import { BottomTabBar } from "@react-navigation/bottom-tabs";
 import { StatusBar } from "expo-status-bar";
 
 
+const { width, height } = Dimensions.get('window');
 
 
 export default function Register({navigation}) {
     const [Number, setNumber] = useState();
     const [username, setUsername] = useState("");
     let [fontsLoaded] = useFonts({
-        Small: require("../assets/fonts/NotoSansArabic-Regular.ttf"),
-        Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
-        X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
-        Black: require("../assets/fonts/NotoSansArabic-Black.ttf"),
-     });
+       Small: require("../assets/fonts/NotoSansArabic-Thin.ttf"),
+       Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
+       X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
+       Black: require("../assets/fonts/NotoSansArabic-Black.ttf"),
+    });
     if (!fontsLoaded) {
         return <Text>Loading...</Text>;
     }
     
     return (
-        
-            <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
-            <ImageBackground
-                style={styles.background_img}
-                source={require('../assets/register_background.png')}>
+            <View style={styles.container}>
+                <View style={{flexDirection:'column', flex: 1,}}>
+                    <ImageBackground
+                        style={styles.background_img}
+                        source={require('../assets/bg_register.jpg')}>
+                        {/* <LinearGradient 
+                            colors={['#0000001d', '#ECECFFaa']} 
+                            style={{height : '100%', width : '100%'}}>
+                        </LinearGradient> */}
 
-                <LinearGradient 
-                    colors={['#00000000', '#ECECFF']} 
-                    style={{height : '100%', width : '100%'}}>
-
-
-
-                </LinearGradient>
-
-            </ImageBackground>
-            <Text style={styles.title1}>السلام عليكم، </Text>
-            <Text style={styles.title2}>المرجو تسجيل الدخول</Text>
-
-            <Text style={styles.username_titel}>إسم المستخدم</Text>
-            <TextInput
-                style={[styles.input, {borderRadius: 10}]}
-                onChangeText={setUsername}
-                value={username}
-                placeholder="username"
-                keyboardType="ascii-mode"
-            />
-
-
-            <Text style={[styles.username_titel, {top: 365}]}>رقم الهاتف</Text>
-            <View style={{ justifyContent: 'space-between', flexDirection: 'row', top: 395}}>
-                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '11%', height: 42, backgroundColor: '#F3F4F9',borderTopLeftRadius: 10,borderBottomLeftRadius: 10, left: 14}}>
-                    <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 13,}}>+966</Text>
+                    </ImageBackground>
+                    <View style={{paddingTop:35, marginHorizontal:30}}>
+                        <Text style={styles.title}>
+                            السلام عليكم،
+                            {'\n'}
+                            المرجو تسجيل الدخول
+                        </Text>
+                        <Text style={styles.input_label}>إسم المستخدم</Text>
+                        <TextInput
+                            style={[styles.input, {borderRadius: 10}]}
+                            onChangeText={setUsername}
+                            value={username}
+                            placeholder="Username"
+                            keyboardType="ascii-mode"
+                            placeholderTextColor="rgba(0,0,0, 0.25)" 
+                        />
+                        <Text style={[styles.input_label]}>رقم الهاتف</Text>
+                        <View style={{ position:'relative', justifyContent: 'center'}}>
+                            <Text style={{fontFamily: 'Bold',fontSize: 13, position:'absolute', left: 10, color: '#000000', zIndex:1}}>+966</Text>
+                            <TextInput
+                                style={[styles.input_phone, {borderRadius: 10}]}
+                                onChangeText={setNumber}
+                                value={Number}
+                                placeholder=" 12 345 6789"
+                                keyboardType="numeric"
+                                placeholderTextColor="rgba(0,0,0, 1)" 
+                            />
+                        </View>
+                    </View>
+                    <View style={{width:width - 60, left: 30, zIndex:2, marginBottom: 15, flex: 1, marginTop: "11%"}}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => navigation.navigate('Verification_phone')}
+                        >
+                            <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'white'}}> إنشاء حساب</Text>
+                        </TouchableOpacity> 
+                        <View style={{flexDirection: 'row', justifyContent:'center', marginTop:17}}>
+                            <Text style={{fontFamily: 'Black',fontSize: 13, color: '#7E7E7E',alignItems:'center'}} onPress={() => navigation.navigate('Login')}>تسجيل الدخول</Text>
+                            <Text style={{fontFamily: 'Bold',fontSize: 12, color: '#A8A8A8',alignItems:'center'}}> هل لديك حساب؟ </Text>
+                        </View>
+                    </View>
                 </View>
-                <TextInput
-                    style={[styles.input, {top: 0, width: '80%', left: 52, borderTopRightRadius: 10, borderBottomRightRadius: 10}]}
-                    onChangeText={setNumber}
-                    value={Number}
-                    placeholder=" 12 345 6789"
-                    keyboardType="numeric"
-                />
             </View>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate('Verification_phone')}
-                >
-                    <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>تسجيل الدخول</Text>
-                </TouchableOpacity> 
-                <View style={{flexDirection: 'row', left: 89}}>
-                    <Text style={{fontFamily: 'Black',fontSize: 13, color: '#7E7E7E', top: 554,alignItems:'center'}} onPress={() => navigation.navigate('Login')}> سجل </Text>
-                    <Text style={{fontFamily: 'Bold',fontSize: 12, color: '#A8A8A8', top: 554,alignItems:'center'}}> لا تملك حساب حتى الأن؟  </Text>
-                </View>
-            {/* <View style={{width: 2, height: '100%', backgroundColor: 'red', left: 330}}>  
-            </View>            */}
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -89,55 +91,32 @@ export default function Register({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        position : 'relative',
         backgroundColor: '#fff',
     },
 
     background_img: {
-        position: 'absolute',
-        width: 402,
-        height: 175,
-        top: -5,
+        width: width,
+        height: 220 * width / 360,
     },
 
-    title1: {
-        position: 'absolute',
-        width: 288,
-        height: 100,
-        left: 54,
-        top: 200,
+    title: {
         fontFamily: "Bold",
         fontStyle: 'normal',
         fontSize: 24,
-        lineHeight: 42,
+        lineHeight: 40,
         textAlign: 'right',
         color: '#292B56',
-        flexDirection: 'row-reverse',
-    },
-    title2: {
-        position: 'absolute',
-        width: 400,
-        height: 100,
-        left: -58,
-        top: 235,
-        fontFamily: "Bold",
-        fontStyle: 'normal',
-        fontSize: 24,
-        lineHeight: 42,
-        textAlign: 'right',
-        color: '#292B56',
+        fontWeight: 'Bold',
         flexDirection: 'row-reverse',
     },
 
-    username_titel: {
-        position: 'absolute',
-        width: 101,
-        height: 34,
-        left: 230,
-        top: 280,
+    input_label: {
         fontFamily: 'Bold',
         fontStyle: 'normal',
         fontWeight: '600',
-        fontSize: 13,
+        fontSize: 11,
+        marginTop: 25,
         lineHeight: 34,
         textAlign: 'right',
         color: '#292B56',
@@ -145,22 +124,27 @@ const styles = StyleSheet.create({
     },
 
     input: {
-        position: 'absolute',
-        width: '90%',
-        height: 42,
-        left: 16,
-        top: 310,
+        width: '100%',
         backgroundColor: '#F6F7FC',
         fontFamily: 'Small',
         fontSize: 13,
         padding: 10,
     },
 
+    input_phone: {
+        width: '100%',
+        backgroundColor: '#F6F7FC',
+        fontFamily: 'Small',
+        fontSize: 13,
+        paddingLeft: 45,
+        paddingVertical: 10,
+        paddingRight: 10,
+    },
+
     button: {
-        width: '90%',
-        height: 60,
-        left: '5%',
-        top: 550,
+        width: '100%',
+        marginTop: 10,
+        height: 55,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#678DF9',

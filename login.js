@@ -1,43 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ImageBackground, SafeAreaView, StyleSheet, Text, View, Image, Dimensions} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 import { StatusBar } from "expo-status-bar";
 const { width, height } = Dimensions.get('window');
 
 
-
-
 export default function Login({navigation}) {
-    useEffect(() => {
-        getData()
-    }, [])
-
-    const [value, setValue] = useState('')
-    const storeData = async () => {
-        try {
-          await AsyncStorage.setItem('@storage_Key', 'value')
-        } catch (e) {
-          console.log(e)
-        }
-    }
-
-    const getData = async () => {
-        try {
-            const value = await AsyncStorage.getItem('@storage_Key')
-            if(value !== null) {
-                setValue(value)
-            }
-        } catch(e) {
-            console.log(e)
-        }
-    }
     const [Number, setNumber] = useState();
     const [username, setUsername] = useState("");
     let [fontsLoaded] = useFonts({
@@ -64,7 +38,7 @@ export default function Login({navigation}) {
 
                 </ImageBackground>
                 <View style={{paddingTop:35, marginHorizontal:30}}>
-                    <Text style={styles.title1}>السلام{value}</Text>
+                    <Text style={styles.title1}>السلام</Text>
                     <Text style={styles.title1}>المرجو تسجيل الدخول</Text>
                     <Text style={styles.input_label}>إسم المستخدم</Text>
                     <TextInput
@@ -94,8 +68,7 @@ export default function Login({navigation}) {
                 <View style={{position:'absolute', bottom: 20, width:width - 60, left: 30}}>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => {storeData();
-                        }}
+                        onPress={() => navigation.navigate('Verification_phone')}
                     >
                         <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'white'}}>تسجيل الدخول</Text>
                     </TouchableOpacity> 
@@ -127,6 +100,7 @@ const styles = StyleSheet.create({
         fontFamily: "Bold",
         fontStyle: 'normal',
         fontSize: 24,
+        lineHeight: 32,
         textAlign: 'right',
         color: '#292B56',
         fontWeight: 'Bold',

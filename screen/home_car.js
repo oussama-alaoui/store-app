@@ -1,13 +1,13 @@
 import React from "react";
-import { ImageBackground, SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { FlatList, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import Plate from "../assets/Old.svg";
 
  export default function Home_cars ({navigation}) {
 
@@ -22,7 +22,7 @@ import { StatusBar } from "expo-status-bar";
          return <Text>Loading...</Text>;
      }
      const arr = [
-            {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 501, city: 'الfdض', username: 'oussama', img: '../assets/plate_car1.png'},
+            {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 501, city: 'الfdض', username: 'oussama', img: 'https://appapi.mediaplus.ma/storage/templates/old.svg?number=1546&alpha=AJT'},
             {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 502, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
             {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 503, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
             {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 504, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
@@ -130,7 +130,8 @@ import { StatusBar } from "expo-status-bar";
 
                                             {/* 3st colum */}
                                             <View style={{width: '36%', height: '50%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '10%'}}>
-                                                <Image source={require('../assets/plate_car1.png')} style={{width: 110, height: 30, resizeMode: 'contain'}}/>
+                                                {/* <Image source={{uri: 'https://appapi.mediaplus.ma/storage/templates/old.svg?number=1546&alpha=AJT'}} style={{width: '100%', height: '100%', resizeMode: 'contain', borderRadius: 10}}/> */}
+                                                <Plate />
                                             </View>
                                     </TouchableOpacity>
                                 )

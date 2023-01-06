@@ -1,13 +1,12 @@
 import React from "react";
-import { ImageBackground, SafeAreaView } from "react-native";
-import { StyleSheet, Text, View, Image} from "react-native";
+import { StyleSheet, Text, View, Image, Dimensions} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import BottomNav from "../navigator/BottomNavigator";
 import { StatusBar } from "expo-status-bar";
+
+const { width, height } = Dimensions.get('window');
 
 export default function Verification_phone({navigation}) {
     const [Number, setNumber] = useState();
@@ -28,21 +27,18 @@ export default function Verification_phone({navigation}) {
     return (
         <View style={styles.container}>
             <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
-            <View style={styles.big_box}>
-                <Text style={{fontFamily: 'X_Bold',fontWeight: '600',fontSize: 24, top: '7%', color: '#001970'}}>إدخل الرقم المرسل</Text>
-                <Text style={{fontFamily: 'Bold',fontSize: 11, top: '7%', color: '#9A9999'}}>المرجو إدخال الرمز المرسل لرقم الهاتف</Text>
+            <View style={[styles.box_validation, {paddingTop : 30}]}>
+                <Text style={{fontFamily: 'X_Bold',fontWeight: '600',fontSize: 18, color: '#001970'}}>إدخل الرقم المرسل</Text>
+                <Text style={{fontFamily: 'Bold',fontSize: 9, color: '#9A9999'}}>المرجو إدخال الرمز المرسل لرقم الهاتف</Text>
                 <View style={{
+                    marginTop:30,
                     borderStyle: 'dashed',
-                    borderWidth: 0.5,
-                    borderRadius: 0.5,
-                    borderColor: '#A8A6A6',
-                    width: 304,
-                    height: 1,
-                    top: '14%'
+                    borderWidth: 1.5,
+                    borderColor: '#949393',
+                    opacity:.3,
+                    width: '100%',
                 }}>
                 </View>
-
-
                 <TextInput
                     style={styles.input_box}
                     maxLength={5}
@@ -51,41 +47,36 @@ export default function Verification_phone({navigation}) {
                     keyboardType="numeric"
                     onChangeText={(Number) => setNumber(Number)}
                     value={Number}
-                 />
-                 <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 14, top: '53%', color: '#495BFA'}}>إعادة إرسال الرمز</Text>
+                />
+                <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 12, marginTop: 10, marginBottom: 40, color: '#495BFA'}}>إعادة إرسال الرمز</Text>
 
-                 <View style={{
+                <View style={{
+                    marginTop:30,
                     borderStyle: 'dashed',
-                    borderWidth: 0.5,
-                    borderRadius: 0.5,
-                    borderColor: '#A8A6A6',
-                    width: 304,
-                    height: 1,
-                    top: '71%'
-                }}>
-                </View>
+                    borderWidth: 1.5,
+                    borderColor: '#949393',
+                    opacity: .3,
+                    width: '100%',
+                }}></View>
 
-                <View style={{flexDirection: 'row', top: '97%', width: '100%', justifyContent: 'space-around'}}>
-                    <View style={{ flexDirection: 'row' , top: '95%'}}>
-                        <Image source={require('../assets/calendar.png')} style={{top: '80%', left: '10%', marginRight: 1}}/>
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 10, top: '86%', left: '20%', color: '#A8A6A6'}}>person</Text>
+                <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', marginVertical: 25}}>
+                    <View style={{ flexDirection: 'row'}}>
+                        <Image source={require('../assets/calendar.png')} style={{marginRight: 1, width: 12, height: 12}}/>
+                        <Text style={{fontWeight: '600',fontSize: 8, color: '#A8A6A6'}}> Thunsday, 22 August 2022</Text>
                     </View>
-                    <View style={{ flexDirection: 'row' , top: '95%'}}>
-                        <Image source={require('../assets/clock.png')} style={{top: '81%', left: '10%', marginRight: 1}}/>
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 10, top: '86%', left: '20%', color: '#A8A6A6'}}>person</Text>
+                    <View style={{ flexDirection: 'row'}}>
+                        <Image source={require('../assets/clock.png')} style={{marginRight: 1, width: 12, height: 12}}/>
+                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 8, color: '#A8A6A6'}}> 15:00</Text>
                     </View>
-                    <View style={{ flexDirection: 'row' , top: '95%'}}>
-                        <Image source={require('../assets/user.png')} style={{top: '80%', left: '10%', marginRight: 1}}/>
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 10, top: '86%', left: '20%', color: '#A8A6A6'}}>person</Text>
+                    <View style={{ flexDirection: 'row'}}>
+                        <Image source={require('../assets/user.png')} style={{marginRight: 1, width: 12, height: 12}}/>
+                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 8, color: '#A8A6A6'}}> Person</Text>
                     </View>
                 </View>
             </View>
 
-            <TouchableOpacity
-                        style={styles.button} 
-                        onPress={() => navigation.navigate('Bottom')}
-                    >
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 20, color: 'white'}}>تفعيل الحساب</Text>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Bottom')}>
+                        <Text style={{fontFamily: 'Bold',fontWeight: '400',fontSize: 14, color: 'white'}}>تفعيل الحساب</Text>
             </TouchableOpacity> 
         </View>
     )
@@ -94,43 +85,39 @@ export default function Verification_phone({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5F5F5',
+        backgroundColor: '#F4F5F9',
         alignItems: 'center',
     },
 
-    big_box: {
-        position: 'absolute',
-        width: 304,
-        height: 471,
+    box_validation: {
+        width: width - 40,
         borderRadius: 39,
         backgroundColor: 'white',
         alignItems: 'center',
-        top: '12%',
+        marginTop: '20%',
     },
 
     input_box: {
-        position: 'absolute',
-        width: 270,
-        height: 79,
-        paddingLeft: 20,
-        top: '47%',
+        width: width - 90,
+        height: 80,
         borderRadius: 17,
-        backgroundColor: '#D9D9D9',
+        backgroundColor: '#F3F4F9',
         alignItems: 'center',
         fontFamily: 'Bold',
-        fontSize: 25,
-        padding: 5,
+        fontSize: 35,
+        padding: 10,
+        marginTop: 80,
         color: '#A8A6A6',
-        
     },
 
     button: {
-        width: 304,
+        width: width - 80,
         height: 60,
-        top: '85%',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#678DF9',
         borderRadius: 8,
+        position:'absolute',
+        bottom : '10%'
     }
 });

@@ -40,7 +40,7 @@ export default function Profile({navigation}) {
             <View style={styles.header}>
 
                 <View style={styles.top}>
-                    <TouchableOpacity style={{width: '13%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => setNumber(3)}>
+                    <TouchableOpacity style={{width: '13%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.navigate('Login')}>
                         <Image source={require('../assets/logout.png')} style={{width: '45%', height: '53%'}}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={{width: '13%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.navigate('Favorite_product')}>
@@ -89,10 +89,10 @@ export default function Profile({navigation}) {
                         {arr.map((item, index) => {
                             return (
                                 console.log("here"),
-                                 <TouchableOpacity style={{width: '90%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1}} onPress={() => setNumber(8)}>
+                                 <TouchableOpacity style={{width: '95%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1}} onPress={() => setNumber(8)}>
                                 <View style={{width: '100%', height: '78%', borderRadius: 10, justifyContent: 'center', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
                                 {/* 1st colum */}
-                                            <View style={{width: '24%', height: '100%', borderRadius: 10, top: '7%'}}>
+                                            <View style={{width: '22%', height: '100%', borderRadius: 10, top: '7%'}}>
                                                 <View style={{width: '100%', height: '35%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 4}}>
                                                 <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max} ريال</Text>
                                                     <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
@@ -102,7 +102,7 @@ export default function Profile({navigation}) {
                                             </View>
                                             
                                             {/* 2st colum */}
-                                            <View style={{width: '35%', height: '89%', borderRadius: 10, top: '5%'}}>
+                                            <View style={{width: '35%', height: '90%', borderRadius: 10, top: '5%'}}>
                                                 <View style={{width: '100%', height: '58%', justifyContent: 'space-around', alignItems: 'center'}}>
                                                     <View style={{width: '100%', height: '41%', flexDirection: 'row', justifyContent: 'space-around'}}>
                                                         <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black', left: 29}}>{item.city}</Text>
@@ -117,7 +117,7 @@ export default function Profile({navigation}) {
                                             </View>
 
                                             {/* 3st colum */}
-                                            <View style={{width: '37%', height: '70%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
+                                            <View style={{width: '35%', height: '70%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
                                                 <Image source={require('../assets/plate_car1.png')} style={{width: 100, height: 30, resizeMode: 'contain'}}/>
                                             </View>
                                 </View>

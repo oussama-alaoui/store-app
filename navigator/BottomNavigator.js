@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Svg } from 'react-native-svg';
 
 // import screen
 import Home_cars from '.././screen/home_car';
@@ -20,7 +19,7 @@ const Tab = createBottomTabNavigator();
 export default function BottomNav() {
   return (
       <Tab.Navigator 
-        initialRouteName="Home_cars"
+        initialRouteName="Home"
         screenOptions={{ 
           tabBarActiveTintColor: 'white',
           tabBarInactiveTintColor: 'rgba(255,255,255,0.4)',
