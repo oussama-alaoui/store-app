@@ -11,15 +11,15 @@ import { StatusBar } from "expo-status-bar";
 
 export default function Profile({navigation}) {
     const arr = [
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 501, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 502, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 503, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 504, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 505, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 506, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 507, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 508, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 509, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'}
+        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 501, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
+        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 502, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
+        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 503, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
+        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 504, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
+        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 505, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
+        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 506, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
+        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 507, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
+        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 508, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
+        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 509, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'}
     ]
     const [Number, setNumber] = useState(0);
     // const [Date, setDate] = useState(new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear());
@@ -118,7 +118,7 @@ export default function Profile({navigation}) {
 
                                             {/* 3st colum */}
                                             <View style={{width: '35%', height: '70%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
-                                                <Image source={require('../assets/plate_car1.png')} style={{width: 100, height: 30, resizeMode: 'contain'}}/>
+                                                <Image source={require('../assets/plate_car1.jpeg')} style={{width: 100, height: 30, resizeMode: 'contain'}}/>
                                             </View>
                                 </View>
                                 <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', height: '20%'}}>

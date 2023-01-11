@@ -59,7 +59,7 @@ export default function Product_detail({ navigation })
                 <View style={{ width: "90%", height: 126, alignItems: "center", justifyContent: "center", borderRadius: 22, borderWidth: 3, borderColor: '#CAC7C7'}}>
                     <Image
                         style={{ width: 260, height: 200, resizeMode: 'contain'}}
-                        source={require("../assets/plate_car1.png")}
+                        source={require("../assets/plate_car1.jpeg")}
                     />
                 </View>
                 <View style={{ width: 130, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#FF7058', borderRadius: 18}}>

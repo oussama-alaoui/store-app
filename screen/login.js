@@ -15,29 +15,12 @@ const { width, height } = Dimensions.get('window');
 
 
 export default function Login({navigation}) {
-    useEffect(() => {
-        getData()
-    }, [])
-
+    // useEffect(() => {
+    //     getData()
+    // }, [])
     const [value, setValue] = useState('')
-    const storeData = async () => {
-        try {
-          await AsyncStorage.setItem('@storage_Key', 'value')
-        } catch (e) {
-          console.log(e)
-        }
-    }
 
-    const getData = async () => {
-        try {
-            const value = await AsyncStorage.getItem('@storage_Key')
-            if(value !== null) {
-                setValue(value)
-            }
-        } catch(e) {
-            console.log(e)
-        }
-    }
+
     const [Number, setNumber] = useState();
     const [username, setUsername] = useState("");
     let [fontsLoaded] = useFonts({
@@ -64,7 +47,7 @@ export default function Login({navigation}) {
 
                 </ImageBackground>
                 <View style={{paddingTop:35, marginHorizontal:30}}>
-                    <Text style={styles.title1}>السلام{value}</Text>
+                    <Text style={styles.title1}>السلام</Text>
                     <Text style={styles.title1}>المرجو تسجيل الدخول</Text>
                     <Text style={styles.input_label}>إسم المستخدم</Text>
                     <TextInput
@@ -94,8 +77,7 @@ export default function Login({navigation}) {
                 <View style={{position:'absolute', bottom: 20, width:width - 60, left: 30}}>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => {storeData();
-                        }}
+                        onPress={() => input_check()}
                     >
                         <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'white'}}>تسجيل الدخول</Text>
                     </TouchableOpacity> 
@@ -106,7 +88,28 @@ export default function Login({navigation}) {
                 </View>
             </View>
         </SafeAreaView>
-    );
+    );    
+
+    async function input_check(){
+        await fetch("https://newapi.mediaplus.ma/api/v1/verify", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "phone": Number,
+                "username": username,
+            })
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            setValue(json)
+            console.log(json)
+            if (json.status == true){
+                navigation.navigate('Verification_phone', {id: json.info.id})
+            }
+        })
+    }
 }
 
 

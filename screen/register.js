@@ -13,8 +13,9 @@ import { StatusBar } from "expo-status-bar";
 const { width, height } = Dimensions.get('window');
 
 
-export default function Register({navigation}) {
+export default function Register({navigation}, props) {
     const [Number, setNumber] = useState();
+    const [value, setValue] = useState('')
     const [username, setUsername] = useState("");
     let [fontsLoaded] = useFonts({
        Small: require("../assets/fonts/NotoSansArabic-Thin.ttf"),
@@ -71,7 +72,7 @@ export default function Register({navigation}) {
                     <View style={{width:width - 60, left: 30, zIndex:2, marginBottom: 15, flex: 1, marginTop: "11%"}}>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => navigation.navigate('Verification_phone')}
+                            onPress={() => input_check()}
                         >
                             <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'white'}}> إنشاء حساب</Text>
                         </TouchableOpacity> 
@@ -84,6 +85,27 @@ export default function Register({navigation}) {
             </View>
         </SafeAreaView>
     );
+
+    async function input_check(){
+        await fetch("https://newapi.mediaplus.ma/api/v1/clients", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "phone": Number,
+                "username": username,
+            })
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            setValue(json)
+            console.log(json.data.id)
+            if (json.status == true){
+                navigation.navigate('Verification_phone', {id: value.data.id})
+            }
+        })
+    }
 }
 
 

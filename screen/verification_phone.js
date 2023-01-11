@@ -8,7 +8,7 @@ import { StatusBar } from "expo-status-bar";
 
 const { width, height } = Dimensions.get('window');
 
-export default function Verification_phone({navigation}) {
+export default function Verification_phone({navigation, route}) {
     const [Number, setNumber] = useState();
     // const [Date, setDate] = useState(new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear());
 
@@ -80,6 +80,45 @@ export default function Verification_phone({navigation}) {
             </TouchableOpacity> 
         </View>
     )
+    async function input_check(){
+        await fetch("https://newapi.mediaplus.ma/api/v1/clients", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "code": Number,
+                "id": route.params.id,
+            })
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            setValue(json)
+            console.log(json)
+            if (json.status == true){
+                navigation.navigate('Home')
+            }
+        })
+    }
+
+    // const storeData = async () => {
+    //     try {
+    //       await AsyncStorage.setItem('@storage_Key', 'value')
+    //     } catch (e) {
+    //       console.log(e)
+    //     }
+    // }
+
+    // const getData = async () => {
+    //     try {
+    //         const value = await AsyncStorage.getItem('@storage_Key')
+    //         if(value !== null) {
+    //             setValue(value)
+    //         }
+    //     } catch(e) {
+    //         console.log(e)
+    //     }
+    // }
 }
 
 const styles = StyleSheet.create({

@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView } from "react-native";
+import { Dimensions, SafeAreaView } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
@@ -7,10 +7,10 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import Plate from "../assets/Old.svg";
 
  export default function Home_cars ({navigation}) {
 
+    const { width } = Dimensions.get('window');
     const [Number, setNumber] = useState();
     const [category, setCategory] = useState(1);
     let [fontsLoaded] = useFonts({
@@ -130,8 +130,7 @@ import Plate from "../assets/Old.svg";
 
                                             {/* 3st colum */}
                                             <View style={{width: '36%', height: '50%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '10%'}}>
-                                                {/* <Image source={{uri: 'https://appapi.mediaplus.ma/storage/templates/old.svg?number=1546&alpha=AJT'}} style={{width: '100%', height: '100%', resizeMode: 'contain', borderRadius: 10}}/> */}
-                                                <Plate />
+                                                <Image source={require('../assets/plate_car1.jpeg')} style={{width: "90%", height: "80%", resizeMode: "contain"}}/>
                                             </View>
                                     </TouchableOpacity>
                                 )
