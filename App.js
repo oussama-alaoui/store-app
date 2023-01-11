@@ -10,6 +10,7 @@ import Verification_phone from './screen/verification_phone';
 import Product_detail from './screen/product_detail';
 import BottomNav from './navigator/BottomNavigator';
 import Favorite_product from './screen/favorite_product';
+import Svg from './screen/svg';
 
 
 const Stack = createNativeStackNavigator();
@@ -37,6 +38,7 @@ export default function App() {
           </>
         ) : (
           <>
+            <Stack.Screen name="Svg" component={Svg} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
             <Stack.Screen name="Verification_phone" component={Verification_phone} options={{ headerShown: false }} />

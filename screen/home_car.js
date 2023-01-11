@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Dimensions, SafeAreaView } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
@@ -7,6 +7,7 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import RemoteSvg from 'react-native-remote-svg';
 
  export default function Home_cars ({navigation}) {
 
@@ -18,6 +19,16 @@ import { StatusBar } from "expo-status-bar";
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
      });
+     const [svgSource, setSvgSource] = useState(null);
+
+    useEffect(() => {
+    fetch('https://newapi.mediaplus.ma/storage/plates/public-00.svg?number=5555&alpha=ABB&ff=5555')
+      .then((response) => response.text())
+      .then((svgString) => {
+        const dataUri = `data:image/svg+xml;utf8,${svgString}`;
+        setSvgSource({ uri: dataUri });
+      });
+  }, []);
      if (!fontsLoaded) {
          return <Text>Loading...</Text>;
      }
@@ -62,7 +73,7 @@ import { StatusBar } from "expo-status-bar";
 
 
                     <View style={styles.bottom}>
-                        <TouchableOpacity style={{width: '23%', height: 37, backgroundColor: '#ECEFFF', borderRadius: 9, justifyContent: 'center', alignItems: 'center', marginRight:50, marginLeft: 13, flexDirection: 'row', justifyContent: 'space-around', borderColor: '#C7C9F9', borderWidth: 2}}>
+                        <TouchableOpacity style={{width: '23%', height: 37, backgroundColor: '#ECEFFF', borderRadius: 9, justifyContent: 'center', alignItems: 'center', marginRight:50, marginLeft: 13, flexDirection: 'row', justifyContent: 'space-around', borderColor: '#C7C9F9', borderWidth: 2}} onPress={() => navigation.navigate('Add_product')}>
                             <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3'}}>إضافة إعلان</Text>
                             <Image source={require('../assets/plus.png')} />
                         </TouchableOpacity>
@@ -130,7 +141,12 @@ import { StatusBar } from "expo-status-bar";
 
                                             {/* 3st colum */}
                                             <View style={{width: '36%', height: '50%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '10%'}}>
-                                                <Image source={require('../assets/plate_car1.jpeg')} style={{width: "90%", height: "80%", resizeMode: "contain"}}/>
+                                            <RemoteSvg
+                                                source={{ uri: 'https://newapi.mediaplus.ma/storage/plates/basic-00.svg?number=5555&alpha=ABZ&ff=23' }}
+                                                onLoad={() => console.log('loaded!')}
+                                                style={{ width: '100%', height: '90%' }}
+                                                onError={(error) => console.log('error:', error)}
+                                            />
                                             </View>
                                     </TouchableOpacity>
                                 )
