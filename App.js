@@ -16,7 +16,7 @@ import Svg from './screen/svg';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [isLogin, setIsLogin] = React.useState(false);
+  const [isLogin, setIsLogin] = React.useState(true);
   // useEffect(() => {
   //   const checkLogin = async () => {
   //     const value = await AsyncStorage.getItem('value');
@@ -38,13 +38,13 @@ export default function App() {
           </>
         ) : (
           <>
-            <Stack.Screen name="Svg" component={Svg} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
             <Stack.Screen name="Verification_phone" component={Verification_phone} options={{ headerShown: false }} />
             <Stack.Screen name="Bottom" component={BottomNav} options={{ headerShown: false }} />
             <Stack.Screen name="Product_detail" component={Product_detail} options={{ headerShown: false }} />
             <Stack.Screen name="Favorite_product" component={Favorite_product} options={{ headerShown: false }} />
+            <Stack.Screen name="Svg" component={Svg} options={{ headerShown: false }} />
           </>
         )}
 

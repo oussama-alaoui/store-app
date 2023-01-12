@@ -26,12 +26,14 @@ export default function Product_detail({ navigation })
      }
     var number = "+212659814951";
      const copyToClipboard = () => {
-        Clipboard.setString('012548');
+         Clipboard.setString('012548');
     }
 
 
     return (
         <View style={styles.container}>
+            <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true}>
+            <View style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
             <View style={styles.header}>
                 <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()} >
                     <Image
@@ -53,6 +55,7 @@ export default function Product_detail({ navigation })
                         />
                     </TouchableOpacity>
                 </View>
+            </View>
             </View>
 
             <View style={styles.body}>
@@ -113,38 +116,9 @@ export default function Product_detail({ navigation })
                 <View style={{ width: "90%", height: 1, alignItems: "center", justifyContent: "center", marginTop: 5, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                 </View>
 
-                <View style={{ width: "90%", height: 50, alignItems: "center", justifyContent: "center", marginTop: '52%', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", zIndex: 1}}>
-                    <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate()} >
-                        <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff'}}>وضع مزايد</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button3} onPress={async () => {
-        try {
-          const result = await Share.share({
-            message:
-              'React Native | A framework for building native apps using React',
-          });
-          if (result.action === Share.sharedAction) {
-            if (result.activityType) {
-              // shared with activity type of result.activityType
-            } else {
-              // shared
-            }
-          } else if (result.action === Share.dismissedAction) {
-            // dismissed
-          }
-        } catch (error) {
-          alert(error.message);
-        }
-      }} >
-                        <Image
-                            style={{ width: 24, height: 24}}
-                            source={require("../assets/share.png")}
-                        />
-                    </TouchableOpacity>
-                </View>
+                
                 
             </View>
-            <ScrollView style={{flex:1, width: "100%", height: "auto", marginTop: "14%", alignItem: 'center'}} scrollEnabled={true}>
                 <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginRight: '5%'}}>وصف الإعلان</Text>
                 <Text style={{ fontFamily: "Bold", fontSize: 14, color: '#616162', marginRight: '5%', lineHeight: 25}}>لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.</Text>
                 
@@ -157,7 +131,7 @@ export default function Product_detail({ navigation })
                     <View style={{ width: "30%", height: 1, marginTop: 10, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                     </View>
                 </View>
-                <View style={{ width: "90%", height: 'auto', marginLeft: '5%', justifyContent: "center", marginBottom: "20%"}}>
+                <View style={{ width: "90%", height: 'auto', marginLeft: '5%', justifyContent: "center"}}>
                     <View style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
                         <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
                             <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
@@ -232,6 +206,35 @@ export default function Product_detail({ navigation })
                     </View>
                 </View>
             </ScrollView>
+                <View style={{ width: "90%", height: 50, alignItems: "center", justifyContent: "center", marginTop: '5%', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", zIndex: 1, marginBottom: '5%'}}>
+                    <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate()} >
+                        <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff'}}>وضع مزايد</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button3} onPress={async () => {
+        try {
+          const result = await Share.share({
+            message:
+              'React Native | A framework for building native apps using React',
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+      }} >
+                        <Image
+                            style={{ width: 24, height: 24}}
+                            source={require("../assets/share.png")}
+                        />
+                    </TouchableOpacity>
+                </View>
         </View>
     )
 }
@@ -248,6 +251,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: StatusBar.currentHeight,
         backgroundColor: "#fff",
+        justifyContent: "center",
         alignItems: "center",
     },
 
@@ -261,7 +265,6 @@ const styles = StyleSheet.create({
 
     body: {
         width: "100%",
-        height: "46.3%",
         marginTop: 6,
         alignItems: "center",
     },
