@@ -157,8 +157,8 @@ import Matricule from './svg_assets/matricule'
                                             <View style={{width: '36%', height: '50%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '10%',}}>
                                                 
                                                 <Matricule
-                                                    style={"motor"}
-                                                    type='listing'
+                                                    style={"motor"} // basic_00 to basic_06, public_00 to public_01, motor
+                                                    type='listing' // detail, listing
                                                     alpha='tu'
                                                     number='555'
                                                 />

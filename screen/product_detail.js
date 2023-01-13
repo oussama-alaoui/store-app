@@ -62,8 +62,8 @@ export default function Product_detail({ navigation })
             <View style={styles.body}>
                 <View style={{ width: "90%", height: 126, alignItems: "center", justifyContent: "center", borderRadius: 22, borderWidth: 3, borderColor: '#CAC7C7'}}>
                     <Matricule
-                        style={"public_01"}
-                        type='detail'
+                        style={"public_01"} // basic_00 to basic_06, public_00 to public_01, motor
+                        type='detail' // detail, listing
                         alpha='ntu'
                         number='5555'
                     />
