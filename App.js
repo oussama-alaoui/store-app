@@ -17,17 +17,18 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [isLogin, setIsLogin] = React.useState(true);
-  // useEffect(() => {
-  //   const checkLogin = async () => {
-  //     const value = await AsyncStorage.getItem('value');
-  //     if (value !== null) {
-  //       setIsLogin(value);
-  //     }
-  //   };
-  //   checkLogin();
-  // }, []);
+  useEffect(() => {
+    const checkLogin = async () => {
+      const value = await AsyncStorage.getItem('user_id');
+      if (value !== null) {
+        setIsLogin(value);
+      }
+    };
+    checkLogin();
+  }, []);
 
   return (
+    console.log(isLogin),
     <NavigationContainer>
       <Stack.Navigator>
         {isLogin ? (

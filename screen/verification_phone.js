@@ -5,11 +5,13 @@ import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get('window');
 
 export default function Verification_phone({navigation, route}) {
-    const [Number, setNumber] = useState();
+    const [Number, setNumber] = useState(1);
+    const [value, setValue] = useState('')
     // const [Date, setDate] = useState(new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear());
 
     let [fontsLoaded] = useFonts({
@@ -25,6 +27,7 @@ export default function Verification_phone({navigation, route}) {
     }
 
     return (
+        
         <View style={styles.container}>
             <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
             <View style={[styles.box_validation, {paddingTop : 30}]}>
@@ -75,20 +78,21 @@ export default function Verification_phone({navigation, route}) {
                 </View>
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Bottom')}>
+            <TouchableOpacity style={styles.button} onPress={() => input_check()}>
                         <Text style={{fontFamily: 'Bold',fontWeight: '400',fontSize: 14, color: 'white'}}>تفعيل الحساب</Text>
             </TouchableOpacity> 
         </View>
     )
     async function input_check(){
-        await fetch("https://newapi.mediaplus.ma/api/v1/clients", {
+        await fetch("https://newapi.mediaplus.ma/api/v1/verifySms", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept-Language': 'ar',
             },
             body: JSON.stringify({
-                "code": Number,
-                "id": route.params.id,
+                code: Number,
+                id: route.params.id,
             })
         })
         .then((response) => response.json())
@@ -96,29 +100,22 @@ export default function Verification_phone({navigation, route}) {
             setValue(json)
             console.log(json)
             if (json.status == true){
-                navigation.navigate('Home')
+                storeData()
+                navigation.navigate('Bottom')
             }
         })
+        .catch((error) => {
+            console.log('Error: ', error);
+        });
     }
 
-    // const storeData = async () => {
-    //     try {
-    //       await AsyncStorage.setItem('@storage_Key', 'value')
-    //     } catch (e) {
-    //       console.log(e)
-    //     }
-    // }
-
-    // const getData = async () => {
-    //     try {
-    //         const value = await AsyncStorage.getItem('@storage_Key')
-    //         if(value !== null) {
-    //             setValue(value)
-    //         }
-    //     } catch(e) {
-    //         console.log(e)
-    //     }
-    // }
+    async function storeData(){
+        try {
+          await AsyncStorage.setItem('user_id', route.params.id)
+        } catch (e) {
+          console.log(e)
+        }
+    }
 }
 
 const styles = StyleSheet.create({

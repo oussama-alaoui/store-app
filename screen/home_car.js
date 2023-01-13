@@ -14,21 +14,35 @@ import RemoteSvg from 'react-native-remote-svg';
     const { width } = Dimensions.get('window');
     const [Number, setNumber] = useState();
     const [category, setCategory] = useState(1);
+    const [articles, setArticles] = useState([{}]);
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
      });
      const [svgSource, setSvgSource] = useState(null);
+     const [isLogin, setIsLogin] = React.useState("");
 
+    async function fetchData() {
+    await fetch(`https://newapi.mediaplus.ma/api/v1/articles/type/${category}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            },
+            })
+    .then((response) => response.json())
+    .then((responseJson) => {
+        setArticles(responseJson.data.data);
+        console.log(articles);
+    })
+    .catch((error) => {
+        console.warn(error);
+    });
+    }
     useEffect(() => {
-    fetch('https://newapi.mediaplus.ma/storage/plates/public-00.svg?number=5555&alpha=ABB&ff=5555')
-      .then((response) => response.text())
-      .then((svgString) => {
-        const dataUri = `data:image/svg+xml;utf8,${svgString}`;
-        setSvgSource({ uri: dataUri });
-      });
-  }, []);
+        fetchData();
+    }, [category]);
      if (!fontsLoaded) {
          return <Text>Loading...</Text>;
      }
@@ -42,6 +56,7 @@ import RemoteSvg from 'react-native-remote-svg';
             {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 507, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
             {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 508, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'}
         ]
+    
 
     return(
         console.log(category),
@@ -100,10 +115,10 @@ import RemoteSvg from 'react-native-remote-svg';
                 
                 <ScrollView horizontal='true' style={{flex:1}}>
                     <View style={styles.body}>
-                            {arr.map((item, index) => {
+                        {articles.length > 0 ?(
+                            console.log(articles),
+                            articles.map((item, index) => {
                                 return (
-                                    
-                                    console.log('here'),
                                     <TouchableOpacity style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => navigation.navigate('Product_detail')}>
                                             
                                             {/* 1st colum */}
@@ -152,7 +167,14 @@ import RemoteSvg from 'react-native-remote-svg';
                                 )
                                 
                             })
-                            }
+                        )
+                        :
+                        (
+                            <>
+                            <Text>no data</Text>
+                            </>
+                        )}
+                            
                     </View>
                 </ScrollView>
 

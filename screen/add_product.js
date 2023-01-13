@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ImageBackground, SafeAreaView } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
@@ -7,16 +7,21 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { I18nManager } from 'react-native';
+import { SelectList } from 'react-native-dropdown-select-list'
 import CheckBox from 'expo-checkbox';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Add_product({navigation}) {
-    const [Number, setNumber] = useState();
+    const [data, setData] = useState([{}]);
+    const [startedPrice, setStartedPrice] = useState();
+    const [endedPrice, setEndedPrice] = useState();
+    const [city, setCity] = useState();
     const [category, setCategory] = useState(1);
-    const [platedesigne, setPlatedesigne] = useState(0);
-    const [platenewdesign, setPlatenewdesign] = useState(0);
+    const [platedesigne, setPlatedesigne] = useState("");
     const [description, setDescription] = useState("");
-    const [showphone, setShowphone] = useState(false);
+    const [showphone, setShowphone] = useState("");
     const [pay, setPay] = useState(false);
+    const [user_id, setUser_id] = useState("");
 
     const [engfirstletter, setEngfirstletter] = useState("");
     const [engsecondletter, setEngsecondletter] = useState("");
@@ -29,22 +34,42 @@ export default function Add_product({navigation}) {
     const [engfirstnumber, setEngfirstnumber] = useState("");
     const [engsecondnumber, setEngsecondnumber] = useState("");
     const [engthirdnumber, setEngthirdnumber] = useState("");
+    const [engfourthnumber, setEngfourthnumber] = useState("");
 
     const [arfirstnumber, setArfirstnumber] = useState("");
     const [arsecondnumber, setArsecondnumber] = useState("");
     const [arthirdnumber, setArthirdnumber] = useState("");
+    const [arfourthnumber, setArfourthnumber] = useState("");
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
+    useEffect(() => {
+        const value = AsyncStorage.getItem('user_id');
+        setUser_id(value);
+    }, []);
+    useEffect(() => {
+        fetch("https://newapi.mediaplus.ma/api/v1/cities", 
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            }
+        })
+        .then((response) => response.json())
+        .then((json) => setData(json.data))
+        .catch((error) => console.error(error))
+        .finally(() => console.log(data));
+    }, []);
     if (!fontsLoaded) {
         return <Text>Loading...</Text>;
     }
 
 
     return (
-        console.log(platedesigne),
+        console.log(city),
         <View style={styles.container}>
         <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: "10%", marginRight: 10, color: "#302C6B"}}>
          إضافة إعلان جديد    
@@ -77,8 +102,21 @@ export default function Add_product({navigation}) {
                         {/* top */}
                         <View style={{ width: "100%", height: "49%", flexDirection: "row",  borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
                             <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
+                                {category != 3 ?(
                                 <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                                    style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                                    placeholderTextColor="#000"
+                                    keyboardType="numeric"
+                                    onChangeText={(text) => to_en_num(text, 4)}
+                                    value={arfourthnumber }
+                                    maxLength={1}
+                                />
+                                ):(
+                                    <></>
+                                )
+                                }
+                                <TextInput
+                                    style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
                                     placeholderTextColor="#000"
                                     keyboardType="numeric"
                                     onChangeText={(text) => to_en_num(text, 3)}
@@ -86,15 +124,15 @@ export default function Add_product({navigation}) {
                                     maxLength={1}
                                 />
                                 <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
-                                    placeholderTextColor="#000"
+                                    style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                                    placeholderTextColor="#959"
                                     keyboardType="numeric"
                                     onChangeText={(text) => to_en_num(text, 2)}
                                     value={arsecondnumber}
                                     maxLength={1}
                                 />
-                                <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                                    <TextInput
+                                    style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#959"
                                     keyboardType="numeric"
                                     onChangeText={(text) => to_en_num(text, 1)}
@@ -103,6 +141,7 @@ export default function Add_product({navigation}) {
                                 />
                             </View>
                             <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderLeftWidth: 2}}>
+                                {category != 3 ?(
                                 <TextInput
                                         style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                         placeholderTextColor="#000"
@@ -111,6 +150,9 @@ export default function Add_product({navigation}) {
                                         value={arthirdletter}
                                         maxLength={1}
                                     />
+                                ):(
+                                    <></>
+                                    )}
                                     <TextInput
                                         style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
                                         placeholderTextColor="#000"
@@ -136,8 +178,21 @@ export default function Add_product({navigation}) {
                         {/* bottom */}
                         <View style={{ width: "100%", height: "49%", flexDirection: "row", borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
                             <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
+                                {category != 3 ?(
                                 <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                                    style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                                    placeholderTextColor="#000"
+                                    keyboardType="numeric"
+                                    onChangeText={(text) => to_ar_num(text, 4)}
+                                    value={engfourthnumber}
+                                    maxLength={1}
+                                />
+                                ):(
+                                    <></>
+                                )
+                                }
+                                <TextInput
+                                    style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
                                     placeholderTextColor="#000"
                                     keyboardType="numeric"
                                     onChangeText={(text) => to_ar_num(text, 3)}
@@ -145,15 +200,15 @@ export default function Add_product({navigation}) {
                                     maxLength={1}
                                 />
                                 <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
-                                    placeholderTextColor="#000"
+                                    style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                                    placeholderTextColor="#959"
                                     keyboardType="numeric"
                                     onChangeText={(text) => to_ar_num(text, 2)}
                                     value={engsecondnumber}
                                     maxLength={1}
                                 />
-                                <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                                    <TextInput
+                                    style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#959"
                                     keyboardType="numeric"
                                     onChangeText={(text) => to_ar_num(text, 1)}
@@ -162,6 +217,7 @@ export default function Add_product({navigation}) {
                                 />
                             </View>
                             <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderLeftWidth: 2}}>
+                                {category != 3 ?(
                             <TextInput
                                         style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                         placeholderTextColor="#000"
@@ -170,6 +226,9 @@ export default function Add_product({navigation}) {
                                         value={engthirdletter}
                                         maxLength={1}
                                     />
+                                ):(
+                                    <></>
+                                    )}
                                     <TextInput
                                         style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
                                         placeholderTextColor="#000"
@@ -193,13 +252,10 @@ export default function Add_product({navigation}) {
 
                 <View style={{ width: "90%", borderBottomLeftRadius: 26, borderTopLeftRadius: 26, marginLeft: "5%", height: "120%"}}>
                     <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>المدينة</Text>
-                    <TextInput
-                        style={{ width: "100%", height: 40, fontFamily: "Bold", fontSize: 15, color: "#000", backgroundColor: "#fff", paddingHorizontal: 15, borderRadius: 8, textAlign :  I18nManager.isRTL ? 'left' : 'right'}}
-                        placeholderTextColor="gray"
-                        placeholder="المدينة"
-                        keyboardType="ascii-mode"
-                        onChangeText={console.log("kkkkk")}
-                        value=""
+                    <SelectList 
+                        setSelected={(val) => setCity(val)} 
+                        data={data} 
+                        save="key"
                     />
                     <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>السعر</Text>
                     <View style={{ width: "100%", borderRadius: 20, flexDirection: 'row', justifyContent: "space-between",}}>
@@ -209,8 +265,8 @@ export default function Add_product({navigation}) {
                                 placeholderTextColor="gray"
                                 placeholder="150"
                                 keyboardType="numeric"
-                                onChangeText={console.log("kkkkk")}
-                                value=""
+                                onChangeText={setEndedPrice}
+                                value={endedPrice}
                             />
                             <Text style={{fontFamily: "Small", fontSize: 13, color: "gray"}}>الحد (إختيار) </Text>
                         </View>
@@ -222,53 +278,73 @@ export default function Add_product({navigation}) {
                                 placeholder="150"
                                 keyboardType="numeric"
                                 maxLength={5}
-                                onChangeText={console.log("kkkkk")}
-                                value=""
+                                onChangeText={setStartedPrice}
+                                value={startedPrice}
                             />
                             <Text style={{fontFamily: "Small", fontSize: 13, color: "gray"}}> سعر البدأ </Text>
                         </View>
                     </View>
                     <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>الشكل</Text>
-                    <View style={{ width: "100%", borderRadius: 8, justifyContent: "space-between", alignItems: "center", flexDirection: "row", marginTop: 10}}>
-                        <TouchableOpacity
+                    {category == 1 ? (    
+                        <View style={{ width: "100%", borderRadius: 8, justifyContent: "space-between", alignItems: "center", flexDirection: "row", marginTop: 10}}>
+                            
+                            <TouchableOpacity
                             style={{ width: "30%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
-                            onPress={() => setPlatedesigne(0)}
-                        >
-                        {category == 1 ? (
-                            <Image source={require('../assets/plate_designe/plate_car_old2.png')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
-                        ) : (
-                            category == 2 ? (
-                                <Image source={require('../assets/plate_designe/public02.png')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
-                            ) : (
-                                <Image source={require('../assets/plate_designe/motor_plate.png')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
-                        )
-                        )}
-                        </TouchableOpacity>
-                        {category != 3 ? (
-                            <TouchableOpacity
-                                style={{ width: "30%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
-                                onPress={() => setPlatedesigne(1)}
+                            onPress={() => setPlatedesigne("basic-00")}
                             >
-                            {category == 1 ? (
-                                <Image source={require('../assets/plate_designe/plate_car_new.jpeg')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
-                            ) : (
-                                <Image source={require('../assets/plate_designe/public01.png')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
-                            )}   
+                            <Image source={require('../assets/plate_designe/plate_car_old2.png')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
                             </TouchableOpacity>
-                        ) : (
-                            <></>
-                        )}
-                        {category == 1? (
+
+                            <TouchableOpacity
+                            style={{ width: "30%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
+                            onPress={() => setPlatedesigne(1)}
+                            >
+                            <Image source={require('../assets/plate_designe/plate_car_new.jpeg')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
+                            </TouchableOpacity>
+
+
                             <TouchableOpacity
                                 style={{ width: "30%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
-                                onPress={() => setPlatedesigne(0)}
+                                onPress={() => setPlatedesigne("basic-06")}
                             > 
                                 <Image source={require('../assets/plate_designe/plate_car_old1.png')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
                             </TouchableOpacity>
-                        ) : (
-                            <></>
+                        </View>
+                    ) : (
+                        <></>
                         )}
-                    </View>
+                    {category == 2 ? (
+                        <View style={{ width: "100%", borderRadius: 8, justifyContent: "space-between", alignItems: "center", flexDirection: "row", marginTop: 10}}>
+                            <TouchableOpacity
+                            style={{ width: "30%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
+                            onPress={() => setPlatedesigne("public-00")}
+                            >
+                            <Image source={require('../assets/plate_designe/public01.png')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                            style={{ width: "30%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
+                            onPress={() => setPlatedesigne("public-01")}
+                            >
+                            <Image source={require('../assets/plate_designe/public02.png')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
+                            </TouchableOpacity>
+                        </View>
+                    ) : (
+                        <></>
+                    )}
+                    {category == 3 ? (
+                        <View style={{ width: "100%", borderRadius: 8, justifyContent: "space-between", alignItems: "center", flexDirection: "row", marginTop: 10}}>
+                            <TouchableOpacity
+                            style={{ width: "30%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
+                            onPress={() => setPlatedesigne("motor")}
+                            >
+                            <Image source={require('../assets/plate_designe/motor_plate.png')} style={{ width: "100%", height: 40, resizeMode: "contain"}} />
+                            </TouchableOpacity>
+                        </View>
+                    ) : (
+                        <></>
+                    )}
+
                     {platedesigne == 1 && category == 1 ? (
                         <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>الرمز</Text>
                     ) : (
@@ -278,32 +354,32 @@ export default function Add_product({navigation}) {
                             <View style={{ width: "100%", borderRadius: 8, justifyContent: "space-between", alignItems: "center", flexDirection: "row", marginTop: 10}}>
                                 <TouchableOpacity
                                     style={{ width: "15%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
-                                    onPress={() => console.log("kkkkk")}
+                                    onPress={() => concate_for_car_plate("01")}
                                 >
                                     <Image source={require('../assets/plate_designe/basic01.jpeg')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={{ width: "15%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
-                                    onPress={() => setPlatedesigne(1)}
+                                    onPress={() => concate_for_car_plate("02")}
                                 >
                                     <Image source={require('../assets/plate_designe/basic02.jpeg')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
                                     
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={{ width: "15%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
-                                    onPress={() => console.log("kkkkk")}
+                                    onPress={() => concate_for_car_plate("03")}
                                 >
                                     <Image source={require('../assets/plate_designe/basic03.jpeg')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={{ width: "15%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
-                                    onPress={() => console.log("kkkkk")}
+                                    onPress={() => concate_for_car_plate("04")}
                                 >
                                     <Image source={require('../assets/plate_designe/basic04.jpeg')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={{ width: "15%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
-                                    onPress={() => console.log("kkkkk")}
+                                    onPress={() => concate_for_car_plate("05")}
                                 >
                                     <Image source={require('../assets/plate_designe/basic05.jpeg')} style={{ width: "90%", height: 20, resizeMode: "contain"}} />
                                 </TouchableOpacity>
@@ -312,13 +388,14 @@ export default function Add_product({navigation}) {
                     ) : (
                         <></>
                     )}
-                    <View style={{ width: "100%", alignItems: "center", marginTop: 10}}>
+                    <View style={{ width: "100%", alignItems: "center", marginTop: 20}}>
                         <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000"}}>وصف الإعلان</Text>
                         <TextInput
                             style={{ width: "100%", height: 100, borderRadius: 8, alignItems: "center", flexDirection: "row", backgroundColor: "#fff", paddingHorizontal: 10, textAlign :  I18nManager.isRTL ? 'left' : 'right',}}
                             placeholder="وصف الإعلان"
                             placeholderTextColor="#000"
                             multiline={true}
+                            value={description}
                             numberOfLines={4}
                             onChangeText={(text) => setDescription(text)}
                         />
@@ -328,7 +405,7 @@ export default function Add_product({navigation}) {
                             <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000"}}>إضهار رقم الهاتف</Text>
                             <CheckBox
                                 value={showphone}
-                                onValueChange={setShowphone}
+                                onValueChange={() => setShowphone("show")}
                             />
                         </View>
                         <View style={{ width: "50%"}}>
@@ -341,8 +418,9 @@ export default function Add_product({navigation}) {
                     </View>
                     <TouchableOpacity
                             style={styles.button}
-                            onPress={() => navigation.navigate('Home')}
+                            onPress={() => create_car_plate()}
                             disabled={pay == false ? true : false}
+                            // disabled={pay == false ? true : false}
                         >
                             <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'white'}}>إضافة إعلان</Text>
                     </TouchableOpacity> 
@@ -435,6 +513,12 @@ export default function Add_product({navigation}) {
                         setArthirdnumber(ar[i]);
                         console.log("3");
                     }
+                    else if(j == 4)
+                    {
+                        setEngfourthnumber(en[i]);
+                        setArfourthnumber(ar[i]);
+                        console.log("4");
+                    }
                 }
             }
         }
@@ -454,6 +538,11 @@ export default function Add_product({navigation}) {
             {
                 setEngthirdnumber("");
                 setArthirdnumber("");
+            }
+            else if(j == 4)
+            {
+                setEngfourthnumber("");
+                setArfourthnumber("");
             }
         }
     }
@@ -534,6 +623,11 @@ export default function Add_product({navigation}) {
                         setEngthirdnumber(en[i]);
                         setArthirdnumber(ar[i]);
                     }
+                    else if(j == 4)
+                    {
+                        setEngfourthnumber(en[i]);
+                        setArfourthnumber(ar[i]);
+                    }
                 }
                 
             }
@@ -553,7 +647,55 @@ export default function Add_product({navigation}) {
                 setEngthirdnumber("");
                 setArthirdnumber("");
             }
+            else if(j == 4)
+            {
+                setEngfourthnumber("");
+                setArfourthnumber("");
+            }
         }
+    }
+
+    function concate_for_car_plate(str)
+    {
+        var res = "basic-"+str;
+        setPlatedesigne(res);
+    }
+
+    async function create_car_plate()
+    {
+       var str = engthirdletter+engsecondletter+engfirstletter;
+        console.log(`here is : ${category}`);
+        var number = engfourthnumber+engthirdnumber+engsecondnumber+engfirstnumber;
+        fetch('https://newapi.mediaplus.ma/api/v1/articles', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                price: startedPrice,
+                max: endedPrice,
+                type: 0,
+                description: description,
+                city_id: city,
+                client_id: 1,
+                en_numbers: number,
+                en_alpha: str,
+                show_contact: showphone,
+                style: platedesigne,
+            })
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson);
+                if(responseJson.status == "success")
+                {
+                    navigation.navigate('Home');
+                }
+            }
+        ).catch((error) => {
+            console.error(error);
+        }
+        );
     }
 }
 
