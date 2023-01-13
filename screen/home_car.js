@@ -7,7 +7,7 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import RemoteSvg from 'react-native-remote-svg';
+import Matricule from './svg_assets/matricule'
 
  export default function Home_cars ({navigation}) {
 
@@ -119,8 +119,7 @@ import RemoteSvg from 'react-native-remote-svg';
                             console.log(articles),
                             articles.map((item, index) => {
                                 return (
-                                    <TouchableOpacity style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => navigation.navigate('Product_detail')}>
-                                            
+                                    <TouchableOpacity style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => navigation.navigate('Product_detail')}> 
                                             {/* 1st colum */}
                                             <View style={{width: '20%', height: '86%', borderRadius: 10, top: '3%', left: 5}}>
                                                 <View style={{width: '100%', height: '50%'}}>
@@ -155,14 +154,16 @@ import RemoteSvg from 'react-native-remote-svg';
                                             </View>
 
                                             {/* 3st colum */}
-                                            <View style={{width: '36%', height: '50%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '10%'}}>
-                                            <RemoteSvg
-                                                source={{ uri: 'https://newapi.mediaplus.ma/storage/plates/basic-00.svg?number=5555&alpha=ABZ&ff=23' }}
-                                                onLoad={() => console.log('loaded!')}
-                                                style={{ width: '100%', height: '90%' }}
-                                                onError={(error) => console.log('error:', error)}
-                                            />
+                                            <View style={{width: '36%', height: '50%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '10%',}}>
+                                                
+                                                <Matricule
+                                                    style={"motor"}
+                                                    type='listing'
+                                                    alpha='tu'
+                                                    number='555'
+                                                />
                                             </View>
+
                                     </TouchableOpacity>
                                 )
                                 

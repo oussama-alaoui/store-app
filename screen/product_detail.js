@@ -9,6 +9,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, ScrollView, Clipboard } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Dimensions } from "react-native";
+import Matricule from './svg_assets/matricule'
 
 const { width, height } = Dimensions.get('window');
 
@@ -60,9 +61,11 @@ export default function Product_detail({ navigation })
 
             <View style={styles.body}>
                 <View style={{ width: "90%", height: 126, alignItems: "center", justifyContent: "center", borderRadius: 22, borderWidth: 3, borderColor: '#CAC7C7'}}>
-                    <Image
-                        style={{ width: 260, height: 200, resizeMode: 'contain'}}
-                        source={require("../assets/plate_car1.jpeg")}
+                    <Matricule
+                        style={"public_01"}
+                        type='detail'
+                        alpha='ntu'
+                        number='5555'
                     />
                 </View>
                 <View style={{ width: 130, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#FF7058', borderRadius: 18}}>
