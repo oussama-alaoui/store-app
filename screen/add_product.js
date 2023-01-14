@@ -16,7 +16,7 @@ export default function Add_product({navigation}) {
     const [startedPrice, setStartedPrice] = useState();
     const [endedPrice, setEndedPrice] = useState();
     const [city, setCity] = useState();
-    const [category, setCategory] = useState(1);
+    const [category, setCategory] = useState(2);
     const [platedesigne, setPlatedesigne] = useState("");
     const [description, setDescription] = useState("");
     const [showphone, setShowphone] = useState("");
@@ -69,21 +69,21 @@ export default function Add_product({navigation}) {
 
 
     return (
-        console.log(city),
+        console.log(platedesigne + description + category),
         <View style={styles.container}>
         <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: "10%", marginRight: 10, color: "#302C6B"}}>
          إضافة إعلان جديد    
         </Text>
         <View style={{backgroundColor: "#F2F2FF", width: "100%", height: "90%", alignItems: "center"}}>
             <View style={{ width: "90%", height: 40, flexDirection: "row", justifyContent: "space-between", marginTop: 20}}>
-                <TouchableOpacity onPress={() => setCategory(3)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 3 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center"}}>
-                    <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 3 ? "#fff" : "#000"}}>دباب </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setCategory(2)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 2 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center"}}>
-                    <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 2 ? "#fff" : "#000"}}>نقل عام </Text>
+                <TouchableOpacity onPress={() => setCategory(0)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 0 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center", color: "#fff"}}>
+                    <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 0 ? "#fff" : "#000"}}>دباب </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setCategory(1)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 1 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center", color: "#fff"}}>
-                    <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 1 ? "#fff" : "#000"}}>خصوصي </Text>
+                    <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 1 ? "#fff" : "#000"}}>نقل عام </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setCategory(2)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 2 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center", color: "#fff"}}>
+                    <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 2 ? "#fff" : "#000"}}>خصوصي </Text>
                 </TouchableOpacity>
             </View>
             <View style={{ width: "90%", height: 1, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", marginTop: 20}}>
@@ -102,7 +102,7 @@ export default function Add_product({navigation}) {
                         {/* top */}
                         <View style={{ width: "100%", height: "49%", flexDirection: "row",  borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
                             <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
-                                {category != 3 ?(
+                                {category != 0 ?(
                                 <TextInput
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#000"
@@ -141,7 +141,7 @@ export default function Add_product({navigation}) {
                                 />
                             </View>
                             <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderLeftWidth: 2}}>
-                                {category != 3 ?(
+                                {category != 0 ?(
                                 <TextInput
                                         style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                         placeholderTextColor="#000"
@@ -154,7 +154,7 @@ export default function Add_product({navigation}) {
                                     <></>
                                     )}
                                     <TextInput
-                                        style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
+                                        style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                         placeholderTextColor="#000"
                                         keyboardType="ascii-mode"
                                         onChangeText={(text) => to_en(text, 2)}
@@ -178,7 +178,7 @@ export default function Add_product({navigation}) {
                         {/* bottom */}
                         <View style={{ width: "100%", height: "49%", flexDirection: "row", borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
                             <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
-                                {category != 3 ?(
+                                {category != 0 ?(
                                 <TextInput
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#000"
@@ -217,7 +217,7 @@ export default function Add_product({navigation}) {
                                 />
                             </View>
                             <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderLeftWidth: 2}}>
-                                {category != 3 ?(
+                                {category != 0 ?(
                             <TextInput
                                         style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                         placeholderTextColor="#000"
@@ -285,7 +285,7 @@ export default function Add_product({navigation}) {
                         </View>
                     </View>
                     <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>الشكل</Text>
-                    {category == 1 ? (    
+                    {category == 2 ? (    
                         <View style={{ width: "100%", borderRadius: 8, justifyContent: "space-between", alignItems: "center", flexDirection: "row", marginTop: 10}}>
                             
                             <TouchableOpacity
@@ -313,7 +313,7 @@ export default function Add_product({navigation}) {
                     ) : (
                         <></>
                         )}
-                    {category == 2 ? (
+                    {category == 1 ? (
                         <View style={{ width: "100%", borderRadius: 8, justifyContent: "space-between", alignItems: "center", flexDirection: "row", marginTop: 10}}>
                             <TouchableOpacity
                             style={{ width: "30%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
@@ -332,7 +332,7 @@ export default function Add_product({navigation}) {
                     ) : (
                         <></>
                     )}
-                    {category == 3 ? (
+                    {category == 0 ? (
                         <View style={{ width: "100%", borderRadius: 8, justifyContent: "space-between", alignItems: "center", flexDirection: "row", marginTop: 10}}>
                             <TouchableOpacity
                             style={{ width: "30%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
@@ -345,12 +345,12 @@ export default function Add_product({navigation}) {
                         <></>
                     )}
 
-                    {platedesigne == 1 && category == 1 ? (
+                    {platedesigne == 1 && category == 2 ? (
                         <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>الرمز</Text>
                     ) : (
                         <></>
                     )}
-                    {platedesigne == 1 && category == 1 ? (
+                    {platedesigne == 1 && category == 2 ? (
                             <View style={{ width: "100%", borderRadius: 8, justifyContent: "space-between", alignItems: "center", flexDirection: "row", marginTop: 10}}>
                                 <TouchableOpacity
                                     style={{ width: "15%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row", backgroundColor: "#fff"}}
@@ -420,7 +420,6 @@ export default function Add_product({navigation}) {
                             style={styles.button}
                             onPress={() => create_car_plate()}
                             disabled={pay == false ? true : false}
-                            // disabled={pay == false ? true : false}
                         >
                             <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'white'}}>إضافة إعلان</Text>
                     </TouchableOpacity> 
@@ -663,31 +662,35 @@ export default function Add_product({navigation}) {
 
     async function create_car_plate()
     {
-       var str = engthirdletter+engsecondletter+engfirstletter;
-        console.log(`here is : ${category}`);
-        var number = engfourthnumber+engthirdnumber+engsecondnumber+engfirstnumber;
+        var str = engthirdletter+engsecondletter+engfirstletter;
+         console.log(`here is : ${category}`);
+         var number = engfourthnumber+engthirdnumber+engsecondnumber+engfirstnumber;
+        console.log("ousssssssssssssssss");
+        var value = JSON.stringify({
+            price: startedPrice,
+            max: endedPrice,
+            type: category.toString(),
+            description: description,
+            city_id: city,
+            client_id: 1,
+            en_numbers: number,
+            en_alpha: str,
+            show_contact: showphone,
+            style: platedesigne,
+        })
+        console.log(value);
         fetch('https://newapi.mediaplus.ma/api/v1/articles', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                price: startedPrice,
-                max: endedPrice,
-                type: 0,
-                description: description,
-                city_id: city,
-                client_id: 1,
-                en_numbers: number,
-                en_alpha: str,
-                show_contact: showphone,
-                style: platedesigne,
-            })
-        }).then((response) => response.json())
+            body: value
+        }).then((response) => 
+            response.json())
             .then((responseJson) => {
                 console.log(responseJson);
-                if(responseJson.status == "success")
+                if(responseJson.status == true)
                 {
                     navigation.navigate('Home');
                 }

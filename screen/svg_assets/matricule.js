@@ -11,7 +11,7 @@ import Motor from "./motor"
 let w = 0
 
 export default function Matricule({style, alpha, number, type}) {
-    if (style == 'basic_00')
+    if (style == 'basic-00')
     {
         if (type == 'listing')
             w = 32
@@ -19,7 +19,7 @@ export default function Matricule({style, alpha, number, type}) {
             w = 75
         return (<Basic_00 alpha={alpha} number={number} w={w}/>)
     }
-    else if (style == 'basic_01')
+    else if (style == 'basic-01')
     {
         if (type == 'listing')
             w = 32
@@ -27,7 +27,7 @@ export default function Matricule({style, alpha, number, type}) {
             w = 75
         return (<Basic style="01" alpha={alpha} number={number} w={w}/>)
     }
-    else if (style == 'basic_02')
+    else if (style == 'basic-02')
     {
         if (type == 'listing')
             w = 32
@@ -35,7 +35,7 @@ export default function Matricule({style, alpha, number, type}) {
             w = 75
         return (<Basic style="02" alpha={alpha} number={number} w={w}/>)
     }
-    else if (style == 'basic_03')
+    else if (style == 'basic-03')
     {
         if (type == 'listing')
             w = 32
@@ -43,7 +43,7 @@ export default function Matricule({style, alpha, number, type}) {
             w = 75
         return (<Basic style="03" alpha={alpha} number={number} w={w}/>)
     }
-    else if (style == 'basic_04')
+    else if (style == 'basic-04')
     {
         if (type == 'listing')
             w = 32
@@ -51,7 +51,7 @@ export default function Matricule({style, alpha, number, type}) {
             w = 75
         return (<Basic style="04" alpha={alpha} number={number} w={w}/>)
     }
-    else if (style == 'basic_05')
+    else if (style == 'basic-05')
     {
         if (type == 'listing')
             w = 32
@@ -59,7 +59,7 @@ export default function Matricule({style, alpha, number, type}) {
             w = 75
         return (<Basic style="05" alpha={alpha} number={number} w={w}/>)
     }
-    else if (style == 'basic_06')
+    else if (style == 'basic-06')
     {
         if (type == 'listing')
             w = 28
@@ -67,7 +67,7 @@ export default function Matricule({style, alpha, number, type}) {
             w = 50
         return (<Basic_06 alpha={alpha} number={number} w={w}/>)
     }
-    else if (style == 'public_00')
+    else if (style == 'public-00')
     {
         if (type == 'listing')
             w = 32
@@ -75,7 +75,7 @@ export default function Matricule({style, alpha, number, type}) {
             w = 75
         return (<Public_00 alpha={alpha} number={number} w={w}/>)
     }
-    else if (style == 'public_01')
+    else if (style == 'public-01')
     {
         if (type == 'listing')
             w = 28

@@ -8,13 +8,15 @@ import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Matricule from './svg_assets/matricule'
+import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
  export default function Home_cars ({navigation}) {
 
     const { width } = Dimensions.get('window');
     const [Number, setNumber] = useState();
-    const [category, setCategory] = useState(1);
+    const [category, setCategory] = useState(2);
     const [articles, setArticles] = useState([{}]);
+    const [city, setCity] = useState("");
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
@@ -24,6 +26,7 @@ import Matricule from './svg_assets/matricule'
      const [isLogin, setIsLogin] = React.useState("");
 
     async function fetchData() {
+    console.log(category);
     await fetch(`https://newapi.mediaplus.ma/api/v1/articles/type/${category}`, {
         method: 'GET',
         headers: {
@@ -46,16 +49,6 @@ import Matricule from './svg_assets/matricule'
      if (!fontsLoaded) {
          return <Text>Loading...</Text>;
      }
-     const arr = [
-            {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 501, city: 'الfdض', username: 'oussama', img: 'https://appapi.mediaplus.ma/storage/templates/old.svg?number=1546&alpha=AJT'},
-            {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 502, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-            {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 503, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-            {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 504, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-            {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 505, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-            {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 506, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-            {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 507, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'},
-            {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 508, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.png'}
-        ]
     
 
     return(
@@ -66,21 +59,21 @@ import Matricule from './svg_assets/matricule'
                 <View style={styles.header}>
 
                     <View style={styles.top}>
-                        <TouchableOpacity style={category == 3 ? styles.box_category_active : styles.box_category_inactive}
-                            onPress={() => setCategory(3)}
+                        <TouchableOpacity style={category == 0 ? styles.box_category_active : styles.box_category_inactive}
+                            onPress={() => setCategory(0)}
                             disable={false}
                         >
                             <Image source={require('../assets/moto.png')} style={{width: '80%', top: '16%'}}/>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={category == 2 ? styles.box_category_active : styles.box_category_inactive} 
-                            onPress={() => setCategory(2)}    
+                        <TouchableOpacity style={category == 1 ? styles.box_category_active : styles.box_category_inactive} 
+                            onPress={() => setCategory(1)}    
                         >
                             <Image source={require('../assets/camion.png')} style={{width: '80%'}}/>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={category == 1 ? styles.box_category_active : styles.box_category_inactive}
-                            onPress={() => setCategory(1)}
+                        <TouchableOpacity style={category == 2 ? styles.box_category_active : styles.box_category_inactive}
+                            onPress={() => setCategory(2)}
                         >
                             <Image source={require('../assets/car.png')} style={{width: '80%'}}/>
                         </TouchableOpacity>
@@ -116,57 +109,56 @@ import Matricule from './svg_assets/matricule'
                 <ScrollView horizontal='true' style={{flex:1}}>
                     <View style={styles.body}>
                         {articles.length > 0 ?(
-                            console.log(articles),
                             articles.map((item, index) => {
-                                return (
-                                    <TouchableOpacity style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => navigation.navigate('Product_detail')}> 
-                                            {/* 1st colum */}
-                                            <View style={{width: '20%', height: '86%', borderRadius: 10, top: '3%', left: 5}}>
-                                                <View style={{width: '100%', height: '50%'}}>
-                                                <Image source={require('../assets/aimer.png')} style={{width: 20, height: 20}}/>
-                                                </View>
-                                                <View style={{width: '110%', height: '24%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 5}}>
-                                                <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max} ريال</Text>
-                                                    <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
-                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
-                                                </View>
-                                            </View>
-                                            
-                                            {/* 2st colum */}
-                                            <View style={{width: '40%', height: '80%', borderRadius: 10, top: '2%'}}>
-                                                <View style={{width: '100%', height: '50%', flexDirection: 'row'}}>
-                                                <View style={{width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center', top: 16, left: 0}}>
-                                                        <Text style={{fontSize: 13, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3', right: 10, top:0}}>{item.user} </Text>
-                                                </View>
-                                                <Image source={require('../assets/user_1.png')} style={{width: 47, height: 50, resizeMode: 'contain', right: 16}}/>
-                                                </View>
-                                                
-                                                <View style={{width: '100%', height: '58%', justifyContent: 'space-around', alignItems: 'center'}}>
-                                                    <View style={{width: '100%', height: '38%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                        <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black', left: 40}}>{item.city}</Text>
-                                                        <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray', left: 12}}>المدينة </Text>
+                                    return (
+                                        console.log(item.style),
+                                        <TouchableOpacity key={index} style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => navigation.navigate('Product_detail', {product_id: item.id})}> 
+                                                {/* 1st colum */}
+                                                <View style={{width: '20%', height: '86%', borderRadius: 10, top: '3%', left: 5}}>
+                                                    <View style={{width: '100%', height: '50%'}}>
+                                                    <Image source={require('../assets/aimer.png')} style={{width: 20, height: 20}}/>
                                                     </View>
-                                                    <View style={{width: '100%', height: '38%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                        <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 13}}>{item.price_now}-{item.price} ريال</Text>
-                                                        <Text style={{fontSize: 12, fontFamily: 'Small', letterSpacing: 2, color: 'gray', left: 4}}>السعر </Text>
+                                                    <View style={{width: '110%', height: '24%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 5}}>
+                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max} ريال</Text>
+                                                        <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
+                                                        <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
                                                     </View>
                                                 </View>
-                                            </View>
-
-                                            {/* 3st colum */}
-                                            <View style={{width: '36%', height: '50%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '10%',}}>
                                                 
-                                                <Matricule
-                                                    style={"motor"} // basic_00 to basic_06, public_00 to public_01, motor
-                                                    type='listing' // detail, listing
-                                                    alpha='tu'
-                                                    number='555'
-                                                />
-                                            </View>
+                                                {/* 2st colum */}
+                                                <View style={{width: '35%', height: '80%', borderRadius: 10, top: '2%'}}>
+                                                    <View style={{width: '100%', height: '50%', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                                    <View style={{width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center'}}>
+                                                            <Text style={{fontSize: 13, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3'}}>أسامة العلوي </Text>
+                                                    </View>
+                                                    <Image source={require('../assets/user_1.png')} style={{width: 47, height: 50, resizeMode: 'contain', right: 16}}/>
+                                                    </View>
+                                                
+                                                    <View style={{width: '100%', height: '50%', justifyContent: 'space-between', alignItems: 'center'}}>
+                                                        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-around'}}>
+                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black'}}>المدينة المنورة</Text>
+                                                            <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray',}}>المدينة </Text>
+                                                        </View>
+                                                        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-around'}}>
+                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF'}}>{item.price}-{item.price} ريال</Text>
+                                                            <Text style={{fontSize: 12, fontFamily: 'Small', letterSpacing: 2, color: 'gray'}}>السعر </Text>
+                                                        </View>
+                                                    </View>
+                                                </View>
 
-                                    </TouchableOpacity>
-                                )
-                                
+                                                {/* 3st colum */}
+                                                <View style={{width: '36%', height: '50%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center', top: '10%',}}>
+                                                    
+                                                    <Matricule
+                                                        style={item.style} // basic_00 to basic_06, public_00 to public_01, motor
+                                                        type='listing' // detail, listing
+                                                        alpha={item.en_alpha}
+                                                        number={item.en_numbers}
+                                                    />
+                                                </View>
+
+                                        </TouchableOpacity>
+                                    )
                             })
                         )
                         :
@@ -184,7 +176,20 @@ import Matricule from './svg_assets/matricule'
             </View>
         </SafeAreaView>
     )
-
+    async function get_city(id){
+        console.log("id", id)
+        const response = await fetch(`https://newapi.mediaplus.ma/api/v1/cities/${id}`, 
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            }
+        })
+        const json = await response.json();
+        return(json.data.city_name)
+    }
+    
 }
 
 const styles = StyleSheet.create({

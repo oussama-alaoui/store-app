@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ImageBackground, Linking, SafeAreaView, Share } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
@@ -14,24 +14,46 @@ import Matricule from './svg_assets/matricule'
 const { width, height } = Dimensions.get('window');
 
 
-export default function Product_detail({ navigation })
+export default function Product_detail({ navigation, route })
 {
     // const onShare = ;
+    const [product_detail, setProduct_detail] = useState({})
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
      });
+     useEffect(() => {
+         fetch(`https://newapi.mediaplus.ma/api/v1/articles/${route.params.product_id}`, 
+             {
+             method: 'GET',
+             headers: {
+                 'Content-Type': 'application/json',
+                 'Accept': 'application/json',
+             
+             }
+             })
+             .then((response) => response.json())
+             .then((json) => {
+                 setProduct_detail(json.data)
+                 console.log(json.data)
+             })
+             .catch((error) => {
+                 console.error(error);
+         })
+         
+     }, [])
      if (!fontsLoaded) {
          return <Text>Loading...</Text>;
      }
-    var number = "+212659814951";
      const copyToClipboard = () => {
          Clipboard.setString('012548');
     }
 
 
+
     return (
+        console.log(route.params.product_id),
         <View style={styles.container}>
             <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true}>
             <View style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
@@ -42,47 +64,40 @@ export default function Product_detail({ navigation })
                         source={require("../assets/back.png")}
                     />
                 </TouchableOpacity>
-                <View style={{ width: "30%", alignItems: "center", justifyContent: 'space-between', flexDirection: 'row'}}>
                     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')} >
                         <Image
                             style={{ width: 24, height: 24}}
                             source={require("../assets/heart.png")}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate()} >
-                        <Image
-                            style={{ width: 24, height: 24}}
-                            source={require("../assets/declaration.png")}
-                        />
-                    </TouchableOpacity>
-                </View>
             </View>
             </View>
 
             <View style={styles.body}>
                 <View style={{ width: "90%", height: 126, alignItems: "center", justifyContent: "center", borderRadius: 22, borderWidth: 3, borderColor: '#CAC7C7'}}>
                     <Matricule
-                        style={"public_01"} // basic_00 to basic_06, public_00 to public_01, motor
+                        style={product_detail.style} // basic_00 to basic_06, public_00 to public_01, motor
                         type='detail' // detail, listing
-                        alpha='ntu'
-                        number='5555'
+                        alpha={product_detail.en_alpha}
+                        number={product_detail.en_numbers}
                     />
                 </View>
                 <View style={{ width: 130, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#FF7058', borderRadius: 18}}>
                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff'}}>خصوصي</Text>
                 </View>
-                <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginTop: 6}}>الإعلان رقم <Text style={{ fontFamily: "X_Bold", fontSize: 28, color: '#302D52', marginTop: 6}} onPress={() => copyToClipboard()}>012548</Text></Text>
-                <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>أسامة العلوي</Text>
+                <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginTop: 6}}>الإعلان رقم <Text style={{ fontFamily: "X_Bold", fontSize: 28, color: '#302D52', marginTop: 6}} onPress={() => copyToClipboard()}>{product_detail.id}</Text></Text>
+                <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}> {product_detail.client_id.username}</Text>
                 <View style={{ width: 170, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#F3F6FF', borderRadius: 9, flexDirection: 'row', justifyContent: "space-around"}}>
-                    <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>170 ريال</Text>
-                    <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>|</Text>
-                    <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>70 ريال</Text>
+                    <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.max} ريال</Text>
+                    <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>|</Text>
+                    <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.price} ريال</Text>
                 </View>
-                <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>الرياض</Text>
-                <View style={{ width: "30%", height: 40, alignItems: "center", justifyContent: "center", borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
+                <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>{product_detail.city_id.city_name}</Text>
+                {product_detail.show_contact == "show" ?   (
+                    <View style={{ width: "30%", height: 40, alignItems: "center", justifyContent: "center", borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                     <TouchableOpacity style={[styles.button4, {backgroundColor: '#d7ebd5'}]} onPress={() => {
                                                                                                             let msg = "type something";
-                                                                                                            let phoneWithCountryCode = number;
+                                                                                                            let phoneWithCountryCode = product_detail.client_id.phone;
                                                                                                         
                                                                                                             let mobile =
                                                                                                             Platform.OS == "ios" ? phoneWithCountryCode : phoneWithCountryCode;
@@ -107,8 +122,8 @@ export default function Product_detail({ navigation })
                     <View style={{ width: 1, height: 28, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                     </View>
                     <TouchableOpacity style={[styles.button4, {backgroundColor: '#d5e3eb'}]} onPress={() => {    let phoneNumber = '';
-                                                                                                                if (Platform.OS === 'android') { phoneNumber = `tel:${number}`; }
-                                                                                                                else {phoneNumber = `telprompt:${number}`; }
+                                                                                                                if (Platform.OS === 'android') { phoneNumber = `tel:${product_detail.client_id.phone}`; }
+                                                                                                                else {phoneNumber = `telprompt:${product_detail.client_id.phone}`; }
                                                                                                                 Linking.openURL(phoneNumber)}} >
                         <Image
                             style={ {width: 20, height: 20, resizeMode: 'contain'}}
@@ -116,6 +131,11 @@ export default function Product_detail({ navigation })
                         />
                     </TouchableOpacity>
                 </View>
+                ) : (
+                    <>
+                    </>
+                )} 
+                
                 <View style={{ width: "90%", height: 1, alignItems: "center", justifyContent: "center", marginTop: 5, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                 </View>
 
@@ -123,7 +143,7 @@ export default function Product_detail({ navigation })
                 
             </View>
                 <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginRight: '5%'}}>وصف الإعلان</Text>
-                <Text style={{ fontFamily: "Bold", fontSize: 14, color: '#616162', marginRight: '5%', lineHeight: 25}}>لوريم إيبسوم(Lorem Ipsum) هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف.</Text>
+                <Text style={{ fontFamily: "Bold", fontSize: 14, color: '#616162', marginRight: '5%', lineHeight: 25}}>{product_detail.description}</Text>
                 
                 <View style={{ width: "90%", height: 45, alignItems: "center", flexDirection: 'row', marginLeft: '5%'}}>
                     <View style={{ width: "30%", height: 1, marginTop: 10, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>

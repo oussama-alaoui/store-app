@@ -16,7 +16,7 @@ import Svg from './screen/svg';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [isLogin, setIsLogin] = React.useState(true);
+  const [isLogin, setIsLogin] = React.useState(false);
   useEffect(() => {
     const checkLogin = async () => {
       const value = await AsyncStorage.getItem('user_id');
