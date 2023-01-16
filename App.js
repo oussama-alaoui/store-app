@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
 // import screen
 import Login from './screen/login';
 import Register from './screen/register';
@@ -10,22 +9,12 @@ import Verification_phone from './screen/verification_phone';
 import Product_detail from './screen/product_detail';
 import BottomNav from './navigator/BottomNavigator';
 import Favorite_product from './screen/favorite_product';
-import Svg from './screen/svg';
 
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [isLogin, setIsLogin] = React.useState(false);
-  useEffect(() => {
-    const checkLogin = async () => {
-      const value = await AsyncStorage.getItem('user_id');
-      if (value !== null) {
-        setIsLogin(value);
-      }
-    };
-    checkLogin();
-  }, []);
+  const [isLogin, setIsLogin] = React.useState(true);
 
   return (
     console.log(isLogin),
@@ -45,7 +34,6 @@ export default function App() {
             <Stack.Screen name="Bottom" component={BottomNav} options={{ headerShown: false }} />
             <Stack.Screen name="Product_detail" component={Product_detail} options={{ headerShown: false }} />
             <Stack.Screen name="Favorite_product" component={Favorite_product} options={{ headerShown: false }} />
-            <Stack.Screen name="Svg" component={Svg} options={{ headerShown: false }} />
           </>
         )}
 

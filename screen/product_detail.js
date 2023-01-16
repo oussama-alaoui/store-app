@@ -86,13 +86,13 @@ export default function Product_detail({ navigation, route })
                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff'}}>خصوصي</Text>
                 </View>
                 <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginTop: 6}}>الإعلان رقم <Text style={{ fontFamily: "X_Bold", fontSize: 28, color: '#302D52', marginTop: 6}} onPress={() => copyToClipboard()}>{product_detail.id}</Text></Text>
-                <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}> {product_detail.client_id.username}</Text>
+                <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}></Text>
                 <View style={{ width: 170, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#F3F6FF', borderRadius: 9, flexDirection: 'row', justifyContent: "space-around"}}>
                     <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.max} ريال</Text>
                     <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>|</Text>
                     <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.price} ريال</Text>
                 </View>
-                <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>{product_detail.city_id.city_name}</Text>
+                <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}></Text>
                 {product_detail.show_contact == "show" ?   (
                     <View style={{ width: "30%", height: 40, alignItems: "center", justifyContent: "center", borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                     <TouchableOpacity style={[styles.button4, {backgroundColor: '#d7ebd5'}]} onPress={() => {

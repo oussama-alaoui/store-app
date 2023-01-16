@@ -5,7 +5,6 @@ import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get('window');
 
@@ -100,21 +99,12 @@ export default function Verification_phone({navigation, route}) {
             setValue(json)
             console.log(json)
             if (json.status == true){
-                storeData()
                 navigation.navigate('Bottom')
             }
         })
         .catch((error) => {
             console.log('Error: ', error);
         });
-    }
-
-    async function storeData(){
-        try {
-          await AsyncStorage.setItem('user_id', route.params.id)
-        } catch (e) {
-          console.log(e)
-        }
     }
 }
 
