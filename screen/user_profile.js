@@ -1,36 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ImageBackground, SafeAreaView } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
 import Matricule from './svg_assets/matricule'
+import { Modal } from "react-native-web";
 
-export default function Profile({navigation, route}) {
+export default function User_Profile({navigation, route}) {
     const arr = [
         {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 501, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 502, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 503, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 504, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 505, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 506, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 507, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 508, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 509, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'}
     ]
-    const [Number, setNumber] = useState(0);
+    const   [Number, setNumber] = useState(0);
     const   [user_detail, setUser_detail] = useState({});
     const   [all_products, setAll_products] = useState([]);
     const   [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(true);
     const [inputValue, setInputValue] = useState('');
     useEffect(() => {
-        fetch(`https://newapi.mediaplus.ma/api/v1/clients/1`, 
+        fetch(`https://newapi.mediaplus.ma/api/v1/clients/${route.params.user_id}`, 
             {
             method: 'GET',
             headers: {
@@ -68,7 +59,6 @@ export default function Profile({navigation, route}) {
         })
         
     }, [])
-    // const [Date, setDate] = useState(new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear());
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
@@ -77,64 +67,89 @@ export default function Profile({navigation, route}) {
     if (!fontsLoaded) {
         return <Text>Loading...</Text>;
     }
+
     if (loading) {
         return <Text>Loading...</Text>;
     }
-    else {
-    return (
-        console.log(Number),
-        
-        <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-            <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
-            <View style={styles.header}>
-
-                <View style={styles.top}>
-                    <TouchableOpacity style={{width: '13%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.navigate('Login')}>
-                        <Image source={require('../assets/logout.png')} style={{width: '45%', height: '53%'}}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{width: '13%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.navigate('Favorite_product')}>
-                        <Image source={require('../assets/heart.png')} style={{width: '45%', height: '53%'}}/>
-                    </TouchableOpacity>
-                </View>
-                <View style={{width: '33%', height: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFf', borderRadius: 13, top: '40%'}}>
-                    <Image source={require('../assets/user_1.png')} style={{width: '90%', height: '90%'}}/>
-                </View>
-
-                <View style={styles.bottom}>
-                    <TouchableOpacity style={{width: '30%', height: 30, alignItems: 'center', backgroundColor: '#fff', flexDirection: 'row',justifyContent: 'space-between'}}
-                        onPress={() => setNumber(3)}
-                    >
-                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                        <Image source={require('../assets/star_inactive.png')} style={{width: '15%', height: '55%'}}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{width: '30%', height: '75%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13}} onPress={() => setNumber(3)}>
-                        <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>دفع للموقع</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{width: '100%', height: '20%', top: '30%', justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>أسامة العلوي</Text>
-                    <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => setNumber(3)}>
-                        <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>الرسائل</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            
-            <View style={{width: '100%', height: '100%', top: 150, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1FBFF'}}>
-                    <View style={{width: '90%', height: '5%', justifyContent: 'space-between', margin: 10, flexDirection: 'row'}}>
-
-                        <TouchableOpacity style={{width: 80, height: 30, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row'}} onPress={() => setNumber(3)}>
-                            <Image source={require('../assets/plus.png')} style={{width: 16, height: 16}}/>
-                            <Text style={{fontFamily: 'Small', fontSize: 14, color: '#0075FE'}}>إضافة لوحة</Text>
+    else
+    {
+        const ModalFeedback = () => {
+            return (
+                <Modal /*onBackdropPress={() => {setVisibleMoreDetails(false);vis = false;}}*/ isVisible={modalVisible} backdropOpacity={0.8} style={{height: '90%', bottom: -20, left: -20, width: '100%',position:'absolute',backgroundColor:'#152238',justifyContent:'flex-start',borderTopRightRadius:20,borderTopLeftRadius:20, backgroundColor: 'red'}}>
+                    console.log('modal'),
+                    <View style={{width:'100%',position:'relative',overflow:'hidden',flexDirection:'column', height: '100%'}}>
+                    <View>
+                        <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 10}}>Modal Title</Text>
+                        <TextInput
+                        style={{height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 10}}
+                        onChangeText={text => setInputValue(text)}
+                        value={inputValue}
+                        />
+                        <TouchableOpacity
+                        onPress={() => {
+                            setModalVisible(!modalVisible);
+                        }}>
+                        <Text>Submit</Text>
                         </TouchableOpacity>
-                        <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#000000'}}>اللوحات المعروضة</Text>
-
                     </View>
-                <ScrollView horizontal='true'>
-                    <View style={styles.body}>
+                    </View>
+                </Modal>
+            );
+        }
+        return (
+            console.log(route.params.user_id),
+            
+            <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+                <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
+                <ModalFeedback/>
+                <View style={styles.header}>
+
+                    <View style={styles.top}>
+                        <TouchableOpacity style={{width: 50, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.goBack()}>
+                            <Image source={require("../assets/back.png")} style={{width: '45%', height: '53%'}}/>
+                        </TouchableOpacity>
+
+                        <View style={{width: 120, height: '100%', justifyContent: 'space-around', alignItems: 'center', borderRadius: 13, flexDirection: 'row'}}>
+                            <TouchableOpacity style={{width: 50, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.navigate('Favorite_product')}>
+                                <Image source={require('../assets/declaration.png')} style={{width: '45%', height: '53%'}}/>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{width: 50, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.navigate('Favorite_product')}>
+                                <Image source={require('../assets/heart.png')} style={{width: '45%', height: '53%'}}/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={{width: '33%', height: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFf', borderRadius: 13, top: '40%'}}>
+                        <Image source={require('../assets/user_1.png')} style={{width: '90%', height: '90%'}}/>
+                    </View>
+
+                    <View style={styles.bottom}>
+                        <TouchableOpacity style={{width: '30%', height: 30, alignItems: 'center', backgroundColor: '#fff', flexDirection: 'row',justifyContent: 'space-between'}}
+                            onPress={() => setNumber(3)}
+                        >
+                            <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
+                            <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
+                            <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
+                            <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
+                            <Image source={require('../assets/star_inactive.png')} style={{width: '15%', height: '55%'}}/>
+                        </TouchableOpacity>
+                        
+                    </View>
+
+                    <View style={{width: '100%', height: '20%', top: '30%', justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>{user_detail.username}</Text>
+                        <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => setNumber(3)}>
+                            <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>الرسائل</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                
+                <View style={{width: '100%', height: '100%', top: 150, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1FBFF'}}>
+                        <View style={{width: '90%', height: '5%', justifyContent: 'space-between', margin: 10, writingDirection: 'rtl'}}>
+                            <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#000000', writingDirection: 'rtl'}}>اللوحات المعروضة</Text>
+
+                        </View>
+                    <ScrollView horizontal='true'>
+                        <View style={styles.body}>
                             {all_products.data.map((item, index) => {
                                 const date = new Date(item.created_at);
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
@@ -208,13 +223,13 @@ export default function Profile({navigation, route}) {
                                 )
                             })}
                         </View>
-                </ScrollView>
-            </View>
+                    </ScrollView>
+                </View>
 
-          
             
-        </SafeAreaView>
-    )
+                
+            </SafeAreaView>
+        )
     }
 }
 
@@ -250,6 +265,8 @@ const styles = StyleSheet.create({
     body: {
         marginBottom: '90%',
         width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
         flex: 1,
         height: 'auto',
         alignItems: 'center',
