@@ -353,7 +353,7 @@ export default function User_Profile({navigation, route}) {
                         { text: "OK", onPress: () => console.log("OK Pressed") }
                     ]
                 );
-                setModalVisibleRepo(false);
+                setModalVisibleFeed(false);
             }
         }
         )

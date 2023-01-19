@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ImageBackground, SafeAreaView } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
@@ -7,9 +7,11 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { I18nManager } from 'react-native';
+import { SelectList } from 'react-native-dropdown-select-list'
 
 export default function Search({navigation}) {
     const [category, setCategory] = useState(1);
+    const [data, setData] = useState([{}]);
 
     const [engfirstletter, setEngfirstletter] = useState("");
     const [engsecondletter, setEngsecondletter] = useState("");
@@ -27,7 +29,20 @@ export default function Search({navigation}) {
     const [arsecondnumber, setArsecondnumber] = useState("");
     const [arthirdnumber, setArthirdnumber] = useState("");
 
-
+    useEffect(() => {
+        fetch("https://newapi.mediaplus.ma/api/v1/cities", 
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            }
+        })
+        .then((response) => response.json())
+        .then((json) => setData(json.data))
+        .catch((error) => console.error(error))
+        .finally(() => console.log(data));
+    }, []);
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Regular.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
@@ -43,7 +58,7 @@ export default function Search({navigation}) {
                 البحث على إعلان
             </Text>
             <View style={{backgroundColor: "#F2F2FF", width: "100%", height: "90%", alignItems: "center"}}>
-                <View style={{ width: "90%", height: 40, flexDirection: "row", justifyContent: "space-between", marginTop: 20}}>
+                <View style={{ width: "90%", height: 40, flexDirection: "row", justifyContent: "space-between", marginTop: 15}}>
                     <TouchableOpacity onPress={() => setCategory(3)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 3 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center"}}>
                         <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 3 ? "#fff" : "#000"}}>دباب </Text>
                     </TouchableOpacity>
@@ -54,7 +69,7 @@ export default function Search({navigation}) {
                         <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 1 ? "#fff" : "#000"}}>خصوصي </Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ width: "90%", height: 1, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", marginTop: 20}}>
+                <View style={{ width: "90%", height: 1, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", marginTop: 15}}>
                 </View>
                 <View style={{ width: "90%", height: 40, flexDirection: "column-reverse", justifyContent: "space-between"}}>
                     <Text style={{ fontFamily: "Small", fontSize: 12, color: "#000"}}>
@@ -63,7 +78,7 @@ export default function Search({navigation}) {
                 </View>
 
                   {/* box search */}
-                <View style={{ width: "90%", height: 134, flexDirection: "row", backgroundColor: "#fff", borderRadius: 26, borderWidth: 2}}>
+                <View style={{ width: "90%", height: 124, flexDirection: "row", backgroundColor: "#fff", borderRadius: 26, borderWidth: 2}}>
 
                     <View style={{ width: "87%", height: "100%", justifyContent: "center", alignItems: "center", borderRightWidth: 2, borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
                         {/* top */}
@@ -185,13 +200,10 @@ export default function Search({navigation}) {
 
                 <View style={{ width: "90%", borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
                     <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>المدينة</Text>
-                    <TextInput
-                        style={{ width: "100%", height: 40, fontFamily: "Bold", fontSize: 15, color: "#000", backgroundColor: "#fff", paddingHorizontal: 15, borderRadius: 8, textAlign :  I18nManager.isRTL ? 'left' : 'right',}}
-                        placeholderTextColor="#BCBCBC"
-                        placeholder="المدينة"
-                        keyboardType="ascii-mode"
-                        onChangeText={console.log("kkkkk")}
-                        value=""
+                    <SelectList 
+                        setSelected={(val) => setCity(val)} 
+                        data={data} 
+                        save="key"
                     />
                     <View style={{ width: "100%", height: 1, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", marginTop: 20}}>
                     </View>
@@ -200,7 +212,7 @@ export default function Search({navigation}) {
                         style={{ width: "100%", height: 40, fontFamily: "Bold", fontSize: 15, color: "#000", backgroundColor: "#fff", paddingLeft: 15, borderRadius: 8}}
                         placeholderTextColor="#BCBCBC"
                         placeholder="012345"
-                        keyboardType="ascii-mode"
+                        keyboardType="numeric"
                         onChangeText={console.log("kkkkk")}
                         value=""
                     />

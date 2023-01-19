@@ -10,6 +10,8 @@ import Product_detail from './screen/product_detail';
 import BottomNav from './navigator/BottomNavigator';
 import Favorite_product from './screen/favorite_product';
 import User_Profile from './screen/user_profile';
+import Pay_site from './screen/pay_to_site';
+import Product_detail_my from './screen/product_detail_my';
 
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +29,8 @@ export default function App() {
             <Stack.Screen name="Product_detail" component={Product_detail} options={{ headerShown: false }} />
             <Stack.Screen name="Favorite_product" component={Favorite_product} options={{ headerShown: false }} />
             <Stack.Screen name="User_Profile" component={User_Profile} options={{ headerShown: false }} />
+            <Stack.Screen name="Pay_site" component={Pay_site} options={{ headerShown: false }} />
+            <Stack.Screen name="Product_detail_my" component={Product_detail_my} options={{ headerShown: false }} />
           </>
         ) : (
           <>

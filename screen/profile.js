@@ -78,7 +78,7 @@ export default function Profile({navigation, route}) {
         return <Text>Loading...</Text>;
     }
     if (loading) {
-        return <Text>Loading...</Text>;
+        return <></>;
     }
     else {
     return (
@@ -110,7 +110,7 @@ export default function Profile({navigation, route}) {
                         <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
                         <Image source={require('../assets/star_inactive.png')} style={{width: '15%', height: '55%'}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{width: '30%', height: '75%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13}} onPress={() => setNumber(3)}>
+                    <TouchableOpacity style={{width: '30%', height: '75%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13}} onPress={() => navigation.navigate("Pay_site")}>
                         <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>دفع للموقع</Text>
                     </TouchableOpacity>
                 </View>
@@ -140,7 +140,7 @@ export default function Profile({navigation, route}) {
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
                                     console.log("here"),
-                                    <TouchableOpacity style={{width: '92%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1, marginRight: "5%"}} onPress={() => navigation.navigate('Product_detail', {product_id: item.id})}>
+                                    <TouchableOpacity style={{width: '92%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1, marginRight: "5%"}} onPress={() => navigation.navigate('Product_detail_my', {product_id: item.id})}>
                                     <View style={{width: '100%', height: '78%', borderRadius: 10, justifyContent: 'center', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
                                     {/* 1st colum */}
                                                 <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>

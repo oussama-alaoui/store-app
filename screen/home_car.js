@@ -134,14 +134,14 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
                                                     <View style={{width: '35%', height: '80%', borderRadius: 10, top: '2%'}}>
                                                         <View style={{width: '100%', height: '50%', flexDirection: 'row', justifyContent: 'space-between'}}>
                                                         <View style={{width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center'}}>
-                                                                <Text style={{fontSize: 13, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3'}}>أسامة العلوي </Text>
+                                                                <Text style={{fontSize: 13, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3'}}>{item.client_id.username}</Text>
                                                         </View>
                                                         <Image source={require('../assets/user_1.png')} style={{width: 47, height: 50, resizeMode: 'contain', right: 16}}/>
                                                         </View>
                                                     
                                                         <View style={{width: '100%', height: '50%', justifyContent: 'space-between', alignItems: 'center'}}>
                                                             <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                                <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black'}}>المدينة المنورة</Text>
+                                                                <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black'}}>{item.city_id.city_name}</Text>
                                                                 <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray',}}>المدينة </Text>
                                                             </View>
                                                             <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-around'}}>
@@ -182,20 +182,6 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
             </SafeAreaView>
         )
     }
-    async function get_city(id){
-        console.log("id", id)
-        const response = await fetch(`https://newapi.mediaplus.ma/api/v1/cities/${id}`, 
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            }
-        })
-        const json = await response.json();
-        return(json.data.city_name)
-    }
-    
 }
 
 const styles = StyleSheet.create({
