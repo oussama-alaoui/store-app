@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ImageBackground, SafeAreaView } from "react-native";
+import { Alert, ImageBackground, SafeAreaView } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
@@ -8,18 +8,19 @@ import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Matricule from './svg_assets/matricule'
-import { Modal } from "react-native-web";
+import { Modal } from "react-native";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 
 export default function User_Profile({navigation, route}) {
-    const arr = [
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 501, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-    ]
     const   [Number, setNumber] = useState(0);
     const   [user_detail, setUser_detail] = useState({});
     const   [all_products, setAll_products] = useState([]);
     const   [loading, setLoading] = useState(true);
-    const [modalVisible, setModalVisible] = useState(true);
-    const [inputValue, setInputValue] = useState('');
+    const   [rating, setRating] = useState(0);
+    const   [comment, setComment] = useState('');
+    const   [modalVisibleRepo, setModalVisibleRepo] = useState(false);
+    const   [modalVisibleFeed, setModalVisibleFeed] = useState(false);
+    const   [inputValue, setInputValue] = useState('');
     useEffect(() => {
         fetch(`https://newapi.mediaplus.ma/api/v1/clients/${route.params.user_id}`, 
             {
@@ -40,7 +41,7 @@ export default function User_Profile({navigation, route}) {
         
     }, [])
     useEffect(() => {
-        fetch(`https://newapi.mediaplus.ma/api/v1/articles/user/1`, 
+        fetch(`https://newapi.mediaplus.ma/api/v1/articles/user/${route.params.user_id}`, 
             {
             method: 'GET',
             headers: {
@@ -73,26 +74,90 @@ export default function User_Profile({navigation, route}) {
     }
     else
     {
-        const ModalFeedback = () => {
+        const ModalReport = () => {
             return (
-                <Modal /*onBackdropPress={() => {setVisibleMoreDetails(false);vis = false;}}*/ isVisible={modalVisible} backdropOpacity={0.8} style={{height: '90%', bottom: -20, left: -20, width: '100%',position:'absolute',backgroundColor:'#152238',justifyContent:'flex-start',borderTopRightRadius:20,borderTopLeftRadius:20, backgroundColor: 'red'}}>
-                    console.log('modal'),
-                    <View style={{width:'100%',position:'relative',overflow:'hidden',flexDirection:'column', height: '100%'}}>
-                    <View>
-                        <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 10}}>Modal Title</Text>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisibleRepo}
+                    onRequestClose={() => {
+                    setModalVisibleRepo(!modalVisibleRepo);
+                    }} style={{height: "100%", width: "100%", position: "absolute"}}>
+                    <View style={{height: "100%", width: "100%", backgroundColor: "rgba(52, 52, 52, 0.3)", justifyContent:"center"}}>
+                    <View style={{marginHorizontal: 20, backgroundColor: "#fff", borderRadius: 20}}>
+                        <Text style={{paddingTop: 30, textAlign: "center", fontFamily: "Bold", fontSize: 20}}>تقديم إبلاغ على الحساب</Text>
+                        {/* <Text style={{paddingVertical: 5, textAlign: "center", color: "red", marginHorizontal: 30}}>اللوحات المعروضة</Text> */}
                         <TextInput
-                        style={{height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 10}}
-                        onChangeText={text => setInputValue(text)}
-                        value={inputValue}
+                            style={{height: 120, marginHorizontal: 30, borderRadius: 10, marginVertical: 30, elevation: 2, shadowColor: 'black', paddingRight: 15, textAlign: 'right', writingDirection: 'rtl',}}
+                            onChangeText={text => setInputValue(text)}
+                            defaultValue={inputValue}
+                            placeholder="الرجاء كتابة الرسالة"
+                            multiline={true}
+                            numberOfLines={4}
                         />
-                        <TouchableOpacity
-                        onPress={() => {
-                            setModalVisible(!modalVisible);
-                        }}>
-                        <Text>Submit</Text>
+                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}} onPress={() => post_repot()}>
+                            <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
                         </TouchableOpacity>
                     </View>
                     </View>
+                    
+                </Modal>
+            );
+        }
+        const ModalFeedback = () => {
+            return (
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisibleFeed}
+                    onRequestClose={() => {
+                    setModalVisibleFeed(!modalVisibleFeed);
+                    }} style={{height: "100%", width: "100%", position: "absolute"}}>
+                    <View style={{height: "100%", width: "100%", backgroundColor: "rgba(52, 52, 52, 0.3)", justifyContent:"center"}}>
+                    <View style={{marginHorizontal: 20, backgroundColor: "#fff", borderRadius: 20}}>
+                        <Text style={{paddingTop: 30, textAlign: "center", fontFamily: "Bold", fontSize: 20}}> تقييم</Text>
+                        {/* <Text style={{paddingVertical: 5, textAlign: "center", color: "red", marginHorizontal: 30}}>اللوحات المعروضة</Text> */}
+                        <View style={{marginVertical: 20}}>
+                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRating(1)}>
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRating(2)}>
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRating(3)}>
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRating(4)}>
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRating(5)}>
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                            </TouchableOpacity>
+                        </View>
+                        <TextInput
+                            style={{height: 60, marginHorizontal: 30, borderRadius: 10, marginVertical: 20, elevation: 2, shadowColor: 'black', paddingRight: 15, textAlign: 'right', writingDirection: 'rtl',}}
+                            onChangeText={text => setComment(text)}
+                            defaultValue={comment}
+                            placeholder="الرجاء كتابة الرسالة"
+                            multiline={true}
+                            numberOfLines={4}
+                        />
+                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}} onPress={() => post_repot()}>
+                            <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
+                        </TouchableOpacity>
+                    </View>
+                    </View>
+                    
                 </Modal>
             );
         }
@@ -101,6 +166,7 @@ export default function User_Profile({navigation, route}) {
             
             <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
                 <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
+                <ModalReport/>
                 <ModalFeedback/>
                 <View style={styles.header}>
 
@@ -110,10 +176,10 @@ export default function User_Profile({navigation, route}) {
                         </TouchableOpacity>
 
                         <View style={{width: 120, height: '100%', justifyContent: 'space-around', alignItems: 'center', borderRadius: 13, flexDirection: 'row'}}>
-                            <TouchableOpacity style={{width: 50, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.navigate('Favorite_product')}>
+                            <TouchableOpacity style={{width: 50, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => setModalVisibleRepo(true)}>
                                 <Image source={require('../assets/declaration.png')} style={{width: '45%', height: '53%'}}/>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{width: 50, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.navigate('Favorite_product')}>
+                            <TouchableOpacity style={{width: 50, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => setModalVisibleFeed(true)}>
                                 <Image source={require('../assets/heart.png')} style={{width: '45%', height: '53%'}}/>
                             </TouchableOpacity>
                         </View>
@@ -229,6 +295,67 @@ export default function User_Profile({navigation, route}) {
             
                 
             </SafeAreaView>
+        )
+    }
+    function post_repot(){
+        fetch('https://newapi.mediaplus.ma/api/v1/reports', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                from_id: 2,
+                to_id: route.params.user_id,
+                details: inputValue,
+            }
+            )
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            if(responseJson.status == true){
+                Alert.alert(
+                    "تم الإبلاغ",
+                    "تم إرسال الإبلاغ بنجاح",
+                    [
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ]
+                );
+                setModalVisibleRepo(false);
+            }
+        }
+        )
+    }
+    function post_feedback(){
+        fetch('https://newapi.mediaplus.ma/api/v1/reviews', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                from_id: 2,
+                to_id: route.params.user_id,
+                rating: rating,
+                details: comment,
+            }
+            )
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            if(responseJson.status == true){
+                Alert.alert(
+                    "   تم التقييم",
+                    "تم إرسال التقييم بنجاح",
+                    [
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ]
+                );
+                setModalVisibleRepo(false);
+            }
+        }
         )
     }
 }

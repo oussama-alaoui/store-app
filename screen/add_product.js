@@ -688,26 +688,32 @@ export default function Add_product({navigation}) {
         console.log(str);
         console.log(number);
         console.log(value);
-        // fetch('https://newapi.mediaplus.ma/api/v1/articles', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: value
-        // }).then((response) => 
-        //     response.json())
-        //     .then((responseJson) => {
-        //         console.log(responseJson);
-        //         if(responseJson.status == true)
-        //         {
-        //             navigation.navigate('Home');
-        //         }
-        //     }
-        // ).catch((error) => {
-        //     console.error(error);
-        // }
-        // );
+        fetch('https://newapi.mediaplus.ma/api/v1/articles', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: value
+        }).then((response) => 
+            response.json())
+            .then((responseJson) => {
+                console.log(responseJson);
+                if(responseJson.status == true)
+                {
+                    Alert.alert(
+                        "تم إضافة الإعلان بنجاح",
+                        [
+                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                        ]
+                    );
+                    navigation.navigate('Home');
+                }
+            }
+        ).catch((error) => {
+            console.error(error);
+        }
+        );
     }
 }
 
