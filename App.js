@@ -12,6 +12,7 @@ import Favorite_product from './screen/favorite_product';
 import User_Profile from './screen/user_profile';
 import Pay_site from './screen/pay_to_site';
 import Product_detail_my from './screen/product_detail_my';
+import UserReview from './screen/user_review';
 
 
 const Stack = createNativeStackNavigator();
@@ -25,6 +26,7 @@ export default function App() {
       <Stack.Navigator>
         {isLogin ? (
           <>
+            <Stack.Screen name="UserReview" component={UserReview} options={{ headerShown: false }} />
             <Stack.Screen name="Bottom" component={BottomNav} options={{ headerShown: false }} />
             <Stack.Screen name="Product_detail" component={Product_detail} options={{ headerShown: false }} />
             <Stack.Screen name="Favorite_product" component={Favorite_product} options={{ headerShown: false }} />

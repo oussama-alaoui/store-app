@@ -10,6 +10,7 @@ import { I18nManager } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
 import CheckBox from 'expo-checkbox';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native-web";
 
 export default function Add_product({navigation}) {
     const [data, setData] = useState([{}]);
@@ -666,13 +667,19 @@ export default function Add_product({navigation}) {
         setEngfirstletter("");
         setEngsecondletter("");
         setEngthirdletter("");
+        setArfirstletter("");
+        setArsecondletter("");
+        setArthirdletter("");
          console.log(`here is : ${category}`);
          var number = engfourthnumber+engthirdnumber+engsecondnumber+engfirstnumber;
         setEngfirstnumber("");
         setEngsecondnumber("");
         setEngthirdnumber("");
         setEngfourthnumber("");
-        console.log("ousssssssssssssssss");
+        setArfirstnumber("");
+        setArsecondnumber("");
+        setArthirdnumber("");
+        console.log(str, number);
         var value = JSON.stringify({
             price: startedPrice,
             max: endedPrice,
@@ -701,12 +708,6 @@ export default function Add_product({navigation}) {
                 console.log(responseJson);
                 if(responseJson.status == true)
                 {
-                    Alert.alert(
-                        "تم إضافة الإعلان بنجاح",
-                        [
-                            { text: "OK", onPress: () => console.log("OK Pressed") }
-                        ]
-                    );
                     navigation.navigate('Home');
                 }
             }

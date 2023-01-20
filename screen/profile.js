@@ -102,7 +102,7 @@ export default function Profile({navigation, route}) {
 
                 <View style={styles.bottom}>
                     <TouchableOpacity style={{width: '30%', height: 30, alignItems: 'center', backgroundColor: '#fff', flexDirection: 'row',justifyContent: 'space-between'}}
-                        onPress={() => setNumber(3)}
+                        onPress={() => navigation.navigate('UserReview', {user_id: user_id})}
                     >
                         <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
                         <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
@@ -140,7 +140,7 @@ export default function Profile({navigation, route}) {
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
                                     console.log("here"),
-                                    <TouchableOpacity style={{width: '92%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1, marginRight: "5%"}} onPress={() => navigation.navigate('Product_detail_my', {product_id: item.id})}>
+                                    <TouchableOpacity key={index} style={{width: '92%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1, marginRight: "5%"}} onPress={() => navigation.navigate('Product_detail_my', {product_id: item.id})}>
                                     <View style={{width: '100%', height: '78%', borderRadius: 10, justifyContent: 'center', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
                                     {/* 1st colum */}
                                                 <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
