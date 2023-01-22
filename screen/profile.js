@@ -102,7 +102,7 @@ export default function Profile({navigation, route}) {
 
                 <View style={styles.bottom}>
                     <TouchableOpacity style={{width: '30%', height: 30, alignItems: 'center', backgroundColor: '#fff', flexDirection: 'row',justifyContent: 'space-between'}}
-                        onPress={() => navigation.navigate('UserReview', {user_id: user_id})}
+                        onPress={() => navigation.navigate('UserReview', {user_id: user_detail.id})}
                     >
                         <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
                         <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>

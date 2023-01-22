@@ -26,13 +26,13 @@ export default function App() {
       <Stack.Navigator>
         {isLogin ? (
           <>
-            <Stack.Screen name="UserReview" component={UserReview} options={{ headerShown: false }} />
             <Stack.Screen name="Bottom" component={BottomNav} options={{ headerShown: false }} />
             <Stack.Screen name="Product_detail" component={Product_detail} options={{ headerShown: false }} />
             <Stack.Screen name="Favorite_product" component={Favorite_product} options={{ headerShown: false }} />
             <Stack.Screen name="User_Profile" component={User_Profile} options={{ headerShown: false }} />
             <Stack.Screen name="Pay_site" component={Pay_site} options={{ headerShown: false }} />
             <Stack.Screen name="Product_detail_my" component={Product_detail_my} options={{ headerShown: false }} />
+            <Stack.Screen name="UserReview" component={UserReview} options={{ headerShown: false }} />
           </>
         ) : (
           <>

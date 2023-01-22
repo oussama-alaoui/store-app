@@ -9,18 +9,15 @@ import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Matricule from './svg_assets/matricule'
 import { Modal } from "react-native";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import  Rating from 'react-native-easy-rating';
 
 export default function User_Profile({navigation, route}) {
     const   [Number, setNumber] = useState(0);
     const   [user_detail, setUser_detail] = useState({});
     const   [all_products, setAll_products] = useState([]);
     const   [loading, setLoading] = useState(true);
-    const   [rating, setRating] = useState(0);
-    const   [comment, setComment] = useState('');
     const   [modalVisibleRepo, setModalVisibleRepo] = useState(false);
     const   [modalVisibleFeed, setModalVisibleFeed] = useState(false);
-    const   [inputValue, setInputValue] = useState('');
     useEffect(() => {
         fetch(`https://newapi.mediaplus.ma/api/v1/clients/${route.params.user_id}`, 
             {
@@ -75,6 +72,7 @@ export default function User_Profile({navigation, route}) {
     else
     {
         const ModalReport = () => {
+            const   [inputValue, setInputValue] = useState('');
             return (
                 <Modal
                     animationType="slide"
@@ -95,7 +93,7 @@ export default function User_Profile({navigation, route}) {
                             multiline={true}
                             numberOfLines={4}
                         />
-                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}} onPress={() => post_repot()}>
+                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}} onPress={() => post_repot(inputValue)}>
                             <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
                         </TouchableOpacity>
                     </View>
@@ -105,6 +103,8 @@ export default function User_Profile({navigation, route}) {
             );
         }
         const ModalFeedback = () => {
+            const   [comment, setComment] = useState('');
+            const   [rate, setRate] = useState(0);
             return (
                 <Modal
                     animationType="slide"
@@ -117,33 +117,39 @@ export default function User_Profile({navigation, route}) {
                     <View style={{marginHorizontal: 20, backgroundColor: "#fff", borderRadius: 20}}>
                         <Text style={{paddingTop: 30, textAlign: "center", fontFamily: "Bold", fontSize: 20}}> تقييم</Text>
                         {/* <Text style={{paddingVertical: 5, textAlign: "center", color: "red", marginHorizontal: 30}}>اللوحات المعروضة</Text> */}
-                        <View style={{marginVertical: 20}}>
-                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRating(1)}>
+                        {/* <View style={{marginVertical: 20}}>
+                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRate(1)}>
                                 <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRating(2)}>
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRating(3)}>
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRate(2)}>
                                 <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
                                 <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRating(4)}>
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRate(3)}>
                                 <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
                                 <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
                                 <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRating(5)}>
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRate(4)}>
                                 <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
                                 <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
                                 <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
                                 <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
                             </TouchableOpacity>
-                        </View>
+                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRate(5)}>
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
+                            </TouchableOpacity>
+                        </View> */}
+                        <Rating
+                            rating={rate}
+                            max={5}
+                            iconWidth={24}
+                            iconHeight={24}
+                            onRate={setRate}/>
                         <TextInput
                             style={{height: 60, marginHorizontal: 30, borderRadius: 10, marginVertical: 20, elevation: 2, shadowColor: 'black', paddingRight: 15, textAlign: 'right', writingDirection: 'rtl',}}
                             onChangeText={text => setComment(text)}
@@ -152,7 +158,7 @@ export default function User_Profile({navigation, route}) {
                             multiline={true}
                             numberOfLines={4}
                         />
-                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}} onPress={() => post_repot()}>
+                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}} onPress={() => post_feedback(comment, rate)}>
                             <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
                         </TouchableOpacity>
                     </View>
@@ -221,7 +227,7 @@ export default function User_Profile({navigation, route}) {
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
                                     console.log("here"),
-                                    <TouchableOpacity ke={index} style={{width: '92%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1, marginRight: "5%"}} onPress={() => navigation.navigate('Product_detail', {product_id: item.id})}>
+                                    <TouchableOpacity key={index} style={{width: '92%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1, marginRight: "5%"}} onPress={() => navigation.navigate('Product_detail', {product_id: item.id})}>
                                     <View style={{width: '100%', height: '78%', borderRadius: 10, justifyContent: 'center', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
                                     {/* 1st colum */}
                                                 <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
@@ -297,7 +303,7 @@ export default function User_Profile({navigation, route}) {
             </SafeAreaView>
         )
     }
-    function post_repot(){
+    function post_repot(inputValue){
         fetch('https://newapi.mediaplus.ma/api/v1/reports', {
             method: 'POST',
             headers: {
@@ -327,7 +333,7 @@ export default function User_Profile({navigation, route}) {
         }
         )
     }
-    function post_feedback(){
+    function post_feedback(comment, rating){
         fetch('https://newapi.mediaplus.ma/api/v1/reviews', {
             method: 'POST',
             headers: {

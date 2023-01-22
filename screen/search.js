@@ -24,10 +24,12 @@ export default function Search({navigation}) {
     const [engfirstnumber, setEngfirstnumber] = useState("");
     const [engsecondnumber, setEngsecondnumber] = useState("");
     const [engthirdnumber, setEngthirdnumber] = useState("");
+    const [engfourthnumber, setEngfourthnumber] = useState("");
 
     const [arfirstnumber, setArfirstnumber] = useState("");
     const [arsecondnumber, setArsecondnumber] = useState("");
     const [arthirdnumber, setArthirdnumber] = useState("");
+    const [arfourthnumber, setArfourthnumber] = useState("");
 
     useEffect(() => {
         fetch("https://newapi.mediaplus.ma/api/v1/cities", 
@@ -53,22 +55,23 @@ export default function Search({navigation}) {
     }
 
     return (
+        console.log(category),
         <View style={styles.container}>
             <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: "10%", marginRight: 10, color: "#302C6B"}}>
                 البحث على إعلان
             </Text>
             <View style={{backgroundColor: "#F2F2FF", width: "100%", height: "90%", alignItems: "center"}}>
-                <View style={{ width: "90%", height: 40, flexDirection: "row", justifyContent: "space-between", marginTop: 15}}>
-                    <TouchableOpacity onPress={() => setCategory(3)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 3 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center"}}>
-                        <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 3 ? "#fff" : "#000"}}>دباب </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setCategory(2)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 2 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center"}}>
-                        <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 2 ? "#fff" : "#000"}}>نقل عام </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setCategory(1)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 1 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center", color: "#fff"}}>
-                        <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 1 ? "#fff" : "#000"}}>خصوصي </Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={{ width: "90%", height: 40, flexDirection: "row", justifyContent: "space-between", marginTop: 20}}>
+                <TouchableOpacity onPress={() => setCategory(0)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 0 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center", color: "#fff"}}>
+                    <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 0 ? "#fff" : "#000"}}>دباب </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setCategory(1)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 1 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center", color: "#fff"}}>
+                    <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 1 ? "#fff" : "#000"}}>نقل عام </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setCategory(2)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 2 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center", color: "#fff"}}>
+                    <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 2 ? "#fff" : "#000"}}>خصوصي </Text>
+                </TouchableOpacity>
+            </View>
                 <View style={{ width: "90%", height: 1, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", marginTop: 15}}>
                 </View>
                 <View style={{ width: "90%", height: 40, flexDirection: "column-reverse", justifyContent: "space-between"}}>
@@ -78,125 +81,159 @@ export default function Search({navigation}) {
                 </View>
 
                   {/* box search */}
-                <View style={{ width: "90%", height: 124, flexDirection: "row", backgroundColor: "#fff", borderRadius: 26, borderWidth: 2}}>
+                  <View style={{ width: "90%", height: 134, flexDirection: "row", backgroundColor: "#fff", borderRadius: 26, borderWidth: 2, marginLeft: "5%"}}>
 
-                    <View style={{ width: "87%", height: "100%", justifyContent: "center", alignItems: "center", borderRightWidth: 2, borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
-                        {/* top */}
-                        <View style={{ width: "100%", height: "49%", flexDirection: "row",  borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
-                            <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
-                                <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
-                                    placeholderTextColor="#000"
-                                    keyboardType="numeric"
-                                    onChangeText={(text) => to_en_num(text, 3)}
-                                    value={arthirdnumber}
-                                    maxLength={1}
-                                />
-                                <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
-                                    placeholderTextColor="#000"
-                                    keyboardType="numeric"
-                                    onChangeText={(text) => to_en_num(text, 2)}
-                                    value={arsecondnumber}
-                                    maxLength={1}
-                                />
-                                <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
-                                    placeholderTextColor="#959"
-                                    keyboardType="numeric"
-                                    onChangeText={(text) => to_en_num(text, 1)}
-                                    value={arfirstnumber}
-                                    maxLength={1}
-                                />
-                            </View>
-                            <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderLeftWidth: 2}}>
-                                <TextInput
-                                        style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
-                                        placeholderTextColor="#000"
-                                        keyboardType="ascii-mode"
-                                        onChangeText={(text) => to_en(text, 3)}
-                                        value={arthirdletter}
-                                        maxLength={1}
-                                    />
-                                    <TextInput
-                                        style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
-                                        placeholderTextColor="#000"
-                                        keyboardType="ascii-mode"
-                                        onChangeText={(text) => to_en(text, 2)}
-                                        value={arsecondletter}
-                                        maxLength={1}
-                                    />
-                                    <TextInput
-                                        style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
-                                        placeholderTextColor="#959"
-                                        keyboardType="ascii-mode"
-                                        onChangeText={(text) => to_en(text, 1)}
-                                        value={arfirstletter}
-                                        maxLength={1}
-                                    />
-                            </View>
-                        </View>
+<View style={{ width: "87%", height: "100%", justifyContent: "center", alignItems: "center", borderRightWidth: 2, borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
+    {/* top */}
+    <View style={{ width: "100%", height: "49%", flexDirection: "row",  borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
+        <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
+            {category != 0 ?(
+            <TextInput
+                style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                placeholderTextColor="#000"
+                keyboardType="numeric"
+                onChangeText={(text) => to_en_num(text, 4)}
+                value={arfourthnumber }
+                maxLength={1}
+            />
+            ):(
+                <></>
+            )
+            }
+            <TextInput
+                style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
+                placeholderTextColor="#000"
+                keyboardType="numeric"
+                onChangeText={(text) => to_en_num(text, 3)}
+                value={arthirdnumber}
+                maxLength={1}
+            />
+            <TextInput
+                style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                placeholderTextColor="#959"
+                keyboardType="numeric"
+                onChangeText={(text) => to_en_num(text, 2)}
+                value={arsecondnumber}
+                maxLength={1}
+            />
+                <TextInput
+                style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                placeholderTextColor="#959"
+                keyboardType="numeric"
+                onChangeText={(text) => to_en_num(text, 1)}
+                value={arfirstnumber}
+                maxLength={1}
+            />
+        </View>
+        <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderLeftWidth: 2}}>
+            {category != 0 ?(
+            <TextInput
+                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                    placeholderTextColor="#000"
+                    keyboardType="ascii-mode"
+                    onChangeText={(text) => to_en(text, 3)}
+                    value={arthirdletter}
+                    maxLength={1}
+                />
+            ):(
+                <></>
+                )}
+                <TextInput
+                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                    placeholderTextColor="#000"
+                    keyboardType="ascii-mode"
+                    onChangeText={(text) => to_en(text, 2)}
+                    value={arsecondletter}
+                    maxLength={1}
+                />
+                <TextInput
+                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                    placeholderTextColor="#959"
+                    keyboardType="ascii-mode"
+                    onChangeText={(text) => to_en(text, 1)}
+                    value={arfirstletter}
+                    maxLength={1}
+                />
+        </View>
+    </View>
 
-                        <View style={{ width: "100%", height: 2, backgroundColor: '#000', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
-                         </View>
+    <View style={{ width: "100%", height: 2, backgroundColor: '#000', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
+    </View>
 
-                        {/* bottom */}
-                        <View style={{ width: "100%", height: "49%", flexDirection: "row", borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
-                            <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
-                                <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
-                                    placeholderTextColor="#000"
-                                    keyboardType="numeric"
-                                    onChangeText={(text) => to_ar_num(text, 3)}
-                                    value={engthirdnumber}
-                                    maxLength={1}
-                                />
-                                <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
-                                    placeholderTextColor="#000"
-                                    keyboardType="numeric"
-                                    onChangeText={(text) => to_ar_num(text, 2)}
-                                    value={engsecondnumber}
-                                    maxLength={1}
-                                />
-                                <TextInput
-                                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
-                                    placeholderTextColor="#959"
-                                    keyboardType="numeric"
-                                    onChangeText={(text) => to_ar_num(text, 1)}
-                                    value={engfirstnumber}
-                                    maxLength={1}
-                                />
-                            </View>
-                            <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderLeftWidth: 2}}>
-                            <TextInput
-                                        style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
-                                        placeholderTextColor="#000"
-                                        keyboardType="ascii-mode"
-                                        onChangeText={(text) => to_ar(text, 3)}
-                                        value={engthirdletter}
-                                        maxLength={1}
-                                    />
-                                    <TextInput
-                                        style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
-                                        placeholderTextColor="#000"
-                                        keyboardType="ascii-mode"
-                                        onChangeText={(text) => to_ar(text, 2)}
-                                        value={engsecondletter}
-                                        maxLength={1}
-                                    />
-                                    <TextInput
-                                        style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
-                                        placeholderTextColor="#9591B0"
-                                        keyboardType="ascii-mode"
-                                        onChangeText={(text) => to_ar(text, 1)}
-                                        value={engfirstletter}
-                                        maxLength={1}
-                                    />
-                            </View>
-                        </View>
-                    </View>
-                </View>
+    {/* bottom */}
+    <View style={{ width: "100%", height: "49%", flexDirection: "row", borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
+        <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
+            {category != 0 ?(
+            <TextInput
+                style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                placeholderTextColor="#000"
+                keyboardType="numeric"
+                onChangeText={(text) => to_ar_num(text, 4)}
+                value={engfourthnumber}
+                maxLength={1}
+            />
+            ):(
+                <></>
+            )
+            }
+            <TextInput
+                style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
+                placeholderTextColor="#000"
+                keyboardType="numeric"
+                onChangeText={(text) => to_ar_num(text, 3)}
+                value={engthirdnumber}
+                maxLength={1}
+            />
+            <TextInput
+                style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                placeholderTextColor="#959"
+                keyboardType="numeric"
+                onChangeText={(text) => to_ar_num(text, 2)}
+                value={engsecondnumber}
+                maxLength={1}
+            />
+                <TextInput
+                style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                placeholderTextColor="#959"
+                keyboardType="numeric"
+                onChangeText={(text) => to_ar_num(text, 1)}
+                value={engfirstnumber}
+                maxLength={1}
+            />
+        </View>
+        <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderLeftWidth: 2}}>
+            {category != 0 ?(
+        <TextInput
+                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                    placeholderTextColor="#000"
+                    keyboardType="ascii-mode"
+                    onChangeText={(text) => to_ar(text, 3)}
+                    value={engthirdletter}
+                    maxLength={1}
+                />
+            ):(
+                <></>
+                )}
+                <TextInput
+                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
+                    placeholderTextColor="#000"
+                    keyboardType="ascii-mode"
+                    onChangeText={(text) => to_ar(text, 2)}
+                    value={engsecondletter}
+                    maxLength={1}
+                />
+                <TextInput
+                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                    placeholderTextColor="#9591B0"
+                    keyboardType="ascii-mode"
+                    onChangeText={(text) => to_ar(text, 1)}
+                    value={engfirstletter}
+                    maxLength={1}
+                />
+        </View>
+    </View>
+</View>
+</View>
 
                 <View style={{ width: "90%", borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
                     <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>المدينة</Text>
