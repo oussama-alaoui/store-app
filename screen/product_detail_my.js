@@ -65,7 +65,7 @@ export default function Product_detail_my({ navigation, route })
         return (
             console.log(route.params.product_id),
             <View style={styles.container}>
-                <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true}>
+                <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true} overScrollMode="never">
                 <View style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
                 <View style={styles.header}>
                     <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()} >

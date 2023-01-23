@@ -57,7 +57,7 @@ export default function UserReview({navigation, route}) {
                 <Text style={{fontSize: 20, fontFamily: "Bold"}}>ملاحظات حول المستخدم</Text>
                 <View style={{height: 1, width: "100%", backgroundColor: "gray", marginTop: 30, opacity: 0.3}}></View>
                 <View style={{justifyContent: "center", width: "100%", marginTop: 20, alignItems: "center"}}>
-                <ScrollView style={{width: "100%", height: "100%"}}>
+                <ScrollView style={{width: "100%", height: "100%"}} overScrollMode="never">
                 <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', marginBottom: 80}}>
                 {reviews.data.map((review, index) => {
                     return (

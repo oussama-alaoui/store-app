@@ -111,7 +111,7 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
                         </View>
                     </View>
                     
-                    <ScrollView horizontal='true' style={{flex:1}}>
+                    <ScrollView horizontal='true' style={{flex:1}} overScrollMode="never">
                         <View style={styles.body}>
                             {articles.length > 0 ?(
                                 articles.map((item, index) => {

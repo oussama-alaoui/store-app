@@ -89,7 +89,7 @@ export default function Add_product({navigation}) {
             </View>
             <View style={{ width: "90%", height: 1, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", marginTop: 20}}>
             </View>
-            <ScrollView style={{ width: "100%", height: "100%", marginBottom: 10}}>
+            <ScrollView style={{ width: "100%", height: "100%", marginBottom: 10}} overScrollMode="never">
                 <View style={{ width: "90%", height: 40, flexDirection: "column-reverse", justifyContent: "space-between", marginLeft: "5%"}}>
                     <Text style={{ fontFamily: "Small", fontSize: 12, color: "#000"}}>
                     المرجو إدخال الحروف و الأ رقام التي تبحت عنها

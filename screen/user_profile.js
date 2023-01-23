@@ -220,7 +220,7 @@ export default function User_Profile({navigation, route}) {
                             <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#000000', writingDirection: 'rtl'}}>اللوحات المعروضة</Text>
 
                         </View>
-                    <ScrollView horizontal='true'>
+                    <ScrollView horizontal='true' overScrollMode="never">
                         <View style={styles.body}>
                             {all_products.data.map((item, index) => {
                                 const date = new Date(item.created_at);
