@@ -23,7 +23,7 @@ export default function App() {
   return (
     console.log(isLogin),
     <NavigationContainer>
-      <Stack.Navigator screeOptions={{ animation: 'none' }}>
+      <Stack.Navigator screenOptions={{ animation: 'none' }}>
         {isLogin ? (
           <>
             <Stack.Screen name="Bottom" component={BottomNav} options={{ headerShown: false }} />
