@@ -17,6 +17,7 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
     const [Loading, setLoading] = useState(true);
     const [category, setCategory] = useState(2);
     const [articles, setArticles] = useState([{}]);
+    const [favorites, setFavorites] = useState([{}]);
     const [city, setCity] = useState("");
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
@@ -34,10 +35,11 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             },
-            })
+        })
     .then((response) => response.json())
     .then((responseJson) => {
         setArticles(responseJson.data.data);
+        setFavorites(responseJson.data.favorites);
         setLoading(false);
         console.log(articles);
     })

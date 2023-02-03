@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
-import { ImageBackground, Linking, SafeAreaView, Share } from "react-native";
+import { Linking, Share } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
-import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { FlatList, ScrollView, Clipboard } from "react-native";
+import { ScrollView, Clipboard } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Dimensions } from "react-native";
 import Matricule from './svg_assets/matricule'
@@ -17,6 +15,9 @@ const { width, height } = Dimensions.get('window');
 export default function Product_detail({ navigation, route })
 {
     // const onShare = ;
+    
+    const [isLiked, setIsLiked] = useState(false)
+    const [favoriteId, setFavoriteId] = useState(null)
     const [product_detail, setProduct_detail] = useState({})
     const [loading, setLoading] = useState(true)
     let [fontsLoaded] = useFonts({
@@ -25,24 +26,42 @@ export default function Product_detail({ navigation, route })
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
      });
      useEffect(() => {
-         fetch(`https://newapi.mediaplus.ma/api/v1/articles/${route.params.product_id}`, 
-             {
-             method: 'GET',
-             headers: {
-                 'Content-Type': 'application/json',
-                 'Accept': 'application/json',
-             
-             }
-             })
-             .then((response) => response.json())
-             .then((json) => {
-                 setProduct_detail(json.data)
-                 setLoading(false)
-                 console.log(json.data)
-             })
-             .catch((error) => {
-                 console.error(error);
-         })
+        fetch(`https://newapi.mediaplus.ma/api/v1/articles/${route.params.product_id}`, 
+            {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            
+            }
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                setProduct_detail(json.data)
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.error(error);
+        })
+        fetch(`https://newapi.mediaplus.ma/api/v1/favorites/article_id/${route.params.product_id}/from_id/1`, 
+            {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                setIsLiked(json.result)
+                if (json.result == true)
+                {
+                    setFavoriteId(json.favorite_id)
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+        })
          
      }, [route.params.product_id])
      if (!fontsLoaded) {
@@ -63,7 +82,6 @@ export default function Product_detail({ navigation, route })
     else
     {
         return (
-            console.log(route.params.product_id),
             <View style={styles.container}>
                 <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true} overScrollMode="never">
                 <View style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
@@ -74,11 +92,63 @@ export default function Product_detail({ navigation, route })
                             source={require("../assets/back.png")}
                         />
                     </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')} >
-                            <Image
-                                style={{ width: 24, height: 24}}
-                                source={require("../assets/heart.png")}
-                            />
+                        <TouchableOpacity style={styles.button} onPress={() => {
+                            if (isLiked == false || favoriteId == null)
+                            {
+                                var value = JSON.stringify({
+                                    article_id : route.params.product_id,
+                                    from_id : '1',
+                                })
+                                fetch(`https://newapi.mediaplus.ma/api/v1/favorites`, 
+                                {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'application/json',
+                                    },
+                                    body: value
+                                })
+                                .then((response) => response.json())
+                                .then((json) => {
+                                    setFavoriteId(json.data.id)
+                                    setIsLiked(true)
+                                })
+                                .catch((error) => {
+                                    console.error(error);
+                                })
+                            }else{
+                                console.log(1)
+                                fetch(`https://newapi.mediaplus.ma/api/v1/favorites/${favoriteId}`, 
+                                {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'application/json',
+                                    }
+                                })
+                                .then((response) => response.json())
+                                .then((json) => {
+                                    setFavoriteId(null)
+                                    setIsLiked(false)
+                                })
+                                .catch((error) => {
+                                    console.error(error);
+                                })
+                            }
+                                
+                            }}
+                            >
+                            { !isLiked ?
+                                <Image
+                                    style={{ width: 24, height: 24}}
+                                    source={require("../assets/heart.png")}
+                                />
+                                :
+                                <Image
+                                    style={{ width: 24, height: 24}}
+                                    source={require("../assets/aimer.png")}
+                                />
+                            }
                         </TouchableOpacity>
                 </View>
                 </View>
@@ -118,7 +188,6 @@ export default function Product_detail({ navigation, route })
                                                                                                                     let url = "whatsapp://send?text=" + msg + "&phone=" + mobile;
                                                                                                                     Linking.openURL(url)
                                                                                                                     .then(data => {
-                                                                                                                        console.log("WhatsApp Opened");
                                                                                                                     })
                                                                                                                     .catch(() => {
                                                                                                                         alert("Make sure WhatsApp installed on your device");
