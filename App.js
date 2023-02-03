@@ -7,6 +7,7 @@ import Login from './screen/login';
 import Register from './screen/register';
 import Verification_phone from './screen/verification_phone';
 import Product_detail from './screen/product_detail';
+import Search_results from './screen/search_results';
 import BottomNav from './navigator/BottomNavigator';
 import Favorite_product from './screen/favorite_product';
 import User_Profile from './screen/user_profile';
@@ -28,6 +29,7 @@ export default function App() {
           <>
             <Stack.Screen name="Bottom" component={BottomNav} options={{ headerShown: false }} />
             <Stack.Screen name="Product_detail" component={Product_detail} options={{ headerShown: false }} />
+            <Stack.Screen name="Search_results" component={Search_results} options={{ headerShown: false }} />
             <Stack.Screen name="Favorite_product" component={Favorite_product} options={{ headerShown: false }} />
             <Stack.Screen name="User_Profile" component={User_Profile} options={{ headerShown: false }} />
             <Stack.Screen name="Pay_site" component={Pay_site} options={{ headerShown: false }} />

@@ -1,35 +1,38 @@
-import React, { useEffect } from "react";
-import { ImageBackground, SafeAreaView } from "react-native";
+import React, { useEffect, useRef } from "react";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { I18nManager } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
 
 export default function Search({navigation}) {
-    const [category, setCategory] = useState(1);
+    const [category, setCategory] = useState(2);
     const [data, setData] = useState([{}]);
+    const [city, setCity] = useState(null);
+    const en_input1 = useRef();
+    const en_input2 = useRef();
+    const en_input3 = useRef();
+    const en_input4 = useRef();
+    const en_input5 = useRef();
+    const en_input6 = useRef();
+    const en_input7 = useRef();
 
-    const [engfirstletter, setEngfirstletter] = useState("");
-    const [engsecondletter, setEngsecondletter] = useState("");
-    const [engthirdletter, setEngthirdletter] = useState("");
+    const ar_input1 = useRef();
+    const ar_input2 = useRef();
+    const ar_input3 = useRef();
+    const ar_input4 = useRef();
+    const ar_input5 = useRef();
+    const ar_input6 = useRef();
+    const ar_input7 = useRef();
 
-    const [arfirstletter, setArfirstletter] = useState("");
-    const [arsecondletter, setArsecondletter] = useState("");
-    const [arthirdletter, setArthirdletter] = useState("");
+    const [ID, setID] = useState("");
 
-    const [engfirstnumber, setEngfirstnumber] = useState("");
-    const [engsecondnumber, setEngsecondnumber] = useState("");
-    const [engthirdnumber, setEngthirdnumber] = useState("");
-    const [engfourthnumber, setEngfourthnumber] = useState("");
+    const [enNum, setEnNum] = useState({a: "", b: "", c :"", d: ""});
+    const [enAlpha, setEnAlpha] = useState({e: "", f: "", g :""});
 
-    const [arfirstnumber, setArfirstnumber] = useState("");
-    const [arsecondnumber, setArsecondnumber] = useState("");
-    const [arthirdnumber, setArthirdnumber] = useState("");
-    const [arfourthnumber, setArfourthnumber] = useState("");
+    const [arNum, setArNum] = useState({a: "", b: "", c :"", d: ""});
+    const [arAlpha, setArAlpha] = useState({e: "", f: "", g :""});
 
     useEffect(() => {
         fetch("https://newapi.mediaplus.ma/api/v1/cities", 
@@ -41,7 +44,7 @@ export default function Search({navigation}) {
             }
         })
         .then((response) => response.json())
-        .then((json) => setData(json.data))
+        .then((json) => setData([{"key": 'null', "value": "إختر مدينة"}, ...json.data]))
         .catch((error) => console.error(error))
         .finally(() => console.log(data));
     }, []);
@@ -57,7 +60,7 @@ export default function Search({navigation}) {
     return (
         console.log(category),
         <View style={styles.container}>
-            <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: "10%", marginRight: 10, color: "#302C6B"}}>
+            <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: 20, marginRight: 10, color: "#302C6B"}}>
                 البحث على إعلان
             </Text>
             <View style={{backgroundColor: "#F2F2FF", width: "100%", height: "90%", alignItems: "center"}}>
@@ -92,9 +95,10 @@ export default function Search({navigation}) {
                 style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                 placeholderTextColor="#000"
                 keyboardType="numeric"
-                onChangeText={(text) => to_en_num(text, 4)}
-                value={arfourthnumber }
+                onChangeText={(text) => put_ar_number(text, 'a')}
+                value={arNum.a}
                 maxLength={1}
+                ref={ar_input1}
             />
             ):(
                 <></>
@@ -104,56 +108,62 @@ export default function Search({navigation}) {
                 style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
                 placeholderTextColor="#000"
                 keyboardType="numeric"
-                onChangeText={(text) => to_en_num(text, 3)}
-                value={arthirdnumber}
+                onChangeText={(text) => put_ar_number(text, 'b')}
+                value={arNum.b}
                 maxLength={1}
+                ref={ar_input2}
             />
             <TextInput
                 style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                 placeholderTextColor="#959"
                 keyboardType="numeric"
-                onChangeText={(text) => to_en_num(text, 2)}
-                value={arsecondnumber}
+                onChangeText={(text) => put_ar_number(text, 'c')}
+                value={arNum.c}
                 maxLength={1}
+                ref={ar_input3}
             />
                 <TextInput
                 style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                 placeholderTextColor="#959"
                 keyboardType="numeric"
-                onChangeText={(text) => to_en_num(text, 1)}
-                value={arfirstnumber}
+                onChangeText={(text) => put_ar_number(text, 'd')}
+                value={arNum.d}
                 maxLength={1}
+                ref={ar_input4}
             />
         </View>
         <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderLeftWidth: 2}}>
-            {category != 0 ?(
+            
             <TextInput
                     style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                     placeholderTextColor="#000"
                     keyboardType="ascii-mode"
-                    onChangeText={(text) => to_en(text, 3)}
-                    value={arthirdletter}
+                    onChangeText={(text) => put_ar_alpha(text, 'e')}
+                    value={arAlpha.e}
                     maxLength={1}
+                    ref={ar_input5}
                 />
-            ):(
-                <></>
-                )}
+            
                 <TextInput
                     style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                     placeholderTextColor="#000"
                     keyboardType="ascii-mode"
-                    onChangeText={(text) => to_en(text, 2)}
-                    value={arsecondletter}
+                    onChangeText={(text) => put_ar_alpha(text, 'f')}
+                    value={arAlpha.f}
                     maxLength={1}
+                    ref={ar_input6}
                 />
+                {category != 0 ?
                 <TextInput
                     style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                     placeholderTextColor="#959"
                     keyboardType="ascii-mode"
-                    onChangeText={(text) => to_en(text, 1)}
-                    value={arfirstletter}
+                    onChangeText={(text) => put_ar_alpha(text, 'g')}
+                    value={arAlpha.g}
                     maxLength={1}
+                    ref={ar_input7}
                 />
+                :(<></>)}
         </View>
     </View>
 
@@ -168,9 +178,10 @@ export default function Search({navigation}) {
                 style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                 placeholderTextColor="#000"
                 keyboardType="numeric"
-                onChangeText={(text) => to_ar_num(text, 4)}
-                value={engfourthnumber}
+                onChangeText={(text) => put_en_number(text, 'a')}
+                value={enNum.a}
                 maxLength={1}
+                ref={en_input1}
             />
             ):(
                 <></>
@@ -180,56 +191,60 @@ export default function Search({navigation}) {
                 style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
                 placeholderTextColor="#000"
                 keyboardType="numeric"
-                onChangeText={(text) => to_ar_num(text, 3)}
-                value={engthirdnumber}
+                onChangeText={(text) => put_en_number(text, 'b')}
+                value={enNum.b}
                 maxLength={1}
+                ref={en_input2}
             />
             <TextInput
                 style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                 placeholderTextColor="#959"
                 keyboardType="numeric"
-                onChangeText={(text) => to_ar_num(text, 2)}
-                value={engsecondnumber}
+                onChangeText={(text) => put_en_number(text, 'c')}
+                value={enNum.c}
                 maxLength={1}
+                ref={en_input3}
             />
                 <TextInput
                 style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                 placeholderTextColor="#959"
                 keyboardType="numeric"
-                onChangeText={(text) => to_ar_num(text, 1)}
-                value={engfirstnumber}
+                onChangeText={(text) => put_en_number(text, 'd')}
+                value={enNum.d}
                 maxLength={1}
+                ref={en_input4}
             />
         </View>
         <View style={{ width: "50%", height: "100%", flexDirection: "row", justifyContent: "space-around", alignItems: "center", backgroundColor: '#fff', borderLeftWidth: 2}}>
-            {category != 0 ?(
-        <TextInput
+                <TextInput
                     style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                     placeholderTextColor="#000"
                     keyboardType="ascii-mode"
-                    onChangeText={(text) => to_ar(text, 3)}
-                    value={engthirdletter}
+                    onChangeText={(text) => put_en_alpha(text, 'e')}
+                    value={enAlpha.e}
                     maxLength={1}
-                />
-            ):(
-                <></>
-                )}
+                    ref={en_input5}
+                    />
                 <TextInput
-                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
-                    placeholderTextColor="#000"
-                    keyboardType="ascii-mode"
-                    onChangeText={(text) => to_ar(text, 2)}
-                    value={engsecondletter}
-                    maxLength={1}
+                style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
+                placeholderTextColor="#000"
+                keyboardType="ascii-mode"
+                onChangeText={(text) => put_en_alpha(text, 'f')}
+                value={enAlpha.f}
+                maxLength={1}
+                ref={en_input6}
                 />
+            {category != 0 ?
                 <TextInput
-                    style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
-                    placeholderTextColor="#9591B0"
-                    keyboardType="ascii-mode"
-                    onChangeText={(text) => to_ar(text, 1)}
-                    value={engfirstletter}
-                    maxLength={1}
+                style={{ width: "25%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
+                placeholderTextColor="#9591B0"
+                keyboardType="ascii-mode"
+                onChangeText={(text) => put_en_alpha(text, 'g')}
+                value={enAlpha.g}
+                maxLength={1}
+                ref={en_input7}
                 />
+            :(<></>)}
         </View>
     </View>
 </View>
@@ -239,7 +254,7 @@ export default function Search({navigation}) {
                     <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>المدينة</Text>
                     <SelectList 
                         setSelected={(val) => setCity(val)} 
-                        data={data} 
+                        data={data}
                         save="key"
                     />
                     <View style={{ width: "100%", height: 1, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", marginTop: 20}}>
@@ -250,223 +265,206 @@ export default function Search({navigation}) {
                         placeholderTextColor="#BCBCBC"
                         placeholder="012345"
                         keyboardType="numeric"
-                        onChangeText={console.log("kkkkk")}
-                        value=""
+                        onChangeText={(val) => setID(val)} 
+                        value={ID}
                     />
                 </View>
                 <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => navigation.navigate('Home')}
-                    >
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'white'}}>بحث</Text>
-                    </TouchableOpacity> 
+                    style={styles.button}
+                    onPress={() => searchNow()}
+                >
+                    <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'white'}}>بحث</Text>
+                </TouchableOpacity> 
 
             </View>
         </View>
     )
 
-    function to_ar(c, j)
+    function searchNow()
     {
-        console.log("kkkkk");
-        var ar = 'أبحدرسصطعقكلمنهوى'.split('');
-        var en = "ABJDRSXTEGKLZNHUV";
-        if(c != "")
+        let args = "https://newapi.mediaplus.ma/api/v1/articles/search/"
+        // console.log(args);return
+        if (ID == "")
+            args += "null/"
+        else
+            args += ID+"/"
+        if (city == null)
+            args += "null/"
+        else
+            args += city+"/"
+        
+            
+        let numSum = ""
+        if (category == 0)
+        numSum = enNum.b+enNum.c+enNum.d
+        else
+        numSum = enNum.a+enNum.b+enNum.c+enNum.d
+        if (numSum == "")
+        args += "null/"
+        else
+        args += numSum+"/"
+        
+        let alphaSum = ""
+        if (category == 0)
+            alphaSum = enAlpha.e+enAlpha.f
+        else
+            alphaSum = enAlpha.e+enAlpha.f+enAlpha.g
+        if (alphaSum == "")
+            args += "null"
+        else
+            args += alphaSum
+        
+        console.log('city : ', city)
+        console.log('ID : ', ID)
+        console.log('enNum : ', enNum)
+        console.log('enAlpha : ', enAlpha)
+        console.log('link : ', args)
+        navigation.navigate('Search_results', {url: args})
+    }
+
+    function validator(accepted, value)
+    {
+        if (value == "")
+            return (true)
+        if (value.length > 1)
+            return (false)
+        if (accepted.includes(value))
+            return (true)
+        return (false)
+    }
+
+    function translate_num_ar(input)
+    {
+        var ar = '٠١٢٣٤٥٦٧٨٩'.split('');
+        var en = '0123456789'.split('');
+        return input.replace(/[0123456789]/g, x => ar[en.indexOf(x)]);
+    }
+
+    function change_focus(position, mode)
+    {
+        if (mode)
         {
-            for(var i = 0; i < 17; i++)
-            {
-                if (en[i] == c)
-                {
-                    console.log(ar[i]);
-                    if(j == 1 && c != "")
-                    {
-                        setEngfirstletter(en[i]);
-                        setArfirstletter(ar[i]);
-                        console.log("-------1");
-                    }
-                    else if(j == 2)
-                    {
-                        setEngsecondletter(en[i]);
-                        setArsecondletter(ar[i]);
-                        console.log("2");
-                    }
-                    else if(j == 3)
-                    {
-                        setEngthirdletter(en[i]);
-                        setArthirdletter(ar[i]);
-                        console.log("3");
-                    }
-                }
-            }
+            if (position == 'a')
+                en_input2.current.focus()
+            else if (position == 'b')
+                en_input3.current.focus()
+            else if (position == 'c')
+                en_input4.current.focus()
+            else if (position == 'd')
+                en_input5.current.focus()
+            else if (position == 'e')
+                en_input6.current.focus()
+            else if (position == 'f' && category != 0)
+                en_input7.current.focus()
         }
         else
         {
-            if(j == 1)
-            {
-                setEngfirstletter("");
-                setArfirstletter("");
-            }
-            else if(j == 2)
-            {
-                setEngsecondletter("");
-                setArsecondletter("");
-            }
-            else if(j == 3)
-            {
-                setEngthirdletter("");
-                setArthirdletter("");
-            }
+            if (position == 'a')
+                ar_input2.current.focus()
+            else if (position == 'b')
+                ar_input3.current.focus()
+            else if (position == 'c')
+                ar_input4.current.focus()
+            else if (position == 'd')
+                ar_input5.current.focus()
+            else if (position == 'e')
+                ar_input6.current.focus()
+            else if (position == 'f' && category != 0)
+                ar_input7.current.focus()
         }
+    }
+    function put_en_number(num, position, mode = 1)
+    {
+        if (validator("0123456789", num) == false)
+            return
+        if (position == 'a')
+        {
+            setEnNum({...enNum, a: num})
+            setArNum({...arNum, a: translate_num_ar(num)})
+        }
+        if (position == 'b')
+        {
+            setEnNum({...enNum, b: num})
+            setArNum({...arNum, b: translate_num_ar(num)})
+        }
+        if (position == 'c')
+        {
+            setEnNum({...enNum, c: num})
+            setArNum({...arNum, c: translate_num_ar(num)})
+        }
+        if (position == 'd')
+        {
+            setEnNum({...enNum, d: num})
+            setArNum({...arNum, d: translate_num_ar(num)})
+        }
+        if (num != "")
+            change_focus(position, mode)
     }
 
-    function to_ar_num(c, j)
+    function put_ar_number(num, position)
     {
-        console.log("kkkkkg");
-        var ar = '٠١٢٣٤٥٦٧٨٩'.split('');
-        var en = '0123456789'.split('');
-        if(c != "")
+        if (num == "")
+            return put_en_number(num, position, 0)
+        if (validator("٠١٢٣٤٥٦٧٨٩0123456789", num) == false)
+            return
+        if ("٠١٢٣٤٥٦٧٨٩".indexOf(num) != -1)
         {
-            for(var i = 0; i < 17; i++)
-            {
-                if (en[i] == c)
-                {
-                    console.log(ar[i]);
-                    if(j == 1 && c != "")
-                    {
-                        setEngfirstnumber(en[i]);
-                        setArfirstnumber(ar[i]);
-                        console.log("-------1");
-                    }
-                    else if(j == 2)
-                    {
-                        setEngsecondnumber(en[i]);
-                        setArsecondnumber(ar[i]);
-                        console.log("2");
-                    }
-                    else if(j == 3)
-                    {
-                        setEngthirdnumber(en[i]);
-                        setArthirdnumber(ar[i]);
-                        console.log("3");
-                    }
-                }
-            }
+            const eng = "0123456789"
+            num = eng["٠١٢٣٤٥٦٧٨٩".indexOf(num)]
         }
-        else
-        {
-            if(j == 1)
-            {
-                setEngfirstnumber("");
-                setArfirstnumber("");
-            }
-            else if(j == 2)
-            {
-                setEngsecondnumber("");
-                setArsecondnumber("");
-            }
-            else if(j == 3)
-            {
-                setEngthirdnumber("");
-                setArthirdnumber("");
-            }
-        }
+        put_en_number(num, position, 0)
     }
-    
-    function to_en(c, j)
+
+
+
+
+
+    function translate_alpha_ar(input)
     {
-        console.log("kkkkk");
         var ar = 'أبحدرسصطعقكلمنهوى'.split('');
-        var en = "ABJDRSXTEGKLZNHUV";
-        if(c != "")
-        {
-            for(var i = 0; i < 17; i++)
-            {
-                if (ar[i] == c)
-                {
-                    console.log(en[i]);
-                    if(j == 1)
-                    {
-                        setEngfirstletter(en[i]);
-                        setArfirstletter(ar[i]);
-                    }
-                    else if(j == 2)
-                    {
-                        setEngsecondletter(en[i]);
-                        setArsecondletter(ar[i]);
-                    }
-                    else if(j == 3)
-                    {
-                        setEngthirdletter(en[i]);
-                        setArthirdletter(ar[i]);
-                    }
-                }
-                
-            }
-        }else{
-            if(j == 1)
-            {
-                setEngfirstletter("");
-                setArfirstletter("");
-            }
-            else if(j == 2)
-            {
-                setEngsecondletter("");
-                setArsecondletter("");
-            }
-            else if(j == 3)
-            {
-                setEngthirdletter("");
-                setArthirdletter("");
-            }
-        }
+        var en = 'ABJDRSXTEGKLZNHUV'.split('');
+        return input.replace(/[ABJDRSXTEGKLZNHUV]/g, x => ar[en.indexOf(x)]);
     }
 
-    function to_en_num(c, j)
+    function put_en_alpha(num, position, mode = 1)
     {
-        console.log("kkkkdddk");
-        var ar = '٠١٢٣٤٥٦٧٨٩'.split('');
-        var en = '0123456789'.split('');
-        if(c != "")
+        if (validator("ABJDRSXTEGKLZNHUV", num) == false)
+            return
+        if (position == 'e')
         {
-            for(var i = 0; i < 17; i++)
-            {
-                if (ar[i] == c)
-                {
-                    console.log(en[i]);
-                    if(j == 1)
-                    {
-                        setEngfirstnumber(en[i]);
-                        setArfirstnumber(ar[i]);
-                    }
-                    else if(j == 2)
-                    {
-                        setEngsecondnumber(en[i]);
-                        setArsecondnumber(ar[i]);
-                    }
-                    else if(j == 3)
-                    {
-                        setEngthirdnumber(en[i]);
-                        setArthirdnumber(ar[i]);
-                    }
-                }
-                
-            }
-        }else{
-            if(j == 1)
-            {
-                setEngfirstnumber("");
-                setArfirstnumber("");
-            }
-            else if(j == 2)
-            {
-                setEngsecondnumber("");
-                setArsecondnumber("");
-            }
-            else if(j == 3)
-            {
-                setEngthirdnumber("");
-                setArthirdnumber("");
-            }
+            setEnAlpha({...enAlpha, e: num})
+            setArAlpha({...arAlpha, e: translate_alpha_ar(num)})
         }
+        else if (position == 'f')
+        {
+            setEnAlpha({...enAlpha, f: num})
+            setArAlpha({...arAlpha, f: translate_alpha_ar(num)})
+        }
+        else if (position == 'g')
+        {
+            setEnAlpha({...enAlpha, g: num})
+            setArAlpha({...arAlpha, g: translate_alpha_ar(num)})
+        }
+        if (num != "")
+            change_focus(position, mode)
+    }
+
+    function put_ar_alpha(num, position)
+    {
+        if (num == "")
+            return put_en_alpha(num, position, 0)
+        if (validator("ABJDRSXTEGKLZNHUVأبحدرسصطعقكلمنهوى", num) == false)
+            return
+        
+        if ("أبحدرسصطعقكلمنهوى".indexOf(num) != -1)
+        {
+            const eng = "ABJDRSXTEGKLZNHUV"
+            num = eng["أبحدرسصطعقكلمنهوى".indexOf(num)]
+        }
+
+        //console.log(num);return
+
+        put_en_alpha(num, position, 0)
     }
 }
 
