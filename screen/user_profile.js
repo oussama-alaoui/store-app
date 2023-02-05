@@ -10,6 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import Matricule from './svg_assets/matricule'
 import { Modal } from "react-native";
 import  Rating from 'react-native-easy-rating';
+import { db, collection, getDocs, query, addDoc, where } from "../firebase";
 
 export default function User_Profile({navigation, route}) {
     const   [Number, setNumber] = useState(0);
@@ -209,7 +210,7 @@ export default function User_Profile({navigation, route}) {
 
                     <View style={{width: '100%', height: '20%', top: '30%', justifyContent: 'center', alignItems: 'center'}}>
                         <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>{user_detail.username}</Text>
-                        <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => setNumber(3)}>
+                        <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => checkAndCreateRoom(2, route.params.user_id)}>
                             <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>الرسائل</Text>
                         </TouchableOpacity>
                     </View>
@@ -364,6 +365,30 @@ export default function User_Profile({navigation, route}) {
         }
         )
     }
+
+    
+    
+    async function checkAndCreateRoom (buyerId, sellerId) {
+        // check if room exists
+        const roomsCol = collection(db, 'rooms');
+        const q = query(roomsCol, where('user1', '==', buyerId), where('user2', '==', sellerId), where('user1', '==', sellerId), where('user2', '==', buyerId));
+        const querySnapshot = await getDocs(roomsCol);
+        if (querySnapshot.empty) {
+            // create room
+            const newRoomRef = await addDoc(collection(db, 'rooms'), {
+                user1: buyerId,
+                user2: sellerId,
+                messages: [],
+            });
+            console.log('Room created with ID: ', newRoomRef.id);
+            return newRoomRef.id;
+        } else {
+            // room exists
+            console.log('Room exists');
+            console.log(querySnapshot.docs[0].id);
+        }
+    };
+
 }
 
 const styles = StyleSheet.create({

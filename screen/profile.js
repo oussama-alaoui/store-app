@@ -12,17 +12,6 @@ import { useEffect } from "react";
 import Matricule from './svg_assets/matricule'
 
 export default function Profile({navigation, route}) {
-    const arr = [
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 501, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 502, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 503, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 504, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 505, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 506, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 1, user: 'أسامة العلوي', price: 100, price_now: 250, max: 507, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 508, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'},
-        {fav: 0, user: 'أسامة العلوي', price: 100, price_now: 250, max: 509, city: 'الرياض', username: 'oussama', img: '../assets/plate_car1.jpeg'}
-    ]
     const [Number, setNumber] = useState(0);
     const   [user_detail, setUser_detail] = useState({});
     const   [all_products, setAll_products] = useState([]);
@@ -117,7 +106,7 @@ export default function Profile({navigation, route}) {
 
                 <View style={{width: '100%', height: '20%', top: '30%', justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>أسامة العلوي</Text>
-                    <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => setNumber(3)}>
+                    <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => navigation.navigate('Messages')}>
                         <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>الرسائل</Text>
                     </TouchableOpacity>
                 </View>
