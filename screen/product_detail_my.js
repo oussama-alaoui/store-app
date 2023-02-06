@@ -18,6 +18,7 @@ export default function Product_detail_my({ navigation, route })
 {
     // const onShare = ;
     const [product_detail, setProduct_detail] = useState({})
+    const [product_bids, setProductBids] = useState(null)
     const [loading, setLoading] = useState(true)
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
@@ -25,24 +26,41 @@ export default function Product_detail_my({ navigation, route })
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
      });
      useEffect(() => {
-         fetch(`https://newapi.mediaplus.ma/api/v1/articles/${route.params.product_id}`, 
-             {
-             method: 'GET',
-             headers: {
-                 'Content-Type': 'application/json',
-                 'Accept': 'application/json',
-             
-             }
-             })
-             .then((response) => response.json())
-             .then((json) => {
-                 setProduct_detail(json.data)
-                 setLoading(false)
-                 console.log(json.data)
-             })
-             .catch((error) => {
-                 console.error(error);
-         })
+        fetch(`https://newapi.mediaplus.ma/api/v1/articles/${route.params.product_id}`, 
+            {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            
+            }
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                setProduct_detail(json.data)
+                setLoading(false)
+                // console.log(json.data)
+            })
+            .catch((error) => {
+                console.error(error);
+        })
+        fetch(`https://newapi.mediaplus.ma/api/v1/bids/article_id/${route.params.product_id}`, 
+            {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            
+            }
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                setProductBids(json.data)
+                console.log(json.data)
+            })
+            .catch((error) => {
+                console.error(error);
+        })
          
      }, [route.params.product_id])
      if (!fontsLoaded) {
@@ -74,14 +92,37 @@ export default function Product_detail_my({ navigation, route })
                             source={require("../assets/back.png")}
                         />
                     </TouchableOpacity>
-                    <View style={{width: "30%", justifyContent: "space-between", alignItems: "center", flexDirection: "row"}}>
+                    <View style={{justifyContent: "space-between", alignItems: "center", flexDirection: "row"}}>
                         <TouchableOpacity style={[styles.button, {backgroundColor: "#FF7058"}]} onPress={() => delete_products()} >
                             <Image
                                 style={{ width: 24, height: 24}}
                                 source={require("../assets/corbeille.png")}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.button, {backgroundColor: "#678DF9"}]} onPress={() => navigation.navigate('Login')} >
+                        <TouchableOpacity style={[styles.button, {backgroundColor: "#678DF9"}]} onPress={() => {
+                            fetch(`https://newapi.mediaplus.ma/api/v1/articles/rank/${route.params.product_id}`, 
+                            {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json',
+                                }
+                                })
+                                .then((response) => response.json())
+                                .then((json) => {
+                                    alert('تم إعادت الإدراج')
+                                    console.log(json)
+                                })
+                                .catch((error) => {
+                                    console.error(error);
+                            })
+                        }} >
+                            <Image
+                                style={{ width: 24, height: 24}}
+                                source={require("../assets/up.png")}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.button, {backgroundColor: "#678DF9"}]} onPress={() => {}} >
                             <Image
                                 style={{ width: 24, height: 24}}
                                 source={require("../assets/modifier.png")}
@@ -175,84 +216,25 @@ export default function Product_detail_my({ navigation, route })
                         </View>
                     </View>
                     <View style={{ width: "90%", height: 'auto', marginLeft: '5%', justifyContent: "center"}}>
-                        <View style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
-                            <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
-                                <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
-                                <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>70 ريال</Text>
+                        {
+                            product_bids != null ? product_bids.map((item, index) => {
+
+                            return <View key={"bid_"+index} style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
+                                <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
+                                    <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>{item.from_id.username}</Text>
+                                    <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>{item.bid_price} ريال</Text>
+                                </View>
+                                <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
+                                    <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
+                                </View>
                             </View>
-                            <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
-                            </View>
-                        </View>
-                        <View style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
-                            <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
-                                <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
-                                <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>70 ريال</Text>
-                            </View>
-                            <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
-                            </View>
-                        </View>
-                        <View style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
-                            <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
-                                <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
-                                <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>70 ريال</Text>
-                            </View>
-                            <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
-                            </View>
-                        </View>
-                        <View style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
-                            <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
-                                <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
-                                <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>70 ريال</Text>
-                            </View>
-                            <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
-                            </View>
-                        </View>
-                        <View style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
-                            <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
-                                <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
-                                <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>70 ريال</Text>
-                            </View>
-                            <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
-                            </View>
-                        </View>
-                        <View style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
-                            <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
-                                <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
-                                <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>70 ريال</Text>
-                            </View>
-                            <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
-                            </View>
-                        </View>
-                        <View style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
-                            <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
-                                <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
-                                <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>80 ريال</Text>
-                            </View>
-                            <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
-                            </View>
-                        </View>
-                        <View style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
-                            <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
-                                <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>المستخدم 1</Text>
-                                <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>85 ريال</Text>
-                            </View>
-                            <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
-                            </View>
-                        </View>
+                            })
+                            : <></>
+                        }
+                        
                     </View>
                 </ScrollView>
                     <View style={{ width: "90%", height: 50, alignItems: "center", justifyContent: "center", marginTop: '5%', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", zIndex: 1, marginBottom: '5%'}}>
-                        <TouchableOpacity style={styles.button2} onPress={() => navigation.navigate()} >
-                            <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff'}}>وضع مزايد</Text>
-                        </TouchableOpacity>
                         <TouchableOpacity style={styles.button3} onPress={async () => {
             try {
             const result = await Share.share({
@@ -284,7 +266,7 @@ export default function Product_detail_my({ navigation, route })
 
     async function delete_products (){
         try {
-            const response = await fetch(`https://newapi.mediaplus.ma/api/v1/articles/${route.params.user_id}`, {
+            const response = await fetch(`https://newapi.mediaplus.ma/api/v1/articles/${route.params.product_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -342,6 +324,7 @@ const styles = StyleSheet.create({
     button: {
         width: 45,
         height: 37,
+        marginLeft: 5,
         backgroundColor: '#f1f1f1',
         borderRadius: 13,
         alignItems: "center",

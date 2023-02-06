@@ -102,6 +102,7 @@ export default function Motor({alpha, number, w}) {
                                     strAlpha = strAlpha.split("").reverse().join("")
                                     strAlpha = strAlpha.match(/.{0,1}/g);
                                     strAlpha = strAlpha.join(" ");
+                                    //strAlpha = strAlpha.replace(/[ه]/g, x => 'ـه');
                                     return strAlpha;
                                 }
                         

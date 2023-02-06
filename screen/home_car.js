@@ -39,9 +39,12 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
     .then((response) => response.json())
     .then((responseJson) => {
         setArticles(responseJson.data.data);
-        setFavorites(responseJson.data.favorites);
+        var filteredArray = responseJson.favorite.filter(function(itm){
+            return itm.from_id == 1;
+        });
+        setFavorites(filteredArray);
         setLoading(false);
-        console.log(articles);
+        // console.log("omarrr", filteredArray);
     })
     .catch((error) => {
         console.warn(error);
@@ -76,7 +79,7 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
                             <TouchableOpacity style={category == 1 ? styles.box_category_active : styles.box_category_inactive} 
                                 onPress={() => setCategory(1)}    
                             >
-                                <Image source={require('../assets/camion.png')} style={{width: '80%'}}/>
+                                <Image  source={require('../assets/camion.png')} style={{width: '80%'}}/>
                             </TouchableOpacity>
 
                             <TouchableOpacity style={category == 2 ? styles.box_category_active : styles.box_category_inactive}
@@ -117,13 +120,20 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
                         <View style={styles.body}>
                             {articles.length > 0 ?(
                                 articles.map((item, index) => {
-                                        return (
-                                            console.log(item.style),
+                                        return (console.log('article id : ' + item.id,favorites.find(el => el.article_id === item.id)),
                                             <TouchableOpacity key={index} style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => navigation.navigate('Product_detail', {product_id: item.id})}> 
                                                     {/* 1st colum */}
                                                     <View style={{width: '20%', height: '86%', borderRadius: 10, top: '3%', left: 5}}>
                                                         <View style={{width: '100%', height: '50%'}}>
-                                                        <Image source={require('../assets/aimer.png')} style={{width: 20, height: 20}}/>
+                                                        
+                                                        
+                                                        {
+                                                            favorites.find(el => el.article_id === item.id) != undefined ?
+                                                                <Image source={require('../assets/aimer.png')} style={{width: 20, height: 20}}/>
+                                                            :
+                                                                <Image source={require('../assets/heart.png')} style={{width: 20, height: 20}}/>
+                                                        }
+                                                        
                                                         </View>
                                                         <View style={{width: '110%', height: '24%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 5}}>
                                                         <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max} ريال</Text>

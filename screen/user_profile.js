@@ -112,7 +112,7 @@ export default function User_Profile({navigation, route}) {
                     transparent={true}
                     visible={modalVisibleFeed}
                     onRequestClose={() => {
-                    setModalVisibleFeed(!modalVisibleFeed);
+                        setModalVisibleFeed(!modalVisibleFeed);
                     }} style={{height: "100%", width: "100%", position: "absolute"}}>
                     <View style={{height: "100%", width: "100%", backgroundColor: "rgba(52, 52, 52, 0.3)", justifyContent:"center"}}>
                     <View style={{marginHorizontal: 20, backgroundColor: "#fff", borderRadius: 20}}>
@@ -148,11 +148,13 @@ export default function User_Profile({navigation, route}) {
                         <Rating
                             rating={rate}
                             max={5}
-                            iconWidth={24}
-                            iconHeight={24}
-                            onRate={setRate}/>
+                            onRate={setRate}
+                            iconWidth={32}
+                            iconHeight={32}
+                            style={{paddingTop:10, justifyContent:'center'}}
+                        />
                         <TextInput
-                            style={{height: 60, marginHorizontal: 30, borderRadius: 10, marginVertical: 20, elevation: 2, shadowColor: 'black', paddingRight: 15, textAlign: 'right', writingDirection: 'rtl',}}
+                            style={{height: 60, marginHorizontal: 30, borderRadius: 10, marginVertical: 20, elevation: 2, shadowColor: 'gary', paddingRight: 15, textAlign: 'right', writingDirection: 'rtl',}}
                             onChangeText={text => setComment(text)}
                             defaultValue={comment}
                             placeholder="الرجاء كتابة الرسالة"

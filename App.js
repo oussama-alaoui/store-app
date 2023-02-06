@@ -23,9 +23,8 @@ export default function App() {
   const [isLogin, setIsLogin] = React.useState(true);
 
   return (
-    console.log(isLogin),
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ animation: 'none' }}>
+      <Stack.Navigator initialRouteName='Bottom' screenOptions={{animation: 'none'}}>
         {isLogin ? (
           <>
             <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ headerShown: false }} />

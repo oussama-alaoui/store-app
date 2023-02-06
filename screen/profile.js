@@ -25,7 +25,6 @@ export default function Profile({navigation, route}) {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-            
             }
             })
             .then((response) => response.json())
