@@ -38,7 +38,6 @@ export default function Profile({navigation, route}) {
             .then((response) => response.json())
             .then((json) => {
                 setUser_detail(json.data)
-                console.log(json.data)
             })
             .catch((error) => {
                 console.error(error);
@@ -46,24 +45,22 @@ export default function Profile({navigation, route}) {
         
     }, [])
     useEffect(() => {
-        fetch(`https://newapi.mediaplus.ma/api/v1/articles/user/${user_id}`, 
-            {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }
+            fetch(`https://newapi.mediaplus.ma/api/v1/articles/user/5`, 
+                {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                }
+                })
+                .then((response) => response.json())
+                .then((json) => {
+                    setAll_products(json.data)
+                    setLoading(false)
+                })
+                .catch((error) => {
+                    console.error(error);
             })
-            .then((response) => response.json())
-            .then((json) => {
-                setAll_products(json.data)
-                setLoading(false)
-                console.log(json.data)
-            })
-            .catch((error) => {
-                console.error(error);
-        })
-        
     }, [])
     // const [Date, setDate] = useState(new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear());
     let [fontsLoaded] = useFonts({
@@ -113,7 +110,7 @@ export default function Profile({navigation, route}) {
                 </View>
 
                 <View style={{width: '100%', height: '20%', top: '30%', justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>{user_detail.username}</Text>
+                    <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>blabla2</Text>
                     <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => navigation.navigate('Messages')}>
                         <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>الرسائل</Text>
                     </TouchableOpacity>
