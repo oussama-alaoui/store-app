@@ -10,6 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import Matricule from './svg_assets/matricule'
 import { Modal } from "react-native";
 import  Rating from 'react-native-easy-rating';
+import { GetData } from "./Syncstorage";
 import { db, collection, getDocs, query, addDoc, where } from "../firebase";
 
 export default function User_Profile({navigation, route}) {
@@ -19,6 +20,7 @@ export default function User_Profile({navigation, route}) {
     const   [loading, setLoading] = useState(true);
     const   [modalVisibleRepo, setModalVisibleRepo] = useState(false);
     const   [modalVisibleFeed, setModalVisibleFeed] = useState(false);
+    const   [user_id, setUser_id] = useState(0);
     useEffect(() => {
         fetch(`https://newapi.mediaplus.ma/api/v1/clients/${route.params.user_id}`, 
             {
@@ -57,6 +59,11 @@ export default function User_Profile({navigation, route}) {
                 console.error(error);
         })
         
+    }, [])
+    useEffect(() => {
+        GetData('user_id').then((res) => {
+            setUser_id(res)
+        })
     }, [])
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
@@ -212,7 +219,7 @@ export default function User_Profile({navigation, route}) {
 
                     <View style={{width: '100%', height: '20%', top: '30%', justifyContent: 'center', alignItems: 'center'}}>
                         <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>{user_detail.username}</Text>
-                        <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => checkAndCreateRoom(2, route.params.user_id)}>
+                        <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => checkAndCreateRoom(user_id, route.params.user_id)}>
                             <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>الرسائل</Text>
                         </TouchableOpacity>
                     </View>

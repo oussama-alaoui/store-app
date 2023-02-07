@@ -10,16 +10,24 @@ import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import Matricule from './svg_assets/matricule'
+import { RemoveData, GetData } from "./Syncstorage";
 
 export default function Profile({navigation, route}) {
     const [Number, setNumber] = useState(0);
     const   [user_detail, setUser_detail] = useState({});
     const   [all_products, setAll_products] = useState([]);
     const   [loading, setLoading] = useState(true);
-    const [modalVisible, setModalVisible] = useState(true);
-    const [inputValue, setInputValue] = useState('');
+    const  [user_id, setUser_id] = useState(0);
+
     useEffect(() => {
-        fetch(`https://newapi.mediaplus.ma/api/v1/clients/1`, 
+        GetData('user_id').then((res) => {
+            setUser_id(res);
+            console.log("user_id"+res);
+        });
+    }, []);
+
+    useEffect(() => {
+        fetch(`https://newapi.mediaplus.ma/api/v1/clients/${user_id}`, 
             {
             method: 'GET',
             headers: {
@@ -30,6 +38,7 @@ export default function Profile({navigation, route}) {
             .then((response) => response.json())
             .then((json) => {
                 setUser_detail(json.data)
+                console.log(json.data)
             })
             .catch((error) => {
                 console.error(error);
@@ -37,7 +46,7 @@ export default function Profile({navigation, route}) {
         
     }, [])
     useEffect(() => {
-        fetch(`https://newapi.mediaplus.ma/api/v1/articles/user/1`, 
+        fetch(`https://newapi.mediaplus.ma/api/v1/articles/user/${user_id}`, 
             {
             method: 'GET',
             headers: {
@@ -77,7 +86,7 @@ export default function Profile({navigation, route}) {
             <View style={styles.header}>
 
                 <View style={styles.top}>
-                    <TouchableOpacity style={{width: '13%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.navigate('Login')}>
+                    <TouchableOpacity style={{width: '13%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => handel_Logout()}>
                         <Image source={require('../assets/logout.png')} style={{width: '45%', height: '53%'}}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={{width: '13%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.navigate('Favorite_product')}>
@@ -104,7 +113,7 @@ export default function Profile({navigation, route}) {
                 </View>
 
                 <View style={{width: '100%', height: '20%', top: '30%', justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>أسامة العلوي</Text>
+                    <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>{user_detail.username}</Text>
                     <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => navigation.navigate('Messages')}>
                         <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>الرسائل</Text>
                     </TouchableOpacity>
@@ -203,6 +212,11 @@ export default function Profile({navigation, route}) {
             
         </SafeAreaView>
     )
+    }
+
+    function handel_Logout(){
+        RemoveData('user_id');
+        navigation.navigate('Login');
     }
 }
 

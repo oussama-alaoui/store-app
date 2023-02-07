@@ -8,7 +8,7 @@ import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Matricule from './svg_assets/matricule'
-import { get } from "react-native/Libraries/Utilities/PixelRatio";
+import { GetData } from "./Syncstorage";
 
  export default function Home_cars ({navigation}) {
 
@@ -18,14 +18,13 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
     const [category, setCategory] = useState(2);
     const [articles, setArticles] = useState([{}]);
     const [favorites, setFavorites] = useState([{}]);
-    const [city, setCity] = useState("");
+    const [client_id, setClient_id] = useState();
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
      });
      const [svgSource, setSvgSource] = useState(null);
-     const [isLogin, setIsLogin] = React.useState("");
 
     async function fetchData() {
     console.log(category);
@@ -52,7 +51,11 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
     }
     useEffect(() => {
         fetchData();
+        GetData("user_id").then((value) => {
+            setClient_id(value);
+        });
     }, [category]);
+    
      if (!fontsLoaded) {
          return <Text>Loading...</Text>;
      }
@@ -62,7 +65,6 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
     }
     else{
         return(
-            console.log(category),
             <SafeAreaView style={{flex: 1}}>
                 <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
                 <View style={styles.container}>
@@ -121,7 +123,7 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
                             {articles.length > 0 ?(
                                 articles.map((item, index) => {
                                         return (console.log('article id : ' + item.id,favorites.find(el => el.article_id === item.id)),
-                                            <TouchableOpacity key={index} style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => navigation.navigate('Product_detail', {product_id: item.id})}> 
+                                            <TouchableOpacity key={index} style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => handeDetail(item.client_id.id, item.id)}>
                                                     {/* 1st colum */}
                                                     <View style={{width: '20%', height: '86%', borderRadius: 10, top: '3%', left: 5}}>
                                                         <View style={{width: '100%', height: '50%'}}>
@@ -193,6 +195,16 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
                 </View>
             </SafeAreaView>
         )
+    }
+
+    function handeDetail(id, item_id) {
+        if(client_id == id) {
+            console.log('my product'+id + ' ' + client_id)
+            navigation.navigate('Product_detail_my', {product_id: item_id})
+        } else {
+            console.log('other product'+id + ' ' + client_id)
+            navigation.navigate('Product_detail', {product_id: item_id})
+        }
     }
 }
 

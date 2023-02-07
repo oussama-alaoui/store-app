@@ -1,8 +1,18 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { GiftedChat } from 'react-native-gifted-chat'
+import { GetData } from './Syncstorage'
+import { db, collection, getDocs, query, addDoc, where } from "../firebase";
+
 
 export function ChatScreen() {
   const [messages, setMessages] = useState([]);
+  const [user_id, setUserid] = useState([]);
+
+  useEffect(() => {
+    GetData('user_id').then((value) => {
+      setUserid(value);
+    });
+  }, []);
 
   useEffect(() => {
     setMessages([
@@ -20,6 +30,20 @@ export function ChatScreen() {
   }, [])
 
   const onSend = useCallback((messages = []) => {
+    try{
+      var newmessage = messages[0];
+      const data = {
+        _id: newmessage._id,
+        text: newmessage.text,
+        createdAt: newmessage.createdAt,
+        user: {
+          _id: newmessage.user._id,
+        }
+      }
+      
+    }catch(e){
+      console.log(e);
+    }
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
   }, [])
 
@@ -28,7 +52,7 @@ export function ChatScreen() {
       messages={messages}
       onSend={messages => onSend(messages)}
       user={{
-        _id: 1,
+        _id: user_id,
       }}
     />
   )

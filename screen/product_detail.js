@@ -10,6 +10,7 @@ import { Dimensions } from "react-native";
 import Matricule from './svg_assets/matricule'
 import { Modal } from "react-native";
 import { TextInput } from "react-native";
+import { GetData } from "./Syncstorage";
 
 const { width, height } = Dimensions.get('window');
 
@@ -23,6 +24,13 @@ export default function Product_detail({ navigation, route })
     const [favoriteId, setFavoriteId] = useState(null)
     const [product_detail, setProduct_detail] = useState({})
     const [loading, setLoading] = useState(true)
+    const [client_id, setClient_id] = useState(null)
+
+    useEffect(() => {
+        GetData('user_id').then((res) => {
+            setClient_id(res)
+        })
+    }, [])
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
@@ -66,7 +74,7 @@ export default function Product_detail({ navigation, route })
             .catch((error) => {
                 console.error(error);
         })
-        fetch(`https://newapi.mediaplus.ma/api/v1/favorites/article_id/${route.params.product_id}/from_id/1`, 
+        fetch(`https://newapi.mediaplus.ma/api/v1/favorites/article_id/${route.params.product_id}/from_id/${client_id}`, 
             {
             method: 'GET',
             headers: {
@@ -119,7 +127,7 @@ export default function Product_detail({ navigation, route })
                     <TouchableOpacity style={{marginHorizontal: 30, paddingVertical: 15, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}}
                         onPress={() => {
                             var value = JSON.stringify({
-                                from_id: "1",
+                                from_id: client_id,
                                 to_id: product_detail.client_id.id,
                                 bid_price: bidPrice == '' ? 0 : bidPrice,
                                 bid_status: 'bid_status_1',

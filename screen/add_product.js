@@ -9,8 +9,7 @@ import { ScrollView } from "react-native";
 import { I18nManager } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
 import CheckBox from 'expo-checkbox';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert } from "react-native-web";
+import { GetData, RemoveData, StoreData } from "../screen/Syncstorage";
 
 export default function Add_product({navigation}) {
     const [data, setData] = useState([{}]);
@@ -22,7 +21,7 @@ export default function Add_product({navigation}) {
     const [description, setDescription] = useState("");
     const [showphone, setShowphone] = useState("");
     const [pay, setPay] = useState(false);
-    const [user_id, setUser_id] = useState("");
+    const [client_id, setClient_id] = useState();
 
     const [engfirstletter, setEngfirstletter] = useState("");
     const [engsecondletter, setEngsecondletter] = useState("");
@@ -47,10 +46,6 @@ export default function Add_product({navigation}) {
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
     useEffect(() => {
-        const value = AsyncStorage.getItem('user_id');
-        setUser_id(value);
-    }, []);
-    useEffect(() => {
         fetch("https://newapi.mediaplus.ma/api/v1/cities", 
         {
             method: "GET",
@@ -64,13 +59,18 @@ export default function Add_product({navigation}) {
         .catch((error) => console.error(error))
         .finally(() => console.log(data));
     }, []);
+
+    useEffect(() => {
+        GetData("user_id").then((data) => {
+            setClient_id(data);
+        });
+    }, []);
     if (!fontsLoaded) {
         return <Text>Loading...</Text>;
     }
 
 
     return (
-        console.log(platedesigne + description + category),
         <View style={styles.container}>
         <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: "10%", marginRight: 10, color: "#302C6B"}}>
          إضافة إعلان جديد    
@@ -686,7 +686,7 @@ export default function Add_product({navigation}) {
             type: category.toString(),
             description: description,
             city_id: city,
-            client_id: 1,
+            client_id: client_id,
             en_numbers: number,
             en_alpha: str,
             show_contact: showphone,

@@ -5,6 +5,7 @@ import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { StoreData } from "./Syncstorage";
 
 const { width, height } = Dimensions.get('window');
 
@@ -99,6 +100,7 @@ export default function Verification_phone({navigation, route}) {
             setValue(json)
             console.log(json)
             if (json.status == true){
+                StoreData('user_id', route.params.id)
                 navigation.navigate('Bottom')
             }
         })
