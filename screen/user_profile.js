@@ -124,34 +124,6 @@ export default function User_Profile({navigation, route}) {
                     <View style={{height: "100%", width: "100%", backgroundColor: "rgba(52, 52, 52, 0.3)", justifyContent:"center"}}>
                     <View style={{marginHorizontal: 20, backgroundColor: "#fff", borderRadius: 20}}>
                         <Text style={{paddingTop: 30, textAlign: "center", fontFamily: "Bold", fontSize: 20}}> تقييم</Text>
-                        {/* <Text style={{paddingVertical: 5, textAlign: "center", color: "red", marginHorizontal: 30}}>اللوحات المعروضة</Text> */}
-                        {/* <View style={{marginVertical: 20}}>
-                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRate(1)}>
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRate(2)}>
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRate(3)}>
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRate(4)}>
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{flexDirection: "row", alignItems: "center", marginHorizontal: 30, marginVertical: 5}} onPress={() => setRate(5)}>
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                                <Image source={require("../assets/star_active.png")} style={{width: 20, height: 20}} />
-                            </TouchableOpacity>
-                        </View> */}
                         <Rating
                             rating={rate}
                             max={5}
@@ -390,11 +362,15 @@ export default function User_Profile({navigation, route}) {
                 messages: [],
             });
             console.log('Room created with ID: ', newRoomRef.id);
-            return newRoomRef.id;
+            navigation.navigate('ChatScreen', {room_id: newRoomRef.id});
         } else {
             // room exists
             console.log('Room exists');
-            console.log(querySnapshot.docs[0].id);
+            querySnapshot.forEach((doc) => {
+                console.log(doc.id, ' => ', doc.data());
+                navigation.navigate('ChatScreen', {room_id: doc.id});
+            }
+            );
         }
     };
 
@@ -439,3 +415,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 });
+
+
+
+
