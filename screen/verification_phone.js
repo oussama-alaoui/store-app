@@ -6,11 +6,13 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { StoreData } from "./Syncstorage";
+import Loadings from "./complement/loadings";
 
 const { width, height } = Dimensions.get('window');
 
 export default function Verification_phone({navigation, route}) {
-    const [Number, setNumber] = useState(1);
+    const [error, setError] = useState('')
+    const [Number, setNumber] = useState('');
     const [value, setValue] = useState('')
     // const [Date, setDate] = useState(new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear());
 
@@ -20,7 +22,7 @@ export default function Verification_phone({navigation, route}) {
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
     if (!fontsLoaded) {
-        return <Text>Loading...</Text>;
+        return <Loadings/>;
     }
     function get_time () {
         setTime(new Date().getHours() + ":" + new Date().getMinutes());
@@ -33,15 +35,16 @@ export default function Verification_phone({navigation, route}) {
             <View style={[styles.box_validation, {paddingTop : 30}]}>
                 <Text style={{fontFamily: 'X_Bold',fontWeight: '600',fontSize: 18, color: '#001970'}}>إدخل الرقم المرسل</Text>
                 <Text style={{fontFamily: 'Bold',fontSize: 9, color: '#9A9999'}}>المرجو إدخال الرمز المرسل لرقم الهاتف</Text>
-                <View style={{
-                    marginTop:30,
-                    borderStyle: 'dashed',
-                    borderWidth: 1.5,
-                    borderColor: '#949393',
-                    opacity:.3,
-                    width: '100%',
-                }}>
-                </View>
+                {
+                    error == '' ? <View style={{marginTop:30,borderStyle: 'dashed',borderWidth: 1.5,borderColor: '#949393',opacity:.3, width: '100%',}}/> :
+                    <>
+                        <View style={{alignItems:'center', marginVertical: 15}}>
+                            <Text style={{borderRadius: 20, fontWeight: 'bold', fontSize:14, paddingHorizontal: 20,paddingTop: 7, paddingBottom: 5, color:'black', backgroundColor:'rgba(255, 75, 0, .35)'}}>{error}</Text>
+                        </View>
+                        <View style={{marginTop:10,borderStyle: 'dashed',borderWidth: 1.5,borderColor: '#949393',opacity:.3, width: '100%',}}/>
+                    </>
+                }
+                
                 <TextInput
                     style={styles.input_box}
                     maxLength={5}
@@ -51,7 +54,7 @@ export default function Verification_phone({navigation, route}) {
                     onChangeText={(Number) => setNumber(Number)}
                     value={Number}
                 />
-                <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 12, marginTop: 10, marginBottom: 40, color: '#495BFA'}}>إعادة إرسال الرمز</Text>
+                <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 12, marginTop: 10, marginBottom: 10, color: '#495BFA'}}>إعادة إرسال الرمز</Text>
 
                 <View style={{
                     marginTop:30,
@@ -79,11 +82,17 @@ export default function Verification_phone({navigation, route}) {
             </View>
 
             <TouchableOpacity style={styles.button} onPress={() => input_check()}>
-                        <Text style={{fontFamily: 'Bold',fontWeight: '400',fontSize: 14, color: 'white'}}>تفعيل الحساب</Text>
+                        <Text style={{fontFamily: 'Bold',fontWeight: '400',fontSize: 14, color: 'white'}}>التاكيد</Text>
             </TouchableOpacity> 
         </View>
     )
     async function input_check(){
+        setError("")
+        if(Number == '')
+        {
+            setError('الرجاء إدخال رقم اتاكيد')
+            return 
+        }
         await fetch("https://newapi.mediaplus.ma/api/v1/verifySms", {
             method: 'POST',
             headers: {
@@ -102,6 +111,10 @@ export default function Verification_phone({navigation, route}) {
             if (json.status == true){
                 StoreData('user_id', route.params.id)
                 navigation.navigate('Bottom')
+            }
+            else
+            {
+                setError(json.info)
             }
         })
         .catch((error) => {
@@ -122,7 +135,7 @@ const styles = StyleSheet.create({
         borderRadius: 39,
         backgroundColor: 'white',
         alignItems: 'center',
-        marginTop: '20%',
+        marginTop: 120,
     },
 
     input_box: {
@@ -134,18 +147,17 @@ const styles = StyleSheet.create({
         fontFamily: 'Bold',
         fontSize: 35,
         padding: 10,
-        marginTop: 80,
+        marginTop: 50,
         color: '#A8A6A6',
     },
 
     button: {
+        marginTop: 75,
         width: width - 80,
         height: 60,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#678DF9',
         borderRadius: 8,
-        position:'absolute',
-        bottom : '10%'
     }
 });

@@ -4,6 +4,7 @@ import { useFonts } from "expo-font";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import Matricule from './svg_assets/matricule'
+import Loadings from "./complement/loadings";
 
 export default function Search_results({navigation, route}) {
     const [all_products, setAll_products] = useState([]);
@@ -34,10 +35,10 @@ export default function Search_results({navigation, route}) {
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
     if (!fontsLoaded) {
-        return <Text>Loading...</Text>;
+        return <Loadings/>;
     }
     if (loading) {
-        return <Text>Loading...</Text>;
+        return <Loadings/>;
     }
     else
     {

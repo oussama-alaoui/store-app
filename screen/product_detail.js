@@ -11,6 +11,7 @@ import Matricule from './svg_assets/matricule'
 import { Modal } from "react-native";
 import { TextInput } from "react-native";
 import { GetData } from "./Syncstorage";
+import Loadings from "./complement/loadings";
 
 const { width, height } = Dimensions.get('window');
 
@@ -96,7 +97,7 @@ export default function Product_detail({ navigation, route })
         fetchBids()
      }, [route.params.product_id])
      if (!fontsLoaded) {
-         return <Text>Loading...</Text>;
+         return <Loadings/>;
      }
      const copyToClipboard = () => {
          Clipboard.setString('012548');
@@ -165,9 +166,7 @@ export default function Product_detail({ navigation, route })
 
     if (loading) {
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <Text>Loading...</Text>
-            </View>
+            <Loadings/>
         )
     }
     else

@@ -5,6 +5,7 @@ import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { SelectList } from 'react-native-dropdown-select-list'
+import Loadings from "./complement/loadings";
 
 export default function Search({navigation}) {
     const [category, setCategory] = useState(2);
@@ -54,7 +55,7 @@ export default function Search({navigation}) {
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
     if (!fontsLoaded) {
-        return <Text>Loading...</Text>;
+        return <Loadings/>;
     }
 
     return (

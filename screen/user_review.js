@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { SafeAreaView, TouchableOpacity } from "react-native";
 import  Rating from 'react-native-easy-rating';
 import { ScrollView } from "react-native";
+import Loadings from "./complement/loadings";
 
 export default function UserReview({navigation, route}) {
     const [isLogin, setIsLogin] = React.useState(true);
@@ -36,13 +37,11 @@ export default function UserReview({navigation, route}) {
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
     if (!fontsLoaded) {
-        return <Text>Loading...</Text>;
+        return <Loadings/>;
     }
     if (isLogin) {
         return (
-            <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-                <Text>Loading...</Text>
-            </View>
+            <Loadings/>
         );
     }
     else{

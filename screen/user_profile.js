@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Alert, ImageBackground, SafeAreaView } from "react-native";
+import { Alert, ImageBackground, SafeAreaView, Dimensions } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
@@ -12,9 +12,10 @@ import { Modal } from "react-native";
 import  Rating from 'react-native-easy-rating';
 import { GetData } from "./Syncstorage";
 import { db, collection, getDocs, query, addDoc, where } from "../firebase";
+import Loadings from "./complement/loadings";
 
 export default function User_Profile({navigation, route}) {
-    const   [Number, setNumber] = useState(0);
+    const   { width, height } = Dimensions.get('window');
     const   [user_detail, setUser_detail] = useState({});
     const   [all_products, setAll_products] = useState([]);
     const   [loading, setLoading] = useState(true);
@@ -28,7 +29,6 @@ export default function User_Profile({navigation, route}) {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-            
             }
             })
             .then((response) => response.json())
@@ -71,11 +71,11 @@ export default function User_Profile({navigation, route}) {
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
     if (!fontsLoaded) {
-        return <Text>Loading...</Text>;
+        return <Loadings/>;
     }
 
     if (loading) {
-        return <Text>Loading...</Text>;
+        return <Loadings/>;
     }
     else
     {
@@ -152,55 +152,53 @@ export default function User_Profile({navigation, route}) {
         return (
             console.log(route.params.user_id),
             
-            <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+            <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
                 <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
                 <ModalReport/>
                 <ModalFeedback/>
                 <View style={styles.header}>
-
                     <View style={styles.top}>
-                        <TouchableOpacity style={{width: 50, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.goBack()}>
-                            <Image source={require("../assets/back.png")} style={{width: '45%', height: '53%'}}/>
+                        <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => navigation.goBack()}>
+                            <Image source={require("../assets/back.png")} style={{width: 20, height: 20}}/>
                         </TouchableOpacity>
-
-                        <View style={{width: 120, height: '100%', justifyContent: 'space-around', alignItems: 'center', borderRadius: 13, flexDirection: 'row'}}>
-                            <TouchableOpacity style={{width: 50, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => setModalVisibleRepo(true)}>
-                                <Image source={require('../assets/declaration.png')} style={{width: '45%', height: '53%'}}/>
+                        <View style={{width: 100, height: 40, justifyContent: 'space-around', alignItems: 'center', borderRadius: 13, flexDirection: 'row'}}>
+                            <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => setModalVisibleRepo(true)}>
+                                <Image source={require('../assets/declaration.png')} style={{width: 20, height: 20}}/>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{width: 50, height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => setModalVisibleFeed(true)}>
-                                <Image source={require('../assets/heart.png')} style={{width: '45%', height: '53%'}}/>
+                            <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F1F1', borderRadius: 13}} onPress={() => setModalVisibleFeed(true)}>
+                                <Image source={require('../assets/heart.png')} style={{width: 20, height: 20}}/>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{width: '33%', height: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFf', borderRadius: 13, top: '40%'}}>
+                </View>
+                <View style={{position: 'absolute', width: '100%',alignItems:'center', marginTop:85}}>
+                    <View style={{width: 120, height: 120, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderColor: '#4D62EE', borderWidth: 5, borderRadius: 13}}>
                         <Image source={require('../assets/user_1.png')} style={{width: '90%', height: '90%'}}/>
                     </View>
-
-                    <View style={styles.bottom}>
-                        <TouchableOpacity style={{width: '30%', height: 30, alignItems: 'center', backgroundColor: '#fff', flexDirection: 'row',justifyContent: 'space-between'}}
-                            onPress={() => navigation.navigate('UserReview', {user_id: route.params.user_id})}
-                        >
-                            <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                            <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                            <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                            <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                            <Image source={require('../assets/star_inactive.png')} style={{width: '15%', height: '55%'}}/>
-                        </TouchableOpacity>
-                        
-                    </View>
-
-                    <View style={{width: '100%', height: '20%', top: '30%', justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>{user_detail.username}</Text>
-                        <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => checkAndCreateRoom(user_id, route.params.user_id)}>
-                            <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>الرسائل</Text>
-                        </TouchableOpacity>
+                    <View style={{width: '100%', position: 'absolute', marginTop:70}}>
+                        <View style={{width:(width - 120)/2, alignItems:'center'}}>
+                            <TouchableOpacity style={{width: 110, height: 24, alignItems: 'center', flexDirection: 'row',justifyContent: 'space-between'}}
+                                onPress={() => navigation.navigate('UserReview', {user_id: route.params.user_id})}
+                            >
+                                <Image source={require('../assets/star_active.png')} style={{width: 18, height: 18}}/>
+                                <Image source={require('../assets/star_active.png')} style={{width: 18, height: 18}}/>
+                                <Image source={require('../assets/star_active.png')} style={{width: 18, height: 18}}/>
+                                <Image source={require('../assets/star_active.png')} style={{width: 18, height: 18}}/>
+                                <Image source={require('../assets/star_inactive.png')} style={{width: 18, height: 18}}/>
+                            </TouchableOpacity>
+                            
+                        </View>
                     </View>
                 </View>
-                
-                <View style={{width: '100%', height: '100%', top: 150, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1FBFF'}}>
-                        <View style={{width: '90%', height: '5%', justifyContent: 'space-between', margin: 10, writingDirection: 'rtl'}}>
+                <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', marginTop : 55, marginBottom : 10}}>
+                    <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56', paddingVertical:3}}>{user_detail.username}</Text>
+                    <TouchableOpacity style={{backgroundColor: '#678DF9', borderRadius: 13, paddingHorizontal: 25, paddingVertical: 5}} onPress={() => checkAndCreateRoom(user_id, route.params.user_id)}>
+                        <Text style={{fontFamily: 'Bold', fontSize: 16, color: '#fff'}}>الرسائل</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1FBFF'}}>
+                        <View style={{width: '90%', justifyContent: 'space-between', margin: 10, writingDirection: 'rtl'}}>
                             <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#000000', writingDirection: 'rtl'}}>اللوحات المعروضة</Text>
-
                         </View>
                     <ScrollView horizontal='true' overScrollMode="never">
                         <View style={styles.body}>
@@ -384,25 +382,25 @@ const styles = StyleSheet.create({
     },
     header: {
         width: '100%',
-        height: '22%',
+        height: 150,
         backgroundColor: '#4D62EE',
         alignItems: 'center',
     },
 
     top: {
         width: '94%',
-        height: '25%',
-        top: '4%',
+        marginTop: 15,
         justifyContent: 'space-between',
         flexDirection: 'row',
     },
 
     bottom: {
+        top: 0,
         width: '94%',
         height: '25%',
-        top: 15,
         justifyContent: 'space-between',
         flexDirection: 'row',
+        backgroundColor:'orange'
     },
 
     body: {

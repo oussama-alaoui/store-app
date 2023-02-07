@@ -6,7 +6,7 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import Loadings from "./complement/loadings";
 
 import { StatusBar } from "expo-status-bar";
 const { width, height } = Dimensions.get('window');
@@ -19,6 +19,7 @@ export default function Login({navigation}) {
     //     getData()
     // }, [])
     const [value, setValue] = useState('')
+    const [error, setError] = useState('')
 
 
     const [Number, setNumber] = useState();
@@ -30,7 +31,7 @@ export default function Login({navigation}) {
        Black: require("../assets/fonts/NotoSansArabic-Black.ttf"),
     });
     if (!fontsLoaded) {
-        return <Text>Loading...</Text>;
+        return <Loadings/>;
     }
     
     return (
@@ -44,12 +45,19 @@ export default function Login({navigation}) {
                         colors={['#0000001d', '#ECECFFDD']} 
                         style={{height : '100%', width : '100%'}}>
                     </LinearGradient>
-
                 </ImageBackground>
                 <View style={{paddingTop:35, marginHorizontal:30}}>
                     <Text style={styles.title1}>السلام</Text>
                     <Text style={styles.title1}>المرجو تسجيل الدخول</Text>
-                    <Text style={styles.input_label}>إسم المستخدم</Text>
+                    {
+                        error == '' ? <></> :
+                        <View style={{alignItems:'center', marginVertical: 15}}>
+                            <Text style={{borderRadius: 20, fontWeight: 'bold', fontSize:14, paddingHorizontal: 20,paddingTop: 7, paddingBottom: 5, color:'black', backgroundColor:'rgba(255, 75, 0, .35)'}}>{error}</Text>
+                        </View>
+                    }
+                    
+
+                    <Text style={[styles.input_label, error != '' ? {marginTop: 0} : {marginTop: 25}]}>إسم المستخدم</Text>
                     <TextInput
                         style={[styles.input, {borderRadius: 10}]}
                         onChangeText={setUsername}
@@ -72,9 +80,7 @@ export default function Login({navigation}) {
                     </View>
                     
                 </View>
-                {/* <View style={{width: 2, height: '100%', backgroundColor: 'red', left: 330}}>  
-                </View>            */}
-                <View style={{position:'absolute', bottom: 20, width:width - 60, left: 30}}>
+                <View style={{marginTop: 50, width:width - 60, left: 30}}>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => input_check()}
@@ -91,6 +97,14 @@ export default function Login({navigation}) {
     );    
 
     async function input_check(){
+        setError("")
+        if(Number == '' || username == '')
+        {
+            setError('الرجاء إدخال اسم المستخدم ورقم الهاتف الخاصين بك')
+            return 
+        }
+        console.log(JSON.stringify({"phone": Number,"username": username,}))
+        // return
         await fetch("https://newapi.mediaplus.ma/api/v1/verify", {
             method: 'POST',
             headers: {
@@ -104,10 +118,17 @@ export default function Login({navigation}) {
         .then((response) => response.json())
         .then((json) => {
             setValue(json)
-            console.log(json)
+            console.log(json.info)
             if (json.status == true){
                 navigation.navigate('Verification_phone', {id: json.info.id})
             }
+            else
+            {
+                setError(json.info)
+            }
+        }
+        ).catch((error) => {
+            console.error(error.info)
         })
     }
 }

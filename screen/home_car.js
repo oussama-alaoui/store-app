@@ -9,6 +9,7 @@ import { ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Matricule from './svg_assets/matricule'
 import { GetData } from "./Syncstorage";
+import Loadings from "./complement/loadings";
 
  export default function Home_cars ({navigation}) {
 
@@ -57,11 +58,11 @@ import { GetData } from "./Syncstorage";
     }, [category]);
     
      if (!fontsLoaded) {
-         return <Text>Loading...</Text>;
+        return <Loadings/>;
      }
     
     if(Loading){
-        return <></>
+        return <Loadings/>;
     }
     else{
         return(

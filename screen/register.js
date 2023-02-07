@@ -8,6 +8,7 @@ import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { BottomTabBar } from "@react-navigation/bottom-tabs";
 import { StatusBar } from "expo-status-bar";
+import Loadings from "./complement/loadings";
 
 
 const { width, height } = Dimensions.get('window');
@@ -24,7 +25,7 @@ export default function Register({navigation}, props) {
        Black: require("../assets/fonts/NotoSansArabic-Black.ttf"),
     });
     if (!fontsLoaded) {
-        return <Text>Loading...</Text>;
+        return <Loadings/>;
     }
     
     return (

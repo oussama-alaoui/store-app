@@ -11,6 +11,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import Matricule from './svg_assets/matricule'
 import { RemoveData, GetData } from "./Syncstorage";
+import Loadings from "./complement/loadings";
 
 export default function Profile({navigation, route}) {
     const [Number, setNumber] = useState(0);
@@ -69,10 +70,10 @@ export default function Profile({navigation, route}) {
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
     if (!fontsLoaded) {
-        return <Text>Loading...</Text>;
+        return <Loadings/>;
     }
     if (loading) {
-        return <></>;
+        return <Loadings/>;
     }
     else {
     return (

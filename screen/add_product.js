@@ -10,6 +10,7 @@ import { I18nManager } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list'
 import CheckBox from 'expo-checkbox';
 import { GetData, RemoveData, StoreData } from "../screen/Syncstorage";
+import Loadings from "./complement/loadings";
 
 export default function Add_product({navigation}) {
     const [data, setData] = useState([{}]);
@@ -66,7 +67,7 @@ export default function Add_product({navigation}) {
         });
     }, []);
     if (!fontsLoaded) {
-        return <Text>Loading...</Text>;
+        return <Loadings/>;
     }
 
 
