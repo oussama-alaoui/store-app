@@ -48,11 +48,14 @@ export default function Messages({navigation}) {
       }
 
     async function getRoomsWithLatestMessages(user_id) {
-        console.log('getRoomsWithLatestMessages', user_id)
         // Get all room documents where user1 or user2 match the user's ID
         const roomsCol = collection(db, "rooms");
-        const q = query(roomsCol, where("user1", "==", user_id));
+        if(user_id == 1)
+            var q = query(roomsCol, where("user2", "==", user_id));
+        else
+            var q = query(roomsCol, where("user1", "==", user_id));
         const querySnapshot = await getDocs(q);
+        console.log(querySnapshot);
         const roomsarray = [];
         querySnapshot.forEach(async (roomDoc) => {
             const room = roomDoc.data();

@@ -24,10 +24,12 @@ export default function Profile({navigation, route}) {
         GetData('user_id').then((res) => {
             setUser_id(res);
             console.log("user_id"+res);
+            get_products()
+            get_user_detail()
         });
-    }, []);
+    }, [user_id]);
 
-    useEffect(() => {
+    async function get_user_detail(){
         fetch(`https://newapi.mediaplus.ma/api/v1/clients/${user_id}`, 
             {
             method: 'GET',
@@ -44,9 +46,9 @@ export default function Profile({navigation, route}) {
                 console.error(error);
         })
         
-    }, [])
-    useEffect(() => {
-            fetch(`https://newapi.mediaplus.ma/api/v1/articles/user/5`, 
+    }
+   async function get_products(){
+            fetch(`https://newapi.mediaplus.ma/api/v1/articles/user/${user_id}`, 
                 {
                 method: 'GET',
                 headers: {
@@ -57,13 +59,13 @@ export default function Profile({navigation, route}) {
                 .then((response) => response.json())
                 .then((json) => {
                     setAll_products(json.data)
+                    console.log(json.data)
                     setLoading(false)
                 })
                 .catch((error) => {
                     console.error(error);
             })
-    }, [])
-    // const [Date, setDate] = useState(new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear());
+    }
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),

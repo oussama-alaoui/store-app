@@ -121,7 +121,7 @@ export default function Product_detail_my({ navigation, route })
                                 source={require("../assets/up.png")}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.button, {backgroundColor: "#678DF9"}]} onPress={() => {}} >
+                        <TouchableOpacity style={[styles.button, {backgroundColor: "#678DF9"}]} onPress={() => {navigation.navigate('Add_product')}} >
                             <Image
                                 style={{ width: 24, height: 24}}
                                 source={require("../assets/modifier.png")}

@@ -1,31 +1,60 @@
+import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { View, Text, StyleSheet} from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView} from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Image } from "react-native";
-import { Modal } from "react-native-web";
+import Loadings from "./complement/loadings";
+import { RemoveData, GetData } from "./Syncstorage";
+import Matricule from './svg_assets/matricule'
 
 
-export default function Favorite_product() {
+export default function Favorite_product({navigation}) {
+    const [articles, setArticles] = React.useState([]);
+    const [user_id, setUser_id] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
+
+    useEffect(() => {
+        GetData('user_id').then((res) => {
+            setUser_id(res);
+            console.log("user_id"+res);
+            getArticles();
+        });
+    }, [true]);
+
+    async function getArticles() {
+        fetch(`https://newapi.mediaplus.ma/api/v1/favorites/from_id/${user_id}`, 
+            {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                setArticles(json.data)
+                setLoading(false)
+            })
+            .catch((error) => {
+                console.error(error);
+        })
+    }
+    let [fontsLoaded] = useFonts({
+        Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
+        Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
+        X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
+    });
+    if (!fontsLoaded) {
+        return <Loadings/>;
+    }
+    if (loading) {
+        return <Loadings/>;
+    }
+    else {
     return (
         <View style={styles.container}>
             <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
-            <Modal animationType="slide" transparent={true} visible={true} style={{width: '50%', height: '50%', flex:1, top: 0}}>
-                    <View >
-                        <Text style={{fontSize: 108, fontWeight: 'bold', marginBottom: 10, color: "#000"}}>Modal Title</Text>
-                        {/* <TextInput
-                        style={{height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 10}}
-                        onChangeText={text => setInputValue(text)}
-                        value={inputValue}
-                        />
-                        <TouchableOpacity
-                        onPress={() => {
-                            setModalVisible(!modalVisible);
-                        }}>
-                        <Text>Submit</Text>
-                        </TouchableOpacity> */}
-                    </View>
-            </Modal>
             <View style={{flex: 1, height: 100, width: "100%"}}>
                 <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()} >
                     <Image
@@ -33,10 +62,13 @@ export default function Favorite_product() {
                         source={require("../assets/back.png")}
                     />
                 </TouchableOpacity>
-                <Text style={{fontSize: 20, fontWeight: "bold", color: "#000", top: 10}}>المفضلة</Text>
             </View>
+            <Text style={{fontSize: 20, fontWeight: "bold", color: "#000", top: 10, marginBottom: 60}}>المفضلة</Text>
+
+            
         </View>
     )
+    }
 }
 
 
@@ -45,6 +77,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 22,
+        width: '100%',
+        height: '100%',
     },
     button: {
         width: 45,
