@@ -284,7 +284,7 @@ export default function Search({navigation}) {
     function searchNow()
     {
         let args = "https://newapi.mediaplus.ma/api/v1/articles/search/"
-        // console.log(args);return
+        console.log(args);
         if (ID == "")
             args += "null/"
         else

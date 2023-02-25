@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { GiftedChat } from 'react-native-gifted-chat'
 import { GetData } from './Syncstorage'
-import { db, collection, getDocs, query, addDoc, where, orderBy } from "../firebase";
+import { db, collection, getDocs, query, addDoc, where, orderBy, onSnapshot } from "../firebase";
 
 
 export function ChatScreen({ route, navigation}) {
@@ -15,23 +15,29 @@ export function ChatScreen({ route, navigation}) {
   }, []);
 
   useEffect(() => {
-    console.log("useEffect");
-    const unsubscribe = getDocs(query(collection(db, `rooms/${route.params.room_id}/messages`), orderBy('createdAt', 'desc'))).then((querySnapshot) => {
-      const messages = [];
-      querySnapshot.forEach((doc) => {
-        const message = doc.data();
-        messages.push({
-          _id: message._id,
-          text: message.text,
-          createdAt: message.createdAt.toDate(),
-          user: {
-            _id: message.user._id,
-          }
+    const unsubscribe = onSnapshot(
+      query(collection(db, `rooms/${route.params.room_id}/messages`), orderBy('createdAt', 'desc')),
+      (querySnapshot) => {
+        const messages = [];
+        querySnapshot.forEach((doc) => {
+          const message = doc.data();
+          messages.push({
+            _id: message._id,
+            text: message.text,
+            createdAt: message.createdAt.toDate(),
+            user: {
+              _id: message.user._id,
+            }
+          });
         });
-      });
-      setMessages(messages);
-    });
-  }, [])
+        setMessages(messages);
+      }
+    );
+  
+    return () => {
+      unsubscribe(); // detach the listener when the component unmounts
+    };
+  }, [route.params.room_id]);  
   
 
   const onSend = useCallback(async (messages = []) => {

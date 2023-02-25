@@ -101,8 +101,11 @@ export default function User_Profile({navigation, route}) {
                             multiline={true}
                             numberOfLines={4}
                         />
-                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}} onPress={() => post_repot(inputValue)}>
+                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 5, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}} onPress={() => post_repot(inputValue)}>
                             <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#f26f66', justifyContent: 'center', alignItems: 'center'}} onPress={() => setModalVisibleRepo(!modalVisibleRepo)}>
+                            <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>رجوع</Text>
                         </TouchableOpacity>
                     </View>
                     </View>
@@ -142,6 +145,9 @@ export default function User_Profile({navigation, route}) {
                         />
                         <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}} onPress={() => post_feedback(comment, rate)}>
                             <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#f26f66', justifyContent: 'center', alignItems: 'center'}} onPress={() => setModalVisibleFeed(!modalVisibleFeed)}>
+                            <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>رجوع</Text>
                         </TouchableOpacity>
                     </View>
                     </View>
@@ -212,7 +218,7 @@ export default function User_Profile({navigation, route}) {
                                     {/* 1st colum */}
                                                 <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
                                                     <View style={{width: '100%', height: '35%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 4}}>
-                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max} ريال</Text>
+                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max ? item.max + "ريال" : "لايوجد"}</Text>
                                                         <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
                                                         <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
                                                     </View>
@@ -227,7 +233,7 @@ export default function User_Profile({navigation, route}) {
                                                             <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray', left: 12}}>المدينة </Text>
                                                         </View>
                                                         <View style={{width: '100%', height: '39%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5}}>{item.price}-{item.price} ريال</Text>
+                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5}}>{item.bid[0]?.bid_price || item.price} ريال</Text>
                                                             <Text style={{fontSize: 12, fontFamily: 'Small', letterSpacing: 2, color: 'gray', left: 4}}>السعر </Text>
                                                         </View>
                                                     </View>
@@ -291,7 +297,7 @@ export default function User_Profile({navigation, route}) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                from_id: 2,
+                from_id: user_id,
                 to_id: route.params.user_id,
                 details: inputValue,
             }
@@ -321,7 +327,7 @@ export default function User_Profile({navigation, route}) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                from_id: 2,
+                from_id: user_id,
                 to_id: route.params.user_id,
                 rating: rating,
                 details: comment,

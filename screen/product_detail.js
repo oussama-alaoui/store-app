@@ -12,6 +12,7 @@ import { Modal } from "react-native";
 import { TextInput } from "react-native";
 import { GetData } from "./Syncstorage";
 import Loadings from "./complement/loadings";
+import { db, collection, getDocs, query, addDoc, where } from "../firebase";
 
 const { width, height } = Dimensions.get('window');
 
@@ -29,7 +30,29 @@ export default function Product_detail({ navigation, route })
 
     useEffect(() => {
         GetData('user_id').then((res) => {
+            console.log("user_id", res)
+            console.log("product_id", route.params.product_id)
             setClient_id(res)
+            fetch(`https://newapi.mediaplus.ma/api/v1/favorites/article_id/${route.params.product_id}/from_id/${res}`, 
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                setIsLiked(json.result)
+                console.log("isLiked", json.result)
+                if (json.result == true)
+                {
+                    setFavoriteId(json.favorite_id)
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            })
         })
     }, [])
     let [fontsLoaded] = useFonts({
@@ -51,7 +74,6 @@ export default function Product_detail({ navigation, route })
             .then((response) => response.json())
             .then((json) => {
                 setProductBids(json.data)
-                console.log(json.data)
             })
             .catch((error) => {
                 console.error(error);
@@ -75,27 +97,8 @@ export default function Product_detail({ navigation, route })
             .catch((error) => {
                 console.error(error);
         })
-        fetch(`https://newapi.mediaplus.ma/api/v1/favorites/article_id/${route.params.product_id}/from_id/${client_id}`, 
-            {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }
-            })
-            .then((response) => response.json())
-            .then((json) => {
-                setIsLiked(json.result)
-                if (json.result == true)
-                {
-                    setFavoriteId(json.favorite_id)
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-        })
         fetchBids()
-     }, [route.params.product_id])
+     }, [route.params.product_id, true])
      if (!fontsLoaded) {
          return <Loadings/>;
      }
@@ -118,7 +121,7 @@ export default function Product_detail({ navigation, route })
                     <Text style={{paddingTop: 30, textAlign: "center", fontFamily: "Bold", fontSize: 20}}>إضافة مزايدة</Text>
                     
                     <TextInput
-                        style={{height: 60, marginHorizontal: 30, borderRadius: 10, marginVertical: 20, elevation: 2, shadowColor: 'gary', paddingRight: 15, textAlign: 'right', writingDirection: 'rtl',}}
+                        style={{height: 60, marginHorizontal: 30, borderRadius: 10, marginVertical: 20, elevation: 2, shadowColor: '#aab8e6', paddingRight: 15, textAlign: 'right', writingDirection: 'rtl',}}
                         onChangeText={text => setBidPrice(text)}
                         keyboardType="numeric"
                         defaultValue={bidPrice}
@@ -127,6 +130,27 @@ export default function Product_detail({ navigation, route })
                     />
                     <TouchableOpacity style={{marginHorizontal: 30, paddingVertical: 15, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}}
                         onPress={() => {
+                            if (bidPrice == '')
+                            {
+                                alert('الرجاء إدخال قيمة المزايدة')
+                                return
+                            }
+                            if(product_bids.length > 0)
+                            {
+                                if (bidPrice < product_detail.price || bidPrice <= product_bids[0].bid_price)
+                                {
+                                    alert('الرجاء إدخال قيمة المزايدة أكبر من السعر الحالي')
+                                    return
+                                }
+                            }
+                            else
+                            {
+                                if (bidPrice < product_detail.price)
+                                {
+                                    alert('الرجاء إدخال قيمة المزايدة أكبر من السعر الحالي')
+                                    return
+                                }
+                            }
                             var value = JSON.stringify({
                                 from_id: client_id,
                                 to_id: product_detail.client_id.id,
@@ -172,7 +196,7 @@ export default function Product_detail({ navigation, route })
     else
     {
         return (
-            
+            console.log("im here: " + isLiked),
             <View style={styles.container}>
                 <ModalNewBid></ModalNewBid>
                 <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true} overScrollMode="never">
@@ -185,12 +209,12 @@ export default function Product_detail({ navigation, route })
                         />
                     </TouchableOpacity>
                         <TouchableOpacity style={styles.button} onPress={() => {
-                            console.log("im here")
+                            
                             if (isLiked == false || favoriteId == null)
                             {
                                 var value = JSON.stringify({
                                     article_id : route.params.product_id,
-                                    from_id : '1',
+                                    from_id : client_id ,
                                 })
                                 setIsLiked(true)
                                 fetch(`https://newapi.mediaplus.ma/api/v1/favorites`, 
@@ -263,10 +287,8 @@ export default function Product_detail({ navigation, route })
                     <TouchableOpacity onPress={()=>navigation.navigate('User_Profile', {user_id: product_detail.client_id.id})}>
                         <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>{product_detail.client_id.username}</Text>
                     </TouchableOpacity>
-                    <View style={{ width: 170, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#F3F6FF', borderRadius: 9, flexDirection: 'row', justifyContent: "space-around"}}>
-                        <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.max} ريال</Text>
-                        <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>|</Text>
-                        <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.price} ريال</Text>
+                    <View style={{ width: 120, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#F3F6FF', borderRadius: 9, flexDirection: 'row', justifyContent: "space-around"}}>
+                        <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.max ? product_detail.max : "لايوجد"} - {product_bids && product_bids.length > 0 ? product_bids[0].bid_price : product_detail.price} ريال</Text>
                     </View>
                     <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>{product_detail.city_id.city_name}</Text>
                     {product_detail.show_contact == "show" ?   (
@@ -308,6 +330,9 @@ export default function Product_detail({ navigation, route })
                     </View>
                     ) : (
                         <>
+                        <TouchableOpacity style={{backgroundColor: '#678DF9', borderRadius: 13, paddingHorizontal: 25, paddingVertical: 5}} onPress={() => checkAndCreateRoom(route.params.user_id, client_id)}>
+                            <Text style={{fontFamily: 'Bold', fontSize: 16, color: '#fff'}}>الرسائل</Text>
+                        </TouchableOpacity>
                         </>
                     )} 
                     
@@ -333,7 +358,7 @@ export default function Product_detail({ navigation, route })
                         {
                             product_bids != null ? product_bids.map((item, index) => {
 
-                            return <View key={"bid_"+index} style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
+                            return <TouchableOpacity key={"bid_"+index} style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}} onPress={() => navigation.navigate("User_Profile", {user_id: item.from_id.id})}>
                                 <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
                                     <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>{item.from_id.username}</Text>
                                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>{item.bid_price} ريال</Text>
@@ -341,7 +366,7 @@ export default function Product_detail({ navigation, route })
                                 <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
                                     <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                             })
                             : <></>
                         }
@@ -379,14 +404,36 @@ export default function Product_detail({ navigation, route })
             </View>
         )
     }
-}
 
-const dialCall = (number) => {
-    let phoneNumber = '';
-    if (Platform.OS === 'android') { phoneNumber = `tel:${number}`; }
-    else {phoneNumber = `telprompt:${number}`; }
-    Linking.openURL(phoneNumber);
- };
+    async function checkAndCreateRoom (buyerId, sellerId) {
+        // check if room exists
+        // const roomsCol = collection(db, 'rooms');
+        // if(user_id == 1)
+        //     var q = query(roomsCol, where("user2", "==", user_id));
+        // else
+        //     var q = query(roomsCol, where("user1", "==", user_id));
+        // const querySnapshot = await getDocs(roomsCol);
+        // if (querySnapshot.empty) {
+        //     // create room
+        //     const newRoomRef = await addDoc(collection(db, 'rooms'), {
+        //         user1: buyerId,
+        //         user2: sellerId,
+        //         messages: [],
+        //     });
+        //     console.log('Room created with ID: ', newRoomRef.id);
+        //     navigation.navigate('ChatScreen', {room_id: newRoomRef.id});
+        // } else {
+        //     // room exists
+        //     console.log('Room exists');
+        //     querySnapshot.forEach((doc) => {
+        //         console.log(doc.id, ' => ', doc.data());
+        //         navigation.navigate('ChatScreen', {room_id: doc.id});
+        //     }
+        //     );
+        // }
+        navigation.navigate('ChatScreen', {room_id: "FNpHje8wtNmGk4QWvMDG"});
+    };
+}
 
 const styles = StyleSheet.create({
     container: {

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import Matricule from './svg_assets/matricule'
 import Loadings from "./complement/loadings";
+import { StatusBar } from "expo-status-bar";
 
 export default function Search_results({navigation, route}) {
     const [all_products, setAll_products] = useState([]);
@@ -22,7 +23,7 @@ export default function Search_results({navigation, route}) {
             .then((json) => {
                 setAll_products(json.data)
                 setLoading(false)
-                console.log(json.data)
+                // console.log(json.data)
             })
             .catch((error) => {
                 console.error(error);
@@ -43,21 +44,24 @@ export default function Search_results({navigation, route}) {
     else
     {
         return (console.log('omar', all_products.data.length),
-            <View style={{width: '100%', flex : 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1FBFF'}}>
-                <View style={{width: '100%', paddingHorizontal: 10, justifyContent: 'space-between', margin: 10, writingDirection: 'rtl'}}>
-                    <TouchableOpacity onPress={() => navigation.goBack(null)} style={{backgroundColor:'rgba(0, 0, 150, .05)', paddingVertical: 15, paddingHorizontal: 15, borderRadius: 20, marginBottom:10}}>
-                        <Text style={{fontWeight: 'bold'}}>العودة للبحث</Text>
-                    </TouchableOpacity>
-                    <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#000000', writingDirection: 'rtl'}}>
-                        نتائج البحث
-                    </Text>
-                </View>
-                <ScrollView horizontal='true' overScrollMode="never" style={{width:"100%"}}>
+        <View style={styles.container}>
+        <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
+        <View style={{height: 100, width: "100%"}}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()} >
+                <Image
+                    style={{ width: 24, height: 24}}
+                    source={require("../assets/back.png")}
+                />
+            </TouchableOpacity>
+            <Text style={{fontSize: 20, fontWeight: "bold", color: "#000", top: 10, marginBottom: 0, textAlign: "center"}}>نتائج البحث</Text>
+        </View>
+        <ScrollView horizontal='true' overScrollMode="never" style={{width:"100%"}}>
                     <View style={styles.body}>
                         { all_products.data.length > 0
                         ?
                             all_products.data.map((item, index) => {
                                 const date = new Date(item.created_at);
+                                console.log(item)
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
                                     <TouchableOpacity key={index} style={{width: '94%', backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1}} onPress={() => navigation.navigate('Product_detail', {product_id: item.id})}>
@@ -65,7 +69,7 @@ export default function Search_results({navigation, route}) {
                                         {/* 1st colum */}
                                                     <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
                                                         <View style={{width: '100%', height: '35%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 4}}>
-                                                        <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max} ريال</Text>
+                                                        <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max ? item.max + "ريال" : "لايوجد"} </Text>
                                                             <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
                                                             <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
                                                         </View>
@@ -80,7 +84,7 @@ export default function Search_results({navigation, route}) {
                                                                 <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray', left: 12}}>المدينة </Text>
                                                             </View>
                                                             <View style={{width: '100%', height: '39%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                                <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5}}>{item.price}-{item.price} ريال</Text>
+                                                                <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5}}>{item.bid[0]?.bid_price || item.price} ريال</Text>
                                                                 <Text style={{fontSize: 12, fontFamily: 'Small', letterSpacing: 2, color: 'gray', left: 4}}>السعر </Text>
                                                             </View>
                                                         </View>
@@ -132,24 +136,35 @@ export default function Search_results({navigation, route}) {
                         }
                         
                     </View>
-                </ScrollView>
-            </View>
+        </ScrollView>
+    </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        width: "100%",
-        height: "100%",
-        
-    },
-    body: {
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 22,
+        width: '100%',
+        height: '100%',
+    },
+    button: {
+        width: 45,
+        height: 37,
+        backgroundColor: '#f1f1f1',
+        borderRadius: 13,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    body: {
+        marginBottom: '90%',
+        width: '100%',
         flex: 1,
+        height: 'auto',
+        justifyContent: 'center',
         alignItems: 'center',
     },
 });
+

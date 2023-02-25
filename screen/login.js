@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loadings from "./complement/loadings";
 
 import { StatusBar } from "expo-status-bar";
+import { KeyboardAvoidingView } from "react-native";
 const { width, height } = Dimensions.get('window');
 
 
@@ -35,66 +36,68 @@ export default function Login({navigation}) {
     }
     
     return (
-        <SafeAreaView style={styles.container}>
-            <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
-            <View style={styles.container}>
-                <ImageBackground
-                    style={styles.background_img}
-                    source={require('../assets/login_background.jpeg')}>
-                    <LinearGradient 
-                        colors={['#0000001d', '#ECECFFDD']} 
-                        style={{height : '100%', width : '100%'}}>
-                    </LinearGradient>
-                </ImageBackground>
-                <View style={{paddingTop:35, marginHorizontal:30}}>
-                    <Text style={styles.title1}>السلام</Text>
-                    <Text style={styles.title1}>المرجو تسجيل الدخول</Text>
-                    {
-                        error == '' ? <></> :
-                        <View style={{alignItems:'center', marginVertical: 15}}>
-                            <Text style={{borderRadius: 20, fontWeight: 'bold', fontSize:14, paddingHorizontal: 20,paddingTop: 7, paddingBottom: 5, color:'black', backgroundColor:'rgba(255, 75, 0, .35)'}}>{error}</Text>
-                        </View>
-                    }
-                    
+<KeyboardAvoidingView
+    style={styles.container}
+    behavior={Platform.OS === 'ios' ? 'padding' : null}
+    enabled
+  >
+    <SafeAreaView>
+      <ImageBackground
+                        style={styles.background_img}
+                        source={require('../assets/login_background.jpeg')}>
+                        <LinearGradient 
+                            colors={['#0000001d', '#ECECFFDD']} 
+                            style={{height : '100%', width : '100%'}}>
+                        </LinearGradient>
+                    </ImageBackground>
+      <View style={{ paddingTop: 35, marginHorizontal: 30 }}>
+        <Text style={styles.title1}>السلام</Text>
+        <Text style={styles.title1}>المرجو تسجيل الدخول</Text>
+        {
+          error == '' ? <></> :
+          <View style={{ alignItems: 'center', marginVertical: 15 }}>
+            <Text style={{ borderRadius: 20, fontWeight: 'bold', fontSize: 14, paddingHorizontal: 20, paddingTop: 7, paddingBottom: 5, color: 'black', backgroundColor: 'rgba(255, 75, 0, .35)' }}>{error}</Text>
+          </View>
+        }
 
-                    <Text style={[styles.input_label, error != '' ? {marginTop: 0} : {marginTop: 25}]}>إسم المستخدم</Text>
-                    <TextInput
-                        style={[styles.input, {borderRadius: 10}]}
-                        onChangeText={setUsername}
-                        value={username}
-                        placeholder="Username"
-                        keyboardType="ascii-mode"
-                        placeholderTextColor="rgba(0,0,0, 0.25)" 
-                    />
-                    <Text style={[styles.input_label]}>رقم الهاتف</Text>
-                    <View style={{ position:'relative'}}>
-                        <Text style={{fontFamily: 'Bold',fontSize: 13, position:'absolute', top: 12, left: 10, color: '#000000', zIndex:10}}>+966</Text>
-                        <TextInput
-                            style={[styles.input_phone, {borderRadius: 10}]}
-                            onChangeText={setNumber}
-                            value={Number}
-                            placeholder=" 12 345 6789"
-                            keyboardType="numeric"
-                            placeholderTextColor="rgba(0,0,0, 1)" 
-                        />
-                    </View>
-                    
-                </View>
-                <View style={{marginTop: 50, width:width - 60, left: 30}}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => input_check()}
-                    >
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'white'}}>تسجيل الدخول</Text>
-                    </TouchableOpacity> 
-                    <View style={{flexDirection: 'row', justifyContent:'center', marginTop:17}}>
-                        <Text style={{fontFamily: 'Black',fontSize: 13, color: '#7E7E7E',alignItems:'center'}} onPress={() => navigation.navigate('Register')}>سجل</Text>
-                        <Text style={{fontFamily: 'Bold',fontSize: 12, color: '#A8A8A8',alignItems:'center'}}> لا تملك حساب حتى الأن؟  </Text>
-                    </View>
-                </View>
-            </View>
-        </SafeAreaView>
-    );    
+        <Text style={[styles.input_label, error != '' ? { marginTop: 0 } : { marginTop: 25 }]}>إسم المستخدم</Text>
+        <TextInput
+          style={[styles.input, { borderRadius: 10 }]}
+          onChangeText={setUsername}
+          value={username}
+          placeholder="Username"
+          keyboardType="ascii-capable"
+          placeholderTextColor="rgba(0,0,0, 0.25)"
+        />
+        <Text style={[styles.input_label]}>رقم الهاتف</Text>
+        <View style={{ position: 'relative' }}>
+          <Text style={{ fontFamily: 'Bold', fontSize: 13, position: 'absolute', top: 12, left: 10, color: '#000000', zIndex: 10 }}>+966</Text>
+          <TextInput
+            style={[styles.input_phone, { borderRadius: 10 }]}
+            onChangeText={setNumber}
+            value={Number}
+            placeholder=" 12 345 6789"
+            keyboardType="numeric"
+            placeholderTextColor="rgba(0,0,0, 1)"
+          />
+        </View>
+
+      </View>
+      <View style={{ marginTop: 50, width: width - 60, left: 30 }}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => input_check()}
+        >
+          <Text style={{ fontFamily: 'Bold', fontWeight: '600', fontSize: 16, color: 'white' }}>تسجيل الدخول</Text>
+        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 17 }}>
+          <Text style={{ fontFamily: 'Black', fontSize: 13, color: '#7E7E7E', alignItems: 'center' }} onPress={() => navigation.navigate('Register')}>سجل</Text>
+          <Text style={{ fontFamily: 'Bold', fontSize: 12, color: '#A8A8A8', alignItems: 'center' }}> لا تملك حساب حتى الأن؟  </Text>
+        </View>
+      </View>
+    </SafeAreaView>
+  </KeyboardAvoidingView>
+);
 
     async function input_check(){
         setError("")
@@ -159,14 +162,12 @@ const styles = StyleSheet.create({
 
     input_label: {
         fontFamily: 'Bold',
-        fontStyle: 'normal',
         fontWeight: '600',
         fontSize: 11,
         marginTop: 25,
         lineHeight: 34,
         textAlign: 'right',
         color: '#292B56',
-        mixblendmode: 'normal',
     },
 
     input: {

@@ -15,26 +15,32 @@ import Pay_site from './screen/pay_to_site';
 import Product_detail_my from './screen/product_detail_my';
 import UserReview from './screen/user_review';
 import ChatScreen from './screen/messages_details';
+import Edit_product from './screen/edit_product';
 import { GetData } from './screen/Syncstorage';
+import { useState } from 'react';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [isLogin, setIsLogin] = React.useState(null);
+  const [isLogin, setIsLogin] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     GetData('user_id').then((res) => {
       console.log("here res -------"+res);
       if (res) {
         console.log("here true -------"+res);
+        setUser(res);
         setIsLogin(true);
       }
       if (!res) {
         console.log("here false -------"+res);
+        setUser(null);
         setIsLogin(false);
       }
     });
   }, []);
+
 
   if (isLogin === null) {
     return null;
@@ -55,9 +61,10 @@ export default function App() {
             <Stack.Screen name="Product_detail_my" component={Product_detail_my} options={{ headerShown: false }} />
             <Stack.Screen name="UserReview" component={UserReview} options={{ headerShown: false }} />
             <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Edit_product" component={Edit_product} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-            <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-            <Stack.Screen name="Verification_phone" component={Verification_phone} options={{ headerShown: false }} />
+              <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+              <Stack.Screen name="Verification_phone" component={Verification_phone} options={{ headerShown: false }} />
             </Stack.Navigator>
           </>
         ) : (
@@ -75,6 +82,7 @@ export default function App() {
               <Stack.Screen name="Product_detail_my" component={Product_detail_my} options={{ headerShown: false }} />
               <Stack.Screen name="UserReview" component={UserReview} options={{ headerShown: false }} />
               <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="Edit_product" component={Edit_product} options={{ headerShown: false }} />
             </Stack.Navigator>
           </>
         )}

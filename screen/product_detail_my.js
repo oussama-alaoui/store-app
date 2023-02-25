@@ -80,7 +80,7 @@ export default function Product_detail_my({ navigation, route })
     else
     {
         return (
-            console.log(route.params.product_id),
+            console.log(product_detail.client_id.id),
             <View style={styles.container}>
                 <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true} overScrollMode="never">
                 <View style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
@@ -121,7 +121,7 @@ export default function Product_detail_my({ navigation, route })
                                 source={require("../assets/up.png")}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.button, {backgroundColor: "#678DF9"}]} onPress={() => {navigation.navigate('Add_product')}} >
+                        <TouchableOpacity style={[styles.button, {backgroundColor: "#678DF9"}]} onPress={() => {navigation.navigate("Edit_product", {product: product_detail, city: "2", category: "2"})}} >
                             <Image
                                 style={{ width: 24, height: 24}}
                                 source={require("../assets/modifier.png")}
@@ -145,10 +145,8 @@ export default function Product_detail_my({ navigation, route })
                     </View>
                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginTop: 6}}>الإعلان رقم <Text style={{ fontFamily: "X_Bold", fontSize: 28, color: '#302D52', marginTop: 6}} onPress={() => copyToClipboard()}>{product_detail.id}</Text></Text>
                     
-                    <View style={{ width: 170, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#F3F6FF', borderRadius: 9, flexDirection: 'row', justifyContent: "space-around"}}>
-                        <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.max} ريال</Text>
-                        <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>|</Text>
-                        <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.price} ريال</Text>
+                    <View style={{ width: 120, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#F3F6FF', borderRadius: 9, flexDirection: 'row', justifyContent: "space-around"}}>
+                        <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.max ? product_detail.max : "لايوجد"} - {product_bids && product_bids.length > 0 ? product_bids[0].bid_price : product_detail.price} ريال</Text>
                     </View>
                     <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>{product_detail.city_id.city_name}</Text>
                     {product_detail.show_contact == "show" ?   (
@@ -272,12 +270,13 @@ export default function Product_detail_my({ navigation, route })
             });
             const json = await response.json();
             console.log(json);
-            if(json.status == 200){
-                Alert.alert(
+            if(json.StatusCode == 200){
+                console.log("deleted");
+                alert(
                     "تم الحذف بنجاح",
                     "تم حذف المنتج بنجاح",
                     [
-                        { text: "OK", onPress: () => navigation.navigate('Home') }
+                        { text: "OK", onPress: () => navigation.goBack() }
                     ]
                 );
                 navigation.navigate('Profile');
@@ -293,7 +292,7 @@ const dialCall = (number) => {
     if (Platform.OS === 'android') { phoneNumber = `tel:${number}`; }
     else {phoneNumber = `telprompt:${number}`; }
     Linking.openURL(phoneNumber);
- };
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -303,7 +302,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-
     header: {
         width: "90%",
         height: 60,

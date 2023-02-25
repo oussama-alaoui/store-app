@@ -10,52 +10,72 @@ import { StatusBar } from "expo-status-bar";
 import Matricule from './svg_assets/matricule'
 import { GetData } from "./Syncstorage";
 import Loadings from "./complement/loadings";
+import { useNavigation } from '@react-navigation/native';
+import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
  export default function Home_cars ({navigation}) {
 
-    const { width } = Dimensions.get('window');
-    const [Number, setNumber] = useState();
+    const navigation2 = useNavigation();
     const [Loading, setLoading] = useState(true);
     const [category, setCategory] = useState(2);
     const [articles, setArticles] = useState([{}]);
     const [favorites, setFavorites] = useState([{}]);
     const [client_id, setClient_id] = useState();
+    const [ID, setID] = useState("");
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
      });
-     const [svgSource, setSvgSource] = useState(null);
 
-    async function fetchData() {
-    console.log(category);
-    await fetch(`https://newapi.mediaplus.ma/api/v1/articles/type/${category}`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            },
+    async function fetchData(value) {
+        await fetch(`https://newapi.mediaplus.ma/api/v1/articles/type/${category}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                },
+            })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setArticles(responseJson.data.data);
+            console.log("user_id", value);
+            var filteredArray = responseJson.favorite.filter(function(itm){
+                return itm.from_id == value;
+            });
+            setFavorites(filteredArray);
+            setLoading(false);
         })
-    .then((response) => response.json())
-    .then((responseJson) => {
-        setArticles(responseJson.data.data);
-        var filteredArray = responseJson.favorite.filter(function(itm){
-            return itm.from_id == 1;
+        .catch((error) => {
+            console.warn(error);
         });
-        setFavorites(filteredArray);
-        setLoading(false);
-        // console.log("omarrr", filteredArray);
-    })
-    .catch((error) => {
-        console.warn(error);
-    });
     }
-    useEffect(() => {
-        fetchData();
+    function getuser_id(){
         GetData("user_id").then((value) => {
             setClient_id(value);
+            while (1) {
+                if (value != undefined) {
+                    fetchData(value);
+                    break;
+                }
+            }
+            
         });
-    }, [category]);
+    }
+    useEffect(() => {
+        const unsubscribe = navigation2.addListener('focus', async () => {
+            getuser_id();
+        });
+        return () => {
+          unsubscribe();
+        };
+      }, [navigation2]);
+      useEffect(() => {
+          GetData("user_id").then((value) => {
+              setClient_id(value);
+              fetchData();
+          });
+      }, [category]);
     
      if (!fontsLoaded) {
         return <Loadings/>;
@@ -67,6 +87,7 @@ import Loadings from "./complement/loadings";
     else{
         return(
             <SafeAreaView style={{flex: 1}}>
+                <ScrollView horizontal='true' style={{flex:1}} overScrollMode="never">
                 <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
                 <View style={styles.container}>
                     <View style={styles.header}>
@@ -98,32 +119,31 @@ import Loadings from "./complement/loadings";
                                 <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3'}}>إضافة إعلان</Text>
                                 <Image source={require('../assets/plus.png')} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{width: '11%', height: 37, backgroundColor: '#F9F9FE', borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginRight:15 }}>
+                            <TouchableOpacity style={{width: '11%', height: 37, backgroundColor: '#F9F9FE', borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginRight:15 }} onPress={() => navigation.navigate('Search')}>
                                 <Image source={require('../assets/filter.png')}/>
                             </TouchableOpacity>
                             <View style={{width: '40%', height: 37, justifyContent: 'center', alignItems: 'center'}}>
                                 <View style={{ justifyContent: 'space-between', flexDirection: 'row', }}>
+                                        <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', height: 37, backgroundColor: '#e1e1e3',borderTopLeftRadius: 10,borderBottomLeftRadius: 10,}} onPress={() => searchNow()}>
+                                            <Image source={require('../assets/search.png')}/>
+                                        </TouchableOpacity>
                                         <TextInput
-                                            style={[styles.input, {top: 0, width: '77%', borderTopLeftRadius: 10, borderBottomLeftRadius: 10, backgroundColor: '#F3F4F9', writingDirection: "ltr", padding: 10, fontSize: 10, fontFamily: 'Bold'}]}
-                                            onChangeText={setNumber}
-                                            value={Number}
+                                            style={[styles.input, {top: 0, width: '77%', borderTopRightRadius: 10, borderBottomRightRadius: 10, backgroundColor: '#F3F4F9', writingDirection: "ltr", padding: 10, fontSize: 10, fontFamily: 'Bold'}]}
+                                            onChangeText={setID}
+                                            value={ID}
                                             maxLength={10}
                                             placeholder=" البحث برقم الإعلان"
                                             keyboardType="numeric"
                                         />
-                                        <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '30%', height: 37, backgroundColor: '#e1e1e3',borderTopRightRadius: 10,borderBottomRightRadius: 10,}}>
-                                            <Image source={require('../assets/search.png')}/>
-                                        </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
                     </View>
                     
-                    <ScrollView horizontal='true' style={{flex:1}} overScrollMode="never">
                         <View style={styles.body}>
                             {articles.length > 0 ?(
                                 articles.map((item, index) => {
-                                        return (console.log('article id : ' + item.id,favorites.find(el => el.article_id === item.id)),
+                                        return (console.log(item.id),
                                             <TouchableOpacity key={index} style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => handeDetail(item.client_id.id, item.id)}>
                                                     {/* 1st colum */}
                                                     <View style={{width: '20%', height: '86%', borderRadius: 10, top: '3%', left: 5}}>
@@ -139,7 +159,7 @@ import Loadings from "./complement/loadings";
                                                         
                                                         </View>
                                                         <View style={{width: '110%', height: '24%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 5}}>
-                                                        <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max} ريال</Text>
+                                                        <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>{item.max ? item.max + "ريال" : "لايوجد"}</Text>
                                                             <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
                                                             <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
                                                         </View>
@@ -160,7 +180,7 @@ import Loadings from "./complement/loadings";
                                                                 <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray',}}>المدينة </Text>
                                                             </View>
                                                             <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                                <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF'}}>{item.price}-{item.price} ريال</Text>
+                                                                <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF'}}>{item.bid[0]?.bid_price || item.price} ريال</Text>
                                                                 <Text style={{fontSize: 12, fontFamily: 'Small', letterSpacing: 2, color: 'gray'}}>السعر </Text>
                                                             </View>
                                                         </View>
@@ -189,11 +209,11 @@ import Loadings from "./complement/loadings";
                             )}
                                 
                         </View>
-                    </ScrollView>
 
                 
                     
                 </View>
+                </ScrollView>
             </SafeAreaView>
         )
     }
@@ -206,6 +226,19 @@ import Loadings from "./complement/loadings";
             console.log('other product'+id + ' ' + client_id)
             navigation.navigate('Product_detail', {product_id: item_id})
         }
+    }
+
+    function searchNow()
+    {
+        let args = "https://newapi.mediaplus.ma/api/v1/articles/search/"
+        console.log(args);
+        if (ID == "")
+            args += "null/"
+        else
+            args += ID+"/null/null/null/"
+        console.log('ID : ', ID)
+        console.log('link : ', args)
+        navigation.navigate('Search_results', {url: args})
     }
 }
 

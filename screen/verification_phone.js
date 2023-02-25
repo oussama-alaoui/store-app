@@ -7,6 +7,8 @@ import { TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { StoreData } from "./Syncstorage";
 import Loadings from "./complement/loadings";
+import { useFocusEffect } from "@react-navigation/native";
+import { GetData } from "./Syncstorage";
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,6 +23,16 @@ export default function Verification_phone({navigation, route}) {
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
+    useFocusEffect( () => {
+        GetData('user_id').then((res) => {
+            console.log("here res -------"+res);
+            if (res) {
+                console.log("here true -------"+res);
+                navigation.navigate('Bottom');
+            }
+        });
+    });
+        
     if (!fontsLoaded) {
         return <Loadings/>;
     }

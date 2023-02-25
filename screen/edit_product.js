@@ -13,22 +13,22 @@ import { GetData, RemoveData, StoreData } from "../screen/Syncstorage";
 import Loadings from "./complement/loadings";
 import { Modal } from "react-native";
 
-export default function Add_product({navigation}) {
+export default function Edit_product({navigation, route}) {
     const [data, setData] = useState([{}]);
-    const [startedPrice, setStartedPrice] = useState();
-    const [endedPrice, setEndedPrice] = useState();
-    const [city, setCity] = useState();
-    const [category, setCategory] = useState(2);
-    const [platedesigne, setPlatedesigne] = useState("");
-    const [description, setDescription] = useState("");
-    const [showphone, setShowphone] = useState("");
+    const [startedPrice, setStartedPrice] = useState(route.params.product.price);
+    const [endedPrice, setEndedPrice] = useState(route.params.product.max ? route.params.product.max : 0);
+    const [city, setCity] = useState(route.params.product.city_id.id);
+    const [category, setCategory] = useState(route.params.product.type);
+    const [platedesigne, setPlatedesigne] = useState(route.params.product.style);
+    const [description, setDescription] = useState(route.params.product.description);
+    const [showphone, setShowphone] = useState(route.params.product.show_contact == "show" ? true : false);
     const [client_id, setClient_id] = useState();
     const [showType, setShowType] = useState(false);
     const [modalVisibleFeed, setModalVisibleFeed] = useState(false)
 
-    const [engfirstletter, setEngfirstletter] = useState("");
-    const [engsecondletter, setEngsecondletter] = useState("");
-    const [engthirdletter, setEngthirdletter] = useState("");
+    const [engfirstletter, setEngfirstletter] = useState();
+    const [engsecondletter, setEngsecondletter] = useState();
+    const [engthirdletter, setEngthirdletter] = useState();
 
     const [arfirstletter, setArfirstletter] = useState("");
     const [arsecondletter, setArsecondletter] = useState("");
@@ -65,15 +65,49 @@ export default function Add_product({navigation}) {
     }, []);
 
     useEffect(() => {
+        init_plate_alpha_number(route.params.product.en_alpha, route.params.product.en_numbers);
         GetData("user_id").then((data) => {
             setClient_id(data);
         });
-    }, [navigation]);
+    }, []);
+
+    function init_plate_alpha_number (str, number)
+    {
+        if (str[0])
+            setEngfirstletter(str[0].toUpperCase());
+        if (str[1])
+            setEngsecondletter(str[1].toUpperCase());
+        if (str[2])
+            setEngthirdletter(str[2].toUpperCase());
+        if (number[0])
+            setEngfirstnumber(number[0]);
+        if (number[1])
+            setEngsecondnumber(number[1]);
+        if (number[2])
+            setEngthirdnumber(number[2]);
+        if (number[3])
+            setEngfourthnumber(number[3]);
+        // convert to arabic
+        if (str[0])
+            to_ar(str[0], 1);
+        if (str[1])
+            to_ar(str[1], 2);
+        if (str[2])
+            to_ar(str[2], 3);
+        if (number[0])
+            to_ar_num(number[0], 1);
+        if (number[1])
+            to_ar_num(number[1], 2);
+        if (number[2])
+            to_ar_num(number[2], 3);
+        if (number[3])
+            to_ar_num(number[3], 4);
+    }
     if (!fontsLoaded) {
         return <Loadings/>;
     }
 
-    const ModalPromise = () => {
+        const ModalPromise = () => {
         const   [Pay, setPay] = useState(false);
         return (
             <Modal
@@ -105,11 +139,11 @@ export default function Add_product({navigation}) {
     }
 
     return (
-        console.log(showphone+"client_id"),
+        console.log(showphone),
         <View style={styles.container}>
             <ModalPromise/>
         <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: "10%", marginRight: 10, color: "#302C6B"}}>
-         إضافة إعلان جديد    
+         تعديل إعلان     
         </Text>
         {
             error == '' ? <></> :
@@ -131,7 +165,7 @@ export default function Add_product({navigation}) {
             </View>
             <View style={{ width: "90%", height: 1, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", marginTop: 20}}>
             </View>
-            <ScrollView style={{ width: "100%", height: "100%", marginBottom:  error ? 60 : 10}} overScrollMode="never">
+            <ScrollView style={{ width: "100%", height: "100%", marginBottom: error ? 60 : 10}} overScrollMode="never">
                 <View style={{ width: "90%", height: 40, flexDirection: "column-reverse", justifyContent: "space-between", marginLeft: "5%"}}>
                     <Text style={{ fontFamily: "Small", fontSize: 12, color: "#000"}}>
                     المرجو إدخال الحروف و الأ رقام التي تبحت عنها
@@ -303,14 +337,13 @@ export default function Add_product({navigation}) {
                     <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>السعر</Text>
                     <View style={{ width: "100%", borderRadius: 20, flexDirection: 'row', justifyContent: "space-between",}}>
                         <View style={{ width: "50%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
-                            <TextInput
-                                style={{ width: "50%", height: 40, fontFamily: "Bold", fontSize: 15, color: "#000", backgroundColor: "#fff", paddingLeft: 15, borderRadius: 8}}
-                                placeholderTextColor="gray"
-                                placeholder="150"
-                                keyboardType="numeric"
-                                onChangeText={setEndedPrice}
-                                value={endedPrice}
-                            />
+                        <TextInput
+                            style={{ width: "50%", height: 40, fontFamily: "Bold", fontSize: 15, color: "#000", backgroundColor: "#fff", paddingLeft: 15, borderRadius: 8}}
+                            placeholderTextColor="gray"
+                            keyboardType="numeric"
+                            value={endedPrice == 0 ? "" : endedPrice.toString()}
+                            onChangeText={text => setEndedPrice(parseInt(text))}
+                        />
                             <Text style={{fontFamily: "Small", fontSize: 13, color: "gray"}}>الحد (إختيار) </Text>
                         </View>
 
@@ -318,11 +351,10 @@ export default function Add_product({navigation}) {
                             <TextInput
                                 style={{ width: "50%", height: 40, fontFamily: "Bold", fontSize: 15, color: "#000", backgroundColor: "#fff", paddingLeft: 15, borderRadius: 8}}
                                 placeholderTextColor="gray"
-                                placeholder="150"
                                 keyboardType="numeric"
                                 maxLength={5}
-                                onChangeText={setStartedPrice}
-                                value={startedPrice}
+                                value={startedPrice.toString()}
+                                onChangeText={text => setStartedPrice(parseInt(text))}
                             />
                             <Text style={{fontFamily: "Small", fontSize: 13, color: "gray"}}> سعر البدأ </Text>
                         </View>
@@ -455,9 +487,9 @@ export default function Add_product({navigation}) {
                     </View>
                     <TouchableOpacity
                             style={styles.button}
-                            onPress={() => setModalVisibleFeed(true)}
+                            onPress={() => check_all()}
                         >
-                            <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'white'}}>إضافة إعلان</Text>
+                            <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 16, color: 'white'}}>تعديل إعلان</Text>
                     </TouchableOpacity> 
                 </View>
             </ScrollView>
@@ -584,8 +616,8 @@ export default function Add_product({navigation}) {
     
     function to_en(c, j)
     {
-        console.log("kkkkk");
         if (c == "ا"){c = "أ";}
+        console.log("kkkkk");
         var ar = 'أبحدرسصطعقكلمنهوى'.split('');
         var en = "ABJDRSXTEGKLZNHUV";
         if(c != "")
@@ -700,7 +732,6 @@ export default function Add_product({navigation}) {
     function check_all()
     {
         // check if paltedesigne is in category
-        setModalVisibleFeed(false);
         if ((category == 0 && platedesigne != "motor") || 
         (category == 1 && (platedesigne != "public-00" && platedesigne != "public-01")) || 
         (category == 2 && (platedesigne != "basic-00" && platedesigne != "basic-01" && platedesigne != "basic-02" && platedesigne != "basic-03" && platedesigne != "basic-04" && platedesigne != "basic-05" && platedesigne != "basic-06")))
@@ -720,8 +751,8 @@ export default function Add_product({navigation}) {
                 setError("يجب إختيار حرف للوحة");
             }
             else {
-                create_car_plate();
                 setError("");
+                create_car_plate();
             }
         }
     }
@@ -747,13 +778,11 @@ export default function Add_product({navigation}) {
             client_id: client_id,
             en_numbers: number,
             en_alpha: str,
-            show_contact: showphone == true ? "show" : "",
+            show_contact: showphone == true ? "show" : "hide",
             style: platedesigne,
         })
-        console.log(str);
-        console.log(number);
         console.log(value);
-        fetch('https://newapi.mediaplus.ma/api/v1/articles', {
+        fetch(`https://newapi.mediaplus.ma/api/v1/articles/${route.params.product.id}?_method=PUT`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -767,29 +796,6 @@ export default function Add_product({navigation}) {
                 if(responseJson.status == true)
                 {
                     navigation.navigate('Home');
-                    setEngfirstnumber("");
-                    setEngsecondnumber("");
-                    setEngthirdnumber("");
-                    setEngfourthnumber("");
-                    setArfirstnumber("");
-                    setArsecondnumber("");
-                    setArthirdnumber("");
-                    setArfourthnumber("");
-                    setEngfirstletter("");
-                    setEngsecondletter("");
-                    setEngthirdletter("");
-                    setArfirstletter("");
-                    setArsecondletter("");
-                    setArthirdletter("");
-                    setPlatedesigne("");
-                    setStartedPrice("");
-                    setEndedPrice("");
-                    setDescription("");
-                    setCity();
-                }
-                else {
-                    console.log(Object.values(responseJson.errors)[0][0]);
-                    setError(Object.values(responseJson.errors)[0][0]);
                 }
             }
         ).catch((error) => {

@@ -21,14 +21,32 @@ export default function Profile({navigation, route}) {
     const  [user_id, setUser_id] = useState(0);
 
     useEffect(() => {
-        GetData('user_id').then((res) => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            async function fetchData() {
+            const res = await GetData('user_id');
             setUser_id(res);
-            console.log("user_id"+res);
-            get_products()
-            get_user_detail()
+            }
+            fetchData();
         });
-    }, [user_id]);
+        return unsubscribe;
+      }, [navigation, user_id]);
+      
+      useEffect(() => {
+        if (user_id) {
+          get_user_detail();
+          get_products();
+        }
+      }, [user_id]);
 
+      useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            if (user_id) {
+            get_user_detail();
+            get_products();
+            }
+        });
+        return unsubscribe;
+      }, [navigation]);
     async function get_user_detail(){
         fetch(`https://newapi.mediaplus.ma/api/v1/clients/${user_id}`, 
             {
@@ -113,7 +131,7 @@ export default function Profile({navigation, route}) {
                 </View>
 
                 <View style={{width: '100%', height: '20%', top: '30%', justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>blabla2</Text>
+                    <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56'}}>{user_detail.username}</Text>
                     <TouchableOpacity style={{width: '30%', height: '95%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13, top: 10}} onPress={() => navigation.navigate('Messages')}>
                         <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>الرسائل</Text>
                     </TouchableOpacity>
@@ -123,7 +141,7 @@ export default function Profile({navigation, route}) {
             <View style={{width: '100%', height: '100%', top: 150, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1FBFF'}}>
                     <View style={{width: '90%', height: '5%', justifyContent: 'space-between', margin: 10, flexDirection: 'row'}}>
 
-                        <TouchableOpacity style={{width: 80, height: 30, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row'}} onPress={() => setNumber(3)}>
+                        <TouchableOpacity style={{width: 80, height: 30, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row'}} onPress={() => navigation.navigate('Add_product')}>
                             <Image source={require('../assets/plus.png')} style={{width: 16, height: 16}}/>
                             <Text style={{fontFamily: 'Small', fontSize: 14, color: '#0075FE'}}>إضافة لوحة</Text>
                         </TouchableOpacity>
@@ -142,7 +160,7 @@ export default function Profile({navigation, route}) {
                                     {/* 1st colum */}
                                                 <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
                                                     <View style={{width: '100%', height: '35%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 4}}>
-                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max} ريال</Text>
+                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>{item.max ? item.max + "ريال" : "لايوجد"}</Text>
                                                         <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
                                                         <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
                                                     </View>
@@ -157,7 +175,7 @@ export default function Profile({navigation, route}) {
                                                             <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray', left: 12}}>المدينة </Text>
                                                         </View>
                                                         <View style={{width: '100%', height: '39%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5}}>{item.price}-{item.price} ريال</Text>
+                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5}}>{item.bid[0]?.bid_price || item.price} ريال</Text>
                                                             <Text style={{fontSize: 12, fontFamily: 'Small', letterSpacing: 2, color: 'gray', left: 4}}>السعر </Text>
                                                         </View>
                                                     </View>

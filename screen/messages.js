@@ -16,11 +16,14 @@ export default function Messages({navigation}) {
     const [rooms, setRooms] = useState(null);
     const [user_id, setUserid] = useState([]);
     useEffect(() => {
-        GetData('user_id').then((value) => {
-            setUserid(value);
-            getRoomsWithLatestMessages(value);
+        const unsubscribe = navigation.addListener('focus', () => {
+            GetData('user_id').then((value) => {
+                setUserid(value);
+                getRoomsWithLatestMessages(value);
+            });
         });
-    }, [true]);
+        return unsubscribe;
+    }, [navigation]);
 
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
