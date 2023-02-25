@@ -17,6 +17,7 @@ const { width, height } = Dimensions.get('window');
 export default function Register({navigation}, props) {
     const [Number, setNumber] = useState();
     const [value, setValue] = useState('')
+    const [error, setError] = useState('')
     const [username, setUsername] = useState("");
     let [fontsLoaded] = useFonts({
        Small: require("../assets/fonts/NotoSansArabic-Thin.ttf"),
@@ -46,9 +47,15 @@ export default function Register({navigation}, props) {
                         <Text style={styles.title}>
                             السلام عليكم،
                             {'\n'}
-                            المرجو تسجيل الدخول
+                            إنشاء حساب جديد
                         </Text>
-                        <Text style={styles.input_label}>إسم المستخدم</Text>
+                        {
+                            error == '' ? <></> :
+                            <View style={{alignItems:'center', marginVertical: 15}}>
+                                <Text style={{borderRadius: 20, fontWeight: 'bold', fontSize:14, paddingHorizontal: 20,paddingTop: 7, paddingBottom: 5, color:'black', backgroundColor:'rgba(255, 75, 0, .35)'}}>{error}</Text>
+                            </View>
+                        }
+                        <Text style={[styles.input_label, error != '' ? {marginTop: 0} : {marginTop: 25}]}>إسم المستخدم</Text>
                         <TextInput
                             style={[styles.input, {borderRadius: 10}]}
                             onChangeText={setUsername}
@@ -88,6 +95,16 @@ export default function Register({navigation}, props) {
     );
 
     async function input_check(){
+        setError('')
+        if (username == '' || Number == '')
+        {
+            setError('الرجاء إدخال اسم المستخدم ورقم الهاتف الخاصين بك')
+            return
+        }
+        console.log(JSON.stringify({
+            "phone": Number,
+            "username": username,
+        }))
         await fetch("https://newapi.mediaplus.ma/api/v1/clients", {
             method: 'POST',
             headers: {
@@ -103,7 +120,12 @@ export default function Register({navigation}, props) {
             setValue(json)
             console.log(json.data.id)
             if (json.status == true){
-                navigation.navigate('Verification_phone', {id: value.data.id})
+                navigation.navigate('Verification_phone', {id: json.data.id})
+            }
+            else
+            {
+                console.log(json)
+                setError(json.info)
             }
         })
     }
