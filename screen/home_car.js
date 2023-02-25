@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Dimensions, SafeAreaView } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
-import { TextInput } from "react-native";
+import { TextInput, RefreshControl } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native";
@@ -11,7 +11,6 @@ import Matricule from './svg_assets/matricule'
 import { GetData } from "./Syncstorage";
 import Loadings from "./complement/loadings";
 import { useNavigation } from '@react-navigation/native';
-import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
  export default function Home_cars ({navigation}) {
 
@@ -22,6 +21,9 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
     const [favorites, setFavorites] = useState([{}]);
     const [client_id, setClient_id] = useState();
     const [ID, setID] = useState("");
+    const [refreshing, setRefreshing] = useState(false);
+
+
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
@@ -76,6 +78,14 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
               fetchData();
           });
       }, [category]);
+
+    const onRefresh = React.useCallback(() => {
+        console.log("refreshing");
+        setRefreshing(true);
+        setTimeout(() => {
+        setRefreshing(false);
+        }, 2000);
+    }, []);
     
      if (!fontsLoaded) {
         return <Loadings/>;
@@ -86,7 +96,7 @@ import { get } from "react-native/Libraries/Utilities/PixelRatio";
     }
     else{
         return(
-            <SafeAreaView style={{flex: 1}}>
+            <SafeAreaView style={{flex: 1}}  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                 <ScrollView horizontal='true' style={{flex:1}} overScrollMode="never">
                 <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
                 <View style={styles.container}>

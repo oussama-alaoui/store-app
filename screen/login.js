@@ -1,30 +1,24 @@
-import React, { useEffect } from "react";
-import { ImageBackground, SafeAreaView, StyleSheet, Text, View, Image, Dimensions} from "react-native";
+import React, { useEffect, useRef } from "react";
+import { ImageBackground, SafeAreaView, StyleSheet, Text, View, Image, Dimensions, KeyboardAvoidingView } from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loadings from "./complement/loadings";
-
-import { StatusBar } from "expo-status-bar";
-import { KeyboardAvoidingView } from "react-native";
+import { Keyboard } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 const { width, height } = Dimensions.get('window');
 
 
 
 
 export default function Login({navigation}) {
-    // useEffect(() => {
-    //     getData()
-    // }, [])
     const [value, setValue] = useState('')
     const [error, setError] = useState('')
-
-
     const [Number, setNumber] = useState();
     const [username, setUsername] = useState("");
+
     let [fontsLoaded] = useFonts({
        Small: require("../assets/fonts/NotoSansArabic-Thin.ttf"),
        Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
@@ -34,14 +28,12 @@ export default function Login({navigation}) {
     if (!fontsLoaded) {
         return <Loadings/>;
     }
-    
+
+
     return (
-<KeyboardAvoidingView
-    style={styles.container}
-    behavior={Platform.OS === 'ios' ? 'padding' : null}
-    enabled
-  >
-    <SafeAreaView>
+      <TouchableOpacity onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
+    <KeyboardAwareScrollView >
+      <SafeAreaView>
       <ImageBackground
                         style={styles.background_img}
                         source={require('../assets/login_background.jpeg')}>
@@ -95,8 +87,9 @@ export default function Login({navigation}) {
           <Text style={{ fontFamily: 'Bold', fontSize: 12, color: '#A8A8A8', alignItems: 'center' }}> لا تملك حساب حتى الأن؟  </Text>
         </View>
       </View>
-    </SafeAreaView>
-  </KeyboardAvoidingView>
+      </SafeAreaView>
+    </KeyboardAwareScrollView>
+    </TouchableOpacity>
 );
 
     async function input_check(){
@@ -141,8 +134,7 @@ export default function Login({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        position: 'relative'
+        backgroundColor: '#fff'
     },
 
     background_img: {

@@ -5,9 +5,8 @@ import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { BottomTabBar } from "@react-navigation/bottom-tabs";
 import { StatusBar } from "expo-status-bar";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Loadings from "./complement/loadings";
 
 
@@ -30,6 +29,8 @@ export default function Register({navigation}, props) {
     }
     
     return (
+        <TouchableOpacity onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
+        <KeyboardAwareScrollView >
         <SafeAreaView style={styles.container}>
             <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
             <View style={styles.container}>
@@ -92,6 +93,9 @@ export default function Register({navigation}, props) {
                 </View>
             </View>
         </SafeAreaView>
+        </KeyboardAwareScrollView>
+        </TouchableOpacity>
+
     );
 
     async function input_check(){
