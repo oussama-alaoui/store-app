@@ -70,7 +70,7 @@ export default function Login({navigation}) {
             value={Number}
             placeholder=" 12 345 6789"
             keyboardType="numeric"
-            placeholderTextColor="rgba(0,0,0, 1)"
+            placeholderTextColor="rgba(0,0,0, 0.25)"
           />
         </View>
 
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     input: {
         width: '100%',
         backgroundColor: '#F6F7FC',
-        fontFamily: 'Small',
+        fontFamily: 'Bold',
         fontSize: 13,
         padding: 10,
     },
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     input_phone: {
         width: '100%',
         backgroundColor: '#F6F7FC',
-        fontFamily: 'Small',
+        fontFamily: 'Bold',
         fontSize: 13,
         paddingLeft: 45,
         paddingVertical: 10,

@@ -75,7 +75,7 @@ import { useNavigation } from '@react-navigation/native';
       useEffect(() => {
           GetData("user_id").then((value) => {
               setClient_id(value);
-              fetchData();
+              getuser_id();
           });
       }, [category]);
 

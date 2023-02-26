@@ -17,7 +17,7 @@ export default function Add_product({navigation}) {
     const [data, setData] = useState([{}]);
     const [startedPrice, setStartedPrice] = useState();
     const [endedPrice, setEndedPrice] = useState();
-    const [city, setCity] = useState();
+    const [city, setCity] = useState(undefined);
     const [category, setCategory] = useState(2);
     const [platedesigne, setPlatedesigne] = useState("");
     const [description, setDescription] = useState("");
@@ -62,6 +62,7 @@ export default function Add_product({navigation}) {
         .then((json) => setData(json.data))
         .catch((error) => console.error(error))
         .finally(() => console.log(data));
+        setCity(data[0].id);
     }, []);
 
     useEffect(() => {
@@ -105,7 +106,7 @@ export default function Add_product({navigation}) {
     }
 
     return (
-        console.log(showphone+"client_id"),
+        console.log(city),
         <View style={styles.container}>
             <ModalPromise/>
         <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: "10%", marginRight: 10, color: "#302C6B"}}>
@@ -297,7 +298,8 @@ export default function Add_product({navigation}) {
                     <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>المدينة</Text>
                     <SelectList 
                         setSelected={(val) => setCity(val)} 
-                        data={data} 
+                        data={data}
+                        placeholder="اختر المدينة"
                         save="key"
                     />
                     <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>السعر</Text>
@@ -785,7 +787,8 @@ export default function Add_product({navigation}) {
                     setStartedPrice("");
                     setEndedPrice("");
                     setDescription("");
-                    setCity();
+                    setCity(undefined);
+                    setShowphone(false);
                 }
                 else {
                     console.log(Object.values(responseJson.errors)[0][0]);

@@ -12,43 +12,38 @@ import { useEffect } from "react";
 import Matricule from './svg_assets/matricule'
 import { RemoveData, GetData } from "./Syncstorage";
 import Loadings from "./complement/loadings";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
 export default function Profile({navigation, route}) {
-    const [Number, setNumber] = useState(0);
+
+    const navigation2 = useNavigation();
     const   [user_detail, setUser_detail] = useState({});
     const   [all_products, setAll_products] = useState([]);
     const   [loading, setLoading] = useState(true);
     const  [user_id, setUser_id] = useState(0);
-
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            async function fetchData() {
-            const res = await GetData('user_id');
-            setUser_id(res);
+    
+    function getuser_id(){
+        GetData("user_id").then((value) => {
+            setUser_id(value);
+            while (1) {
+                if (value != undefined) {
+                    get_user_detail(value);
+                    get_products(value);
+                    break;
+                }
             }
-            fetchData();
+            
         });
-        return unsubscribe;
-      }, [navigation, user_id]);
-      
-      useEffect(() => {
-        if (user_id) {
-          get_user_detail();
-          get_products();
-        }
-      }, [user_id]);
-
-      useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            if (user_id) {
-            get_user_detail();
-            get_products();
-            }
-        });
-        return unsubscribe;
-      }, [navigation]);
-    async function get_user_detail(){
-        fetch(`https://newapi.mediaplus.ma/api/v1/clients/${user_id}`, 
+    }
+    useFocusEffect(
+        React.useCallback(() => {
+            console.log("focus"),
+            getuser_id();
+        }, [])
+    );
+    async function get_user_detail(value){
+        fetch(`https://newapi.mediaplus.ma/api/v1/clients/${value}`, 
             {
             method: 'GET',
             headers: {
@@ -59,14 +54,15 @@ export default function Profile({navigation, route}) {
             .then((response) => response.json())
             .then((json) => {
                 setUser_detail(json.data)
+                setLoading(loading => ++loading)
             })
             .catch((error) => {
                 console.error(error);
         })
         
     }
-   async function get_products(){
-            fetch(`https://newapi.mediaplus.ma/api/v1/articles/user/${user_id}`, 
+   async function get_products(value){
+            fetch(`https://newapi.mediaplus.ma/api/v1/articles/user/${value}`, 
                 {
                 method: 'GET',
                 headers: {
@@ -78,7 +74,7 @@ export default function Profile({navigation, route}) {
                 .then((json) => {
                     setAll_products(json.data)
                     console.log(json.data)
-                    setLoading(false)
+                    setLoading(loading => ++loading)
                 })
                 .catch((error) => {
                     console.error(error);
@@ -92,13 +88,11 @@ export default function Profile({navigation, route}) {
     if (!fontsLoaded) {
         return <Loadings/>;
     }
-    if (loading) {
+    if (loading < 2) {
         return <Loadings/>;
     }
     else {
     return (
-        console.log(Number),
-        
         <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
             <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
             <View style={styles.header}>
@@ -150,7 +144,7 @@ export default function Profile({navigation, route}) {
                     </View>
                 <ScrollView horizontal='true' overScrollMode="never">
                     <View style={styles.body}>
-                            {all_products.data.map((item, index) => {
+                            {all_products.data != undefined ?  all_products.data.map((item, index) => {
                                 const date = new Date(item.created_at);
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
@@ -221,7 +215,7 @@ export default function Profile({navigation, route}) {
                                     </View>
                                     </TouchableOpacity>
                                 )
-                            })}
+                            }) : <></>}
                         </View>
                 </ScrollView>
             </View>
