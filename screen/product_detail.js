@@ -202,7 +202,7 @@ export default function Product_detail({ navigation, route })
                 <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true} overScrollMode="never">
                 <View style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()} >
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")} >
                         <Image
                             style={{ width: 24, height: 24}}
                             source={require("../assets/back.png")}
@@ -287,7 +287,7 @@ export default function Product_detail({ navigation, route })
                     <TouchableOpacity onPress={()=>navigation.navigate('User_Profile', {user_id: product_detail.client_id.id})}>
                         <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>{product_detail.client_id.username}</Text>
                     </TouchableOpacity>
-                    <View style={{ width: 120, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#F3F6FF', borderRadius: 9, flexDirection: 'row', justifyContent: "space-around"}}>
+                    <View style={{height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#F3F6FF', borderRadius: 9, flexDirection: 'row', justifyContent: "space-around", padding: 10}}>
                         <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.max ? product_detail.max : "لايوجد"} - {product_bids && product_bids.length > 0 ? product_bids[0].bid_price : product_detail.price} ريال</Text>
                     </View>
                     <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>{product_detail.city_id.city_name}</Text>

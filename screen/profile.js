@@ -14,6 +14,7 @@ import { RemoveData, GetData } from "./Syncstorage";
 import Loadings from "./complement/loadings";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { get } from "react-native/Libraries/Utilities/PixelRatio";
+import { RefreshControl } from "react-native";
 
 export default function Profile({navigation, route}) {
 
@@ -22,6 +23,7 @@ export default function Profile({navigation, route}) {
     const   [all_products, setAll_products] = useState([]);
     const   [loading, setLoading] = useState(true);
     const  [user_id, setUser_id] = useState(0);
+    const [refreshing, setRefreshing] = useState(false);
     
     function getuser_id(){
         GetData("user_id").then((value) => {
@@ -85,6 +87,14 @@ export default function Profile({navigation, route}) {
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
+
+    const onRefresh = React.useCallback(() => {
+        console.log("refreshing");
+        setRefreshing(true);
+        setTimeout(() => {
+        setRefreshing(false);
+        }, 2000);
+    }, []);
     if (!fontsLoaded) {
         return <Loadings/>;
     }
@@ -142,7 +152,7 @@ export default function Profile({navigation, route}) {
                         <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#000000'}}>اللوحات المعروضة</Text>
 
                     </View>
-                <ScrollView horizontal='true' overScrollMode="never">
+                <ScrollView horizontal='true' overScrollMode="never"   refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
                     <View style={styles.body}>
                             {all_products.data != undefined ?  all_products.data.map((item, index) => {
                                 const date = new Date(item.created_at);

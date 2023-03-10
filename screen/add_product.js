@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { ImageBackground, SafeAreaView } from "react-native";
 import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
 import { TextInput } from "react-native";
@@ -72,6 +71,15 @@ export default function Add_product({navigation}) {
     }, [navigation]);
     if (!fontsLoaded) {
         return <Loadings/>;
+    }
+
+    function trans_num(num, str){
+        // check if the number is arabic or english
+        if (num >= 0 && num <= 9){
+            to_ar_num(num, str);
+        }else{
+            to_en_num(num, str);
+        }
     }
 
     const ModalPromise = () => {
@@ -151,7 +159,7 @@ export default function Add_product({navigation}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#000"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_en_num(text, 4)}
+                                    onChangeText={(text) => trans_num(text, 4)}
                                     value={arfourthnumber }
                                     maxLength={1}
                                 />
@@ -163,7 +171,7 @@ export default function Add_product({navigation}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
                                     placeholderTextColor="#000"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_en_num(text, 3)}
+                                    onChangeText={(text) => trans_num(text, 3)}
                                     value={arthirdnumber}
                                     maxLength={1}
                                 />
@@ -171,7 +179,7 @@ export default function Add_product({navigation}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#959"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_en_num(text, 2)}
+                                    onChangeText={(text) => trans_num(text, 2)}
                                     value={arsecondnumber}
                                     maxLength={1}
                                 />
@@ -179,7 +187,7 @@ export default function Add_product({navigation}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#959"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_en_num(text, 1)}
+                                    onChangeText={(text) => trans_num(text, 1)}
                                     value={arfirstnumber}
                                     maxLength={1}
                                 />
@@ -227,7 +235,7 @@ export default function Add_product({navigation}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#000"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_ar_num(text, 4)}
+                                    onChangeText={(text) => trans_num(text, 4)}
                                     value={engfourthnumber}
                                     maxLength={1}
                                 />
@@ -239,7 +247,7 @@ export default function Add_product({navigation}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
                                     placeholderTextColor="#000"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_ar_num(text, 3)}
+                                    onChangeText={(text) => trans_num(text, 3)}
                                     value={engthirdnumber}
                                     maxLength={1}
                                 />
@@ -247,7 +255,7 @@ export default function Add_product({navigation}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#959"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_ar_num(text, 2)}
+                                    onChangeText={(text) => trans_num(text, 2)}
                                     value={engsecondnumber}
                                     maxLength={1}
                                 />
@@ -255,7 +263,7 @@ export default function Add_product({navigation}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#959"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_ar_num(text, 1)}
+                                    onChangeText={(text) => trans_num(text, 1)}
                                     value={engfirstnumber}
                                     maxLength={1}
                                 />
@@ -717,9 +725,13 @@ export default function Add_product({navigation}) {
                 setError("يجب إختيار رقم للوحة");
             }
             // CHECK IF MOTOR WE NEED TWO LETTERS IF NOT WE NEED THREE LETTERS
-            else if (category == 0 && (engfirstletter == "" || engsecondletter == "") || category == 1 && (engfirstletter == "" || engsecondletter == "" || engthirdletter == "") || category == 2 && (engfirstletter == "" || engsecondletter == "" || engthirdletter == ""))
+            else if (category == 0 && (engfirstletter == "" || engsecondletter == "") || category == 1 && (engfirstletter == "" || engsecondletter == "" || engthirdletter == ""))
             {
                 setError("يجب إختيار حرف للوحة");
+            }
+            else if (startedPrice < 0 || endedPrice < 0)
+            {
+                setError("يجب أن يكون سعر البداية والنهاية موجبان");
             }
             else {
                 create_car_plate();

@@ -41,7 +41,7 @@ import { useNavigation } from '@react-navigation/native';
         .then((response) => response.json())
         .then((responseJson) => {
             setArticles(responseJson.data.data);
-            console.log("user_id", value);
+            // console.log("user_id", value);
             var filteredArray = responseJson.favorite.filter(function(itm){
                 return itm.from_id == value;
             });
@@ -49,7 +49,7 @@ import { useNavigation } from '@react-navigation/native';
             setLoading(false);
         })
         .catch((error) => {
-            console.warn(error);
+            // console.warn(error);
         });
     }
     function getuser_id(){
@@ -80,9 +80,9 @@ import { useNavigation } from '@react-navigation/native';
       }, [category]);
 
     const onRefresh = React.useCallback(() => {
-        console.log("refreshing");
         setRefreshing(true);
         setTimeout(() => {
+        getuser_id();
         setRefreshing(false);
         }, 2000);
     }, []);
@@ -96,8 +96,9 @@ import { useNavigation } from '@react-navigation/native';
     }
     else{
         return(
-            <SafeAreaView style={{flex: 1}}  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-                <ScrollView horizontal='true' style={{flex:1}} overScrollMode="never">
+            console.log("articles", category),
+            <SafeAreaView horizontal='true' overScrollMode="never" style={{flex: 1}}>
+                <ScrollView horizontal='true' style={{flex:1}} overScrollMode="never"   refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                 <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
                 <View style={styles.container}>
                     <View style={styles.header}>
@@ -153,7 +154,7 @@ import { useNavigation } from '@react-navigation/native';
                         <View style={styles.body}>
                             {articles.length > 0 ?(
                                 articles.map((item, index) => {
-                                        return (console.log(item.id),
+                                        return (
                                             <TouchableOpacity key={index} style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => handeDetail(item.client_id.id, item.id)}>
                                                     {/* 1st colum */}
                                                     <View style={{width: '20%', height: '86%', borderRadius: 10, top: '3%', left: 5}}>
@@ -241,13 +242,10 @@ import { useNavigation } from '@react-navigation/native';
     function searchNow()
     {
         let args = "https://newapi.mediaplus.ma/api/v1/articles/search/"
-        console.log(args);
         if (ID == "")
             args += "null/"
         else
             args += ID+"/null/null/null/"
-        console.log('ID : ', ID)
-        console.log('link : ', args)
         navigation.navigate('Search_results', {url: args})
     }
 }
