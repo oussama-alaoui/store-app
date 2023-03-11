@@ -21,7 +21,6 @@ export default function User_Profile({navigation, route}) {
     const   [loading, setLoading] = useState(true);
     const   [modalVisibleRepo, setModalVisibleRepo] = useState(false);
     const   [modalVisibleFeed, setModalVisibleFeed] = useState(false);
-    const   [user_id, setUser_id] = useState(0);
     useEffect(() => {
         fetch(`https://newapi.mediaplus.ma/api/v1/clients/${route.params.user_id}`, 
             {
@@ -59,11 +58,6 @@ export default function User_Profile({navigation, route}) {
                 console.error(error);
         })
         
-    }, [])
-    useEffect(() => {
-        GetData('user_id').then((res) => {
-            setUser_id(res)
-        })
     }, [])
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),

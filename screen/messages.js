@@ -98,7 +98,7 @@ export default function Messages({navigation}) {
                     <TouchableOpacity 
                         key={index} 
                         style={{ width: "100%", height: 90, flexDirection: 'row-reverse', backgroundColor: 'rgba(108, 99, 255, .05)', alignItems: "center", paddingHorizontal:15, borderBottomWidth:1, borderBottomColor:'rgba(108, 99, 255, .2)'}} 
-                        onPress={() => navigation.navigate("ChatScreen", {room_id: item.id})}
+                        onPress={() => navigation.navigate("ChatScreen", {room_id: item.id, otherUser: item.otherUser})}
                     >
                         <View style={{ width: 60, height: 60, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4, marginLeft: 10}}>
                             <Image style={{ width: 40, height: 40, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
