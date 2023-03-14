@@ -19,6 +19,7 @@ export default function User_Profile({navigation, route}) {
     const   [user_detail, setUser_detail] = useState({});
     const   [all_products, setAll_products] = useState([]);
     const   [loading, setLoading] = useState(true);
+    const   [loadinngUser, setLoadingUser] = useState(true);
     const   [modalVisibleRepo, setModalVisibleRepo] = useState(false);
     const   [modalVisibleFeed, setModalVisibleFeed] = useState(false);
     useEffect(() => {
@@ -36,7 +37,8 @@ export default function User_Profile({navigation, route}) {
             })
             .catch((error) => {
                 console.error(error);
-        })
+            })
+            .finally(() => setLoadingUser(false));
         
     }, [])
     useEffect(() => {
@@ -68,7 +70,7 @@ export default function User_Profile({navigation, route}) {
         return <Loadings/>;
     }
 
-    if (loading) {
+    if (loading || loadinngUser) {
         return <Loadings/>;
     }
     else

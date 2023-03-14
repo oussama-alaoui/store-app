@@ -84,6 +84,7 @@ import {
   Image,
 } from 'react-native';
 import { GetData } from './Syncstorage'
+import { debounce } from 'lodash';
 import { db, collection, getDocs, query, addDoc, where, orderBy, onSnapshot } from "../firebase";
 
 const ChatScreen = ({navigation, route}) => {
@@ -149,6 +150,17 @@ const ChatScreen = ({navigation, route}) => {
     }
   }
 
+  const delayedSetInputValue = useCallback(
+    debounce((value) => {
+      setInputValue(value);
+    }, 300), // wait 300 milliseconds before updating the state
+    [] // no dependencies since debounce will handle the updates
+  );
+
+  const handleInputChange = (text) => {
+    delayedSetInputValue(text);
+  };
+
   return (
     console.log(route.params.otherUser),
     <View style={styles.container}>
@@ -159,7 +171,7 @@ const ChatScreen = ({navigation, route}) => {
               source={require("../assets/back.png")}
           />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('User_Profile', {otherUser: route.params.otherUser})} >
+      <TouchableOpacity onPress={() => navigation.navigate('User_Profile', {user_id: route.params.otherUser.id})} >
         <Text style={styles.title}>{route.params.otherUser.username}</Text>
       </TouchableOpacity>
       </View>
