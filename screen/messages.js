@@ -108,7 +108,7 @@ export default function Messages({navigation}) {
                             {item.otherUser.username}
                         </Text>
                         <Text style={{ fontFamily: "Bold", fontSize: 12, color: '#000', textAlign:'right'}}>
-                            {item.latestMessage.text}
+                            {item.latestMessage ? item.latestMessage.text : ""}
                         </Text>
                         </View>
                     </TouchableOpacity>

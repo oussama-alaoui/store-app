@@ -1,76 +1,3 @@
-// import React, { useState, useCallback, useEffect } from 'react'
-// import { GiftedChat } from 'react-native-gifted-chat'
-// import { GetData } from './Syncstorage'
-// import { db, collection, getDocs, query, addDoc, where, orderBy, onSnapshot } from "../firebase";
-
-
-// export function ChatScreen({ route, navigation}) {
-//   const [messages, setMessages] = useState([]);
-//   const [user_id, setUserid] = useState([]);
-
-//   useEffect(() => {
-//     GetData('user_id').then((value) => {
-//       setUserid(value);
-//     });
-//   }, []);
-
-//   useEffect(() => {
-//     const unsubscribe = onSnapshot(
-//       query(collection(db, `rooms/${route.params.room_id}/messages`), orderBy('createdAt', 'desc')),
-//       (querySnapshot) => {
-//         const messages = [];
-//         querySnapshot.forEach((doc) => {
-//           const message = doc.data();
-//           messages.push({
-//             _id: message._id,
-//             text: message.text,
-//             createdAt: message.createdAt.toDate(),
-//             user: {
-//               _id: message.user._id,
-//             }
-//           });
-//         });
-//         setMessages(messages);
-//       }
-//     );
-  
-//     return () => {
-//       unsubscribe(); // detach the listener when the component unmounts
-//     };
-//   }, [route.params.room_id]);  
-  
-
-//   const onSend = useCallback(async (messages = []) => {
-//     try{
-//       var newmessage = messages[0];
-//       const data = {
-//         _id: newmessage._id,
-//         text: newmessage.text,
-//         createdAt: new Date(),
-//         user: {
-//           _id: newmessage.user._id,
-//         }
-//       }
-//       const newMessageRef = await addDoc(collection(db, `rooms/${route.params.room_id}/messages`), data);
-//       console.log("Document written with ID: ", newMessageRef.id);
-//     }catch(e){
-//       console.log(e);
-//     }
-//   }, [])
-
-//   return (
-//     <GiftedChat
-//       messages={messages}
-//       onSend={messages => onSend(messages)}
-//       user={{
-//         _id: user_id,
-//       }}
-//     />
-//   )
-// }
-
-// export default ChatScreen;
-
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
@@ -82,30 +9,38 @@ import {
   TextInput,
   Platform,
   Image,
+  FlatList,
 } from 'react-native';
 import { GetData } from './Syncstorage'
-import { debounce } from 'lodash';
 import { db, collection, getDocs, query, addDoc, where, orderBy, onSnapshot } from "../firebase";
+import { useFonts } from 'expo-font';
+import Loadings from "./complement/loadings";
 
 const ChatScreen = ({navigation, route}) => {
-  const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState([]);
   const [user_id, setUserid] = useState([]);
   const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef();
 
+  let [fontsLoaded] = useFonts({
+    Small: require("../assets/fonts/NotoSansArabic-Thin.ttf"),
+    Medium : require("../assets/fonts/NotoSansArabic-Medium.ttf"),
+    Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
+    X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
+    Black: require("../assets/fonts/NotoSansArabic-Black.ttf"),
+  });
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollToEnd({ animated: true });
     }
   }, []);
-
+  
   useEffect(() => {
     GetData('user_id').then((value) => {
       setUserid(value);
     });
   }, []);
-
+  
   useEffect(() => {
     const unsubscribe = onSnapshot(
       query(collection(db, `rooms/${route.params.room_id}/messages`), orderBy('createdAt', 'desc')),
@@ -125,17 +60,20 @@ const ChatScreen = ({navigation, route}) => {
         setMessages(messages);
         setLoading(false);
       }
-    );
-  
-    return () => {
-      unsubscribe(); // detach the listener when the component unmounts
-    };
-  }, [route.params.room_id]);
-
-  function onSend (){
-    try{
-      const data = {
-        text: inputText,
+      );
+      
+      return () => {
+        unsubscribe(); // detach the listener when the component unmounts
+      };
+    }, [route.params.room_id]);
+    
+    if (!fontsLoaded) {
+        return <Loadings/>;
+    }
+    function onSend (text){
+      try{
+        const data = {
+        text: text,
         createdAt: new Date(),
         user: {
           _id: 5,
@@ -150,84 +88,81 @@ const ChatScreen = ({navigation, route}) => {
     }
   }
 
-  const delayedSetInputValue = useCallback(
-    debounce((value) => {
-      setInputValue(value);
-    }, 300), // wait 300 milliseconds before updating the state
-    [] // no dependencies since debounce will handle the updates
-  );
-
-  const handleInputChange = (text) => {
-    delayedSetInputValue(text);
+  const MessageInput = () => {
+    const [inputText, setInputText] = useState('');
+    return (
+      <KeyboardAvoidingView
+      style={styles.inputContainer}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <View style={styles.inputall}>
+        <TouchableOpacity onPress={() => onSend(inputText)}>
+          <Image source={require('../assets/send.png')} style={styles.sendButton} />
+        </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          value={inputText}
+          onChangeText={setInputText}
+          placeholder=" اكتب رسالتك هنا"
+        />
+      </View>
+    </KeyboardAvoidingView>
+    );
   };
 
+  const renderMessage = ({ item }) => (
+    <View
+      style={[
+        styles.messageContainer,
+        item.user._id === 5 ? styles.outgoingMessageContainer : styles.incomingMessageContainer,
+      ]}
+    >
+      <Text
+        style={[
+          styles.messageText,
+          item.user._id === 5 ? styles.outgoingMessageText : styles.incomingMessageText,
+        ]}
+      >
+        {item.text}
+      </Text>
+      <Text
+        style={[
+          styles.messageTime,
+          item.user._id === 5 ? styles.outgoingMessageTime : styles.incomingMessageTime,
+        ]}
+      >
+        {new Date(item.createdAt).toLocaleTimeString([], {
+          hour12: true,
+          hour: 'numeric',
+          minute: 'numeric',
+        })}
+      </Text>
+    </View>
+  );
+
   return (
-    console.log(route.params.otherUser),
     <View style={styles.container}>
       <View style={styles.header}>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()} >
-          <Image
-              style={{ width: 24, height: 24}}
-              source={require("../assets/back.png")}
-          />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('User_Profile', {user_id: route.params.otherUser.id})} >
-        <Text style={styles.title}>{route.params.otherUser.username}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('User_Profile', { user_id: route.params.otherUser.id })}
+        >
+          <Text style={styles.title}>{route.params.otherUser.username}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+          <Image style={{ width: 24, height: 24 }} source={require('../assets/back_messages.png')} />
+        </TouchableOpacity>
       </View>
       <View style={styles.body}>
-      <ScrollView ref={scrollViewRef}>
-        {messages.reverse().map((message, index) => (
-          <View
-            key={index}
-            style={[
-              styles.messageContainer,
-              message.user._id === 5
-                ? styles.outgoingMessageContainer
-                : styles.incomingMessageContainer,
-            ]}
-          >
-            <Text
-              style={[
-                styles.messageText,
-                message.user._id === 5
-                  ? styles.outgoingMessageText
-                  : styles.incomingMessageText,
-              ]}
-            >
-              {message.text}
-            </Text>
-            <Text
-              style={[
-                styles.messageTime,
-                message.user._id === 5
-                  ? styles.outgoingMessageTime
-                  : styles.incomingMessageTime,
-              ]}
-            >
-              {new Date(message.createdAt).toLocaleTimeString([], {
-                hour12: true,
-                hour: 'numeric',
-                minute: 'numeric',
-              })}
-            </Text>
-          </View>
-        ))}
-      </ScrollView>
-        <KeyboardAvoidingView
-          style={styles.inputContainer}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-          <TextInput
-            style={styles.input}
-            value={inputText}
-            onChangeText={setInputText}
-            placeholder="Type your message here"
-          />
-          <TouchableOpacity onPress={onSend}>
-            <Image source={require('../assets/send.png')} style={styles.sendButton} />
-          </TouchableOpacity>
-        </KeyboardAvoidingView>
+        <FlatList
+          ref={scrollViewRef}
+          data={messages}
+          keyExtractor={(item) => (item && item._id ? item._id.toString() : '')}
+          renderItem={renderMessage}
+          inverted={true}
+          contentContainerStyle={styles.messagesContainer}
+          style={{ marginHorizontal: 20 }}
+        />
+        <MessageInput />
       </View>
     </View>
   );
@@ -236,13 +171,15 @@ const ChatScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
     backgroundColor: '#F6F6F6',
   },
   header: {
     flexDirection: 'row',
+    backgroundColor: "#0773BF",
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: 80,
+    height: 90,
     borderBottomWidth: 1,
     borderBottomColor: '#E7E8FF',
     paddingHorizontal: 20,
@@ -258,12 +195,13 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: 22,
-    fontWeight: 'bold',
+    color: '#fff',
+    fontFamily: 'Medium',
   },
   body: {
     flex: 1,
     backgroundColor: '#F6F6F6',
-    paddingHorizontal: 20,
+    paddingHorizontal: 0,
   },
   messageContainer: {
     marginVertical: 5,
@@ -273,14 +211,15 @@ const styles = StyleSheet.create({
   },
   incomingMessageContainer: {
     alignSelf: 'flex-start',
-    backgroundColor: '#E7E8FF',
+    backgroundColor: '#F2F2FC',
   },
   outgoingMessageContainer: {
     alignSelf: 'flex-end',
-    backgroundColor: '#B1B5FF',
+    backgroundColor: '#395C82',
   },
   messageText: {
     fontSize: 16,
+    fontFamily: 'Medium',
   },
   incomingMessageText: {
     color: '#000',
@@ -300,26 +239,44 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   inputContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#e3e3f4',
+    height: 90,
+    paddingHorizontal: 20,
+  },
+  inputall: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     height: 60,
-    width: '100%',
-    paddingHorizontal: 20,
+    borderColor: '#9DB1C7',
+    borderWidth: 1.5,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    direction: 'rtl',
+    paddingHorizontal: 10,
   },
   input: {
     flex: 1,
-    height: 50,
-    backgroundColor: '#E0E3FF',
-    width: '90%',
-    borderRadius: 20,
     direction: 'rtl',
-    paddingHorizontal: 20,
+    fontFamily: 'Medium',
+    paddingHorizontal: 5,
   },
   sendButton: {
-    width: 30,
-    height: 30,
-
+    width: 25,
+    height: 25,
+    resizeMode: 'contain',
+  },
+  button: {
+    width: 45,
+    height: 37,
+    borderRadius: 13,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
