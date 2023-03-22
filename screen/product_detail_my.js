@@ -6,11 +6,12 @@ import { TextInput } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { FlatList, ScrollView, Clipboard } from "react-native";
+import { FlatList, ScrollView} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Dimensions } from "react-native";
 import Matricule from './svg_assets/matricule'
 import Loadings from "./complement/loadings";
+import Clipboard from '@react-native-clipboard/clipboard';
 
 const { width, height } = Dimensions.get('window');
 
@@ -67,9 +68,10 @@ export default function Product_detail_my({ navigation, route })
      if (!fontsLoaded) {
          return <Loadings/>
      }
-     const copyToClipboard = () => {
-         Clipboard.setString('012548');
-    }
+    const copyToClipboard = async () => {
+        Clipboard.setString(product_detail.client_id.phone);
+        alert('تم نسخ الرقم');
+    };
 
 
     if (loading) {
@@ -85,7 +87,7 @@ export default function Product_detail_my({ navigation, route })
                 <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true} overScrollMode="never">
                 <View style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()} >
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.goBack(null)} >
                         <Image
                             style={{ width: 24, height: 24}}
                             source={require("../assets/back.png")}
@@ -143,7 +145,7 @@ export default function Product_detail_my({ navigation, route })
                     <View style={{ width: 130, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#FF7058', borderRadius: 18}}>
                         <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff'}}>خصوصي</Text>
                     </View>
-                    <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginTop: 6}}>الإعلان رقم <Text style={{ fontFamily: "X_Bold", fontSize: 28, color: '#302D52', marginTop: 6}} onPress={() => copyToClipboard()}>{product_detail.id}</Text></Text>
+                    <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginTop: 6}}>الإعلان رقم <Text style={{ fontFamily: "X_Bold", fontSize: 28, color: '#302D52', marginTop: 6}} onPress={copyToClipboard}>{product_detail.id}</Text></Text>
                     
                     <View style={{height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#F3F6FF', borderRadius: 9, flexDirection: 'row', justifyContent: "space-around", padding: 10}}>
                         <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_bids && product_bids.length > 0 ? product_bids[0].bid_price : product_detail.price} - {product_detail.max ? product_detail.max : ""} ريال</Text>

@@ -103,6 +103,9 @@ export default function User_Profile({navigation, route}) {
                         <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#f26f66', justifyContent: 'center', alignItems: 'center'}} onPress={() => setModalVisibleRepo(!modalVisibleRepo)}>
                             <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>رجوع</Text>
                         </TouchableOpacity>
+                                            <TouchableOpacity style={{position: "absolute", top: 15, right: 15}} onPress={() => setModalVisibleFeed(false)}>
+                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>X</Text>
+                    </TouchableOpacity>
                     </View>
                     </View>
                     
@@ -147,7 +150,9 @@ export default function User_Profile({navigation, route}) {
                         </TouchableOpacity>
                     </View>
                     </View>
-                    
+                    <TouchableOpacity style={{position: "absolute", top: 15, right: 15}} onPress={() => setModalVisibleFeed(false)}>
+                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>X</Text>
+                    </TouchableOpacity>
                 </Modal>
             );
         }

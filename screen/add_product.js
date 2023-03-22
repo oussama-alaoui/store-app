@@ -106,6 +106,9 @@ export default function Add_product({navigation}) {
                         onPress={() => check_all()}>
                         <Text style={{fontFamily: 'Small', fontSize: 16, color: "#fff"}}>إرسال</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity style={{position: "absolute", top: 15, right: 15}} onPress={() => setModalVisibleFeed(false)}>
+                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>X</Text>
+                    </TouchableOpacity>
                 </View>
                 </View>
                 

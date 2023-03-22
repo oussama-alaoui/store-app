@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image} from "react-native";
 import { useFonts } from "expo-font";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { ScrollView, Clipboard } from "react-native";
+import { ScrollView} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Dimensions } from "react-native";
 import Matricule from './svg_assets/matricule'
@@ -12,9 +12,7 @@ import { Modal } from "react-native";
 import { TextInput } from "react-native";
 import { GetData } from "./Syncstorage";
 import Loadings from "./complement/loadings";
-import { db, collection, getDocs, query, addDoc, where } from "../firebase";
-
-const { width, height } = Dimensions.get('window');
+import Clipboard from '@react-native-clipboard/clipboard';
 
 
 export default function Product_detail({ navigation, route })
@@ -181,6 +179,9 @@ export default function Product_detail({ navigation, route })
                         }}>
                         <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity style={{position: "absolute", top: 15, right: 15}} onPress={() => setModalVisibleFeed(false)}>
+                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>X</Text>
+                    </TouchableOpacity>
                 </View>
                 </View>
                 
@@ -202,7 +203,7 @@ export default function Product_detail({ navigation, route })
                 <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true} overScrollMode="never">
                 <View style={{width: "100%", justifyContent: "center", alignItems: "center"}}>
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")} >
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.goBack(null)} >
                         <Image
                             style={{ width: 24, height: 24}}
                             source={require("../assets/back.png")}
@@ -358,8 +359,8 @@ export default function Product_detail({ navigation, route })
                         {
                             product_bids != null ? product_bids.map((item, index) => {
 
-                            return <TouchableOpacity key={"bid_"+index} style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}} onPress={() => navigation.navigate("User_Profile", {user_id: item.from_id.id})}>
-                                <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
+                            return <TouchableOpacity key={"bid_"+index} style={{width: "90%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center"}} onPress={() => navigation.navigate("User_Profile", {user_id: item.from_id.id})}>
+                                <View style={{height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100, marginRight: 20, width: "80%"}}>
                                     <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>{item.from_id.username}</Text>
                                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>{item.bid_price} ريال</Text>
                                 </View>

@@ -11,7 +11,7 @@ export default function Search_results({navigation, route}) {
     const [all_products, setAll_products] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        fetch(route.params.url, 
+        fetch(route.params.url,
             {
             method: 'GET',
             headers: {
@@ -23,7 +23,6 @@ export default function Search_results({navigation, route}) {
             .then((json) => {
                 setAll_products(json.data)
                 setLoading(false)
-                // console.log(json.data)
             })
             .catch((error) => {
                 console.error(error);
@@ -43,7 +42,7 @@ export default function Search_results({navigation, route}) {
     }
     else
     {
-        return (console.log('omar', all_products.data.length),
+        return (
         <View style={styles.container}>
         <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
         <View style={{height: 100, width: "100%"}}>
@@ -60,8 +59,8 @@ export default function Search_results({navigation, route}) {
                         { all_products.data.length > 0
                         ?
                             all_products.data.map((item, index) => {
-                                const date = new Date(item.created_at);
                                 console.log(item)
+                                const date = new Date(item.created_at);
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
                                     <TouchableOpacity key={index} style={{width: '94%', backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1}} onPress={() => navigation.navigate('Product_detail', {product_id: item.id})}>
@@ -80,8 +79,8 @@ export default function Search_results({navigation, route}) {
                                                     <View style={{width: '35%', height: '60%', borderRadius: 10, marginTop: "1%"}}>
                                                         <View style={{width: '100%', height: '100%', justifyContent: 'space-around', alignItems: 'center'}}>
                                                             <View style={{width: '100%', height: '41%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                                <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black', left: 29}}>الرياض</Text>
-                                                                <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray', left: 12}}>المدينة </Text>
+                                                                <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black'}}>{item.city_id.city_name}</Text>
+                                                                <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray'}}>المدينة </Text>
                                                             </View>
                                                             <View style={{width: '100%', height: '39%', flexDirection: 'row', justifyContent: 'space-around'}}>
                                                                 <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5}}>{item.bid[0]?.bid_price || item.price} ريال</Text>
