@@ -52,7 +52,6 @@ export default function Product_detail_my({ navigation, route })
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-            
             }
             })
             .then((response) => response.json())
@@ -69,7 +68,7 @@ export default function Product_detail_my({ navigation, route })
          return <Loadings/>
      }
     const copyToClipboard = async () => {
-        Clipboard.setString(product_detail.client_id.phone);
+        Clipboard.setString("hello word");
         alert('تم نسخ الرقم');
     };
 
@@ -82,7 +81,6 @@ export default function Product_detail_my({ navigation, route })
     else
     {
         return (
-            console.log(product_detail.client_id.id),
             <View style={styles.container}>
                 <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true} overScrollMode="never">
                 <View style={{width: "100%", justifyContent: "center", alignItems: "center"}}>

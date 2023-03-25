@@ -15,6 +15,8 @@ import { GetData } from './Syncstorage'
 import { db, collection, getDocs, query, addDoc, where, orderBy, onSnapshot } from "../firebase";
 import { useFonts } from 'expo-font';
 import Loadings from "./complement/loadings";
+import { Keyboard } from 'react-native';
+
 
 const ChatScreen = ({navigation, route}) => {
   const [messages, setMessages] = useState([]);
@@ -70,33 +72,40 @@ const ChatScreen = ({navigation, route}) => {
     if (!fontsLoaded) {
         return <Loadings/>;
     }
-    function onSend (text){
-      try{
-        const data = {
-        text: text,
-        createdAt: new Date(),
-        user: {
-          _id: 5,
-        }
-      }
-      const newMessageRef = addDoc(collection(db, `rooms/${route.params.room_id}/messages`), data);
-      console.log("Document written with ID: ", newMessageRef.id);
-      setInputText('');
-    }
-    catch(e){
-      console.log(e);
-    }
-  }
+
 
   const MessageInput = () => {
     const [inputText, setInputText] = useState('');
+
+    function onSend(text) {
+      try {
+        const data = {
+          text: text,
+          createdAt: new Date(),
+          user: {
+            _id: user_id,
+          },
+        };
+        const newMessageRef = addDoc(
+          collection(db, `rooms/${route.params.room_id}/messages`),
+          data
+        );
+        console.log('Document written with ID: ', newMessageRef.id);
+        Keyboard.dismiss();
+        Keyboard.show();
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    
+
     return (
-      <KeyboardAvoidingView
+    <KeyboardAvoidingView
       style={styles.inputContainer}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <View style={styles.inputall}>
-        <TouchableOpacity onPress={() => onSend(inputText)}>
+        <TouchableOpacity onPress={() => {onSend(inputText)}}>
           <Image source={require('../assets/send.png')} style={styles.sendButton} />
         </TouchableOpacity>
         <TextInput
@@ -156,7 +165,7 @@ const ChatScreen = ({navigation, route}) => {
         <FlatList
           ref={scrollViewRef}
           data={messages}
-          keyExtractor={(item) => (item && item._id ? item._id.toString() : '')}
+          keyExtractor={(item) => item.createdAt.getTime().toString()}
           renderItem={renderMessage}
           inverted={true}
           contentContainerStyle={styles.messagesContainer}

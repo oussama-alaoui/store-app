@@ -17,6 +17,7 @@ import Loadings from "./complement/loadings";
 export default function User_Profile({navigation, route}) {
     const   { width, height } = Dimensions.get('window');
     const   [user_detail, setUser_detail] = useState({});
+    const   [user_id, setUser_id] = useState('');
     const   [all_products, setAll_products] = useState([]);
     const   [loading, setLoading] = useState(true);
     const   [loadinngUser, setLoadingUser] = useState(true);
@@ -58,6 +59,9 @@ export default function User_Profile({navigation, route}) {
             })
             .catch((error) => {
                 console.error(error);
+        });
+        GetData('user_id').then((res) => {
+            setUser_id(res)
         })
         
     }, [])
@@ -69,6 +73,8 @@ export default function User_Profile({navigation, route}) {
     if (!fontsLoaded) {
         return <Loadings/>;
     }
+
+    
 
     if (loading || loadinngUser) {
         return <Loadings/>;
@@ -373,7 +379,7 @@ export default function User_Profile({navigation, route}) {
             console.log('Room exists');
             querySnapshot.forEach((doc) => {
                 console.log(doc.id, ' => ', doc.data());
-                navigation.navigate('ChatScreen', {room_id: doc.id});
+                navigation.navigate('ChatScreen', {room_id: doc.id, otherUser: user_detail});
             }
             );
         }

@@ -72,19 +72,6 @@ import { ActivityIndicator } from 'react-native';
             
         });
     }
-    
-    useEffect(() => {
-        const unsubscribe = navigation2.addListener('focus', async () => {
-            setCategory(category1);
-            console.log("The categories ID is : ", category);
-            console.log("The categorie 01 ID is : ", category1);
-            getuser_id();
-        });
-        return () => {
-          unsubscribe();
-          setPage(1);
-        };
-      }, [navigation2]);
       
     useEffect(() => {
         GetData("user_id").then((value) => {
@@ -111,6 +98,7 @@ import { ActivityIndicator } from 'react-native';
         // check if the user is at the end of the list
         var i = page;
         if (event.nativeEvent.contentOffset.y >= event.nativeEvent.contentSize.height - event.nativeEvent.layoutMeasurement.height && page <= lastpage) {
+            console.log("page", page);
             setLoading2(true);
             setPage(page + 1);
             // append the data
