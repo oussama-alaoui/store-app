@@ -103,15 +103,15 @@ export default function User_Profile({navigation, route}) {
                             multiline={true}
                             numberOfLines={4}
                         />
-                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 5, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}} onPress={() => post_repot(inputValue)}>
-                            <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#f26f66', justifyContent: 'center', alignItems: 'center'}} onPress={() => setModalVisibleRepo(!modalVisibleRepo)}>
-                            <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>رجوع</Text>
-                        </TouchableOpacity>
-                                            <TouchableOpacity style={{position: "absolute", top: 15, right: 15}} onPress={() => setModalVisibleFeed(false)}>
-                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>X</Text>
-                    </TouchableOpacity>
+                        <View style={{flexDirection: "row",marginHorizontal: 20 , justifyContent: "space-between"}}>
+                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 30, backgroundColor: '#f26f66', justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => setModalVisibleRepo(!modalVisibleRepo)}>
+                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>رجوع</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 10, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => post_repot(inputValue)}>
+                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
+                            </TouchableOpacity>
+                        </View>
+ 
                     </View>
                     </View>
                     
@@ -128,7 +128,7 @@ export default function User_Profile({navigation, route}) {
                     visible={modalVisibleFeed}
                     onRequestClose={() => {
                         setModalVisibleFeed(!modalVisibleFeed);
-                    }} style={{height: "100%", width: "100%", position: "absolute"}}>
+                    }} style={{height: "100%", width: "100%", position: "absolute", justifyContent: "center"}}>
                     <View style={{height: "100%", width: "100%", backgroundColor: "rgba(52, 52, 52, 0.3)", justifyContent:"center"}}>
                     <View style={{marginHorizontal: 20, backgroundColor: "#fff", borderRadius: 20}}>
                         <Text style={{paddingTop: 30, textAlign: "center", fontFamily: "Bold", fontSize: 20}}> تقييم</Text>
@@ -148,17 +148,16 @@ export default function User_Profile({navigation, route}) {
                             multiline={true}
                             numberOfLines={4}
                         />
-                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}} onPress={() => post_feedback(comment, rate)}>
-                            <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{height: 40, marginHorizontal: 30, borderRadius: 10, marginBottom: 30, backgroundColor: '#f26f66', justifyContent: 'center', alignItems: 'center'}} onPress={() => setModalVisibleFeed(!modalVisibleFeed)}>
-                            <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>رجوع</Text>
-                        </TouchableOpacity>
+                        <View style={{flexDirection: "row",marginHorizontal: 20 , justifyContent: "space-between"}}>
+                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 30, backgroundColor: '#f26f66', justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => setModalVisibleFeed(!modalVisibleFeed)}>
+                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>رجوع</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 10, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => post_feedback(comment, rate)}>
+                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     </View>
-                    <TouchableOpacity style={{position: "absolute", top: 15, right: 15}} onPress={() => setModalVisibleFeed(false)}>
-                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>X</Text>
-                    </TouchableOpacity>
                 </Modal>
             );
         }

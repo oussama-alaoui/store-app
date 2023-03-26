@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 'auto',
         flex: 1,
-        backgroundColor: '#F0F0FF',
+        backgroundColor: '#F1FBFF',
         alignItems: 'center',
     },
 
