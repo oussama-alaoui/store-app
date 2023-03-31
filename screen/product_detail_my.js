@@ -145,8 +145,19 @@ export default function Product_detail_my({ navigation, route })
                     </View>
                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginTop: 6}}>الإعلان رقم <Text style={{ fontFamily: "X_Bold", fontSize: 28, color: '#302D52', marginTop: 6}} onPress={copyToClipboard}>{product_detail.id}</Text></Text>
                     
-                    <View style={{height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#F3F6FF', borderRadius: 9, flexDirection: 'row', justifyContent: "space-around", padding: 10}}>
-                        <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_bids && product_bids.length > 0 ? product_bids[0].bid_price : product_detail.price} - {product_detail.max ? product_detail.max : ""} ريال</Text>
+                    <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: 6, backgroundColor: '#F3F6FF'}}>
+                        { product_detail.max ?
+                        <View style={{height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, borderRadius: 9, flexDirection: 'row', justifyContent: "space-around", padding: 10}}>
+                            <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.max ? product_detail.max : "لايوجد"} ريال</Text>
+                            <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>الحد : </Text>
+                        </View>
+                        :
+                        <></>
+                        }
+                        <View style={{height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, borderRadius: 9, flexDirection: 'row', justifyContent: "space-around", padding: 10}}>
+                            <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_bids && product_bids.length > 0 ? product_bids[0].bid_price : product_detail.price} ريال</Text>
+                            <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>السوم : </Text>
+                        </View>
                     </View>
                     <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>{product_detail.city_id.city_name}</Text>
                     {product_detail.show_contact == "show" ?   (

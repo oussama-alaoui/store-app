@@ -74,50 +74,50 @@ const ChatScreen = ({navigation, route}) => {
     }
 
 
-  const MessageInput = () => {
-    const [inputText, setInputText] = useState('');
-
-    function onSend(text) {
-      try {
-        const data = {
-          text: text,
-          createdAt: new Date(),
-          user: {
-            _id: user_id,
-          },
-        };
-        const newMessageRef = addDoc(
-          collection(db, `rooms/${route.params.room_id}/messages`),
-          data
-        );
-        console.log('Document written with ID: ', newMessageRef.id);
-        Keyboard.dismiss();
-        Keyboard.show();
-      } catch (e) {
-        console.log(e);
-      }
-    }
+    const MessageInput = () => {
+      const [inputText, setInputText] = useState('');
+      const inputRef = useRef(null); // create a reference to the input element
     
-
-    return (
-    <KeyboardAvoidingView
-      style={styles.inputContainer}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <View style={styles.inputall}>
-        <TouchableOpacity onPress={() => {onSend(inputText)}}>
-          <Image source={require('../assets/send.png')} style={styles.sendButton} />
-        </TouchableOpacity>
-        <TextInput
-          style={styles.input}
-          value={inputText}
-          onChangeText={setInputText}
-          placeholder=" اكتب رسالتك هنا"
-        />
-      </View>
-    </KeyboardAvoidingView>
-    );
-  };
+      function onSend(text) {
+        try {
+          const data = {
+            text: text,
+            createdAt: new Date(),
+            user: {
+              _id: user_id,
+            },
+          };
+          const newMessageRef = addDoc(
+            collection(db, `rooms/${route.params.room_id}/messages`),
+            data
+          );
+          setInputText(''); // clear the input text
+          inputRef.current.focus(); // focus on the input element
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    
+      return (
+        <KeyboardAvoidingView
+          style={styles.inputContainer}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <View style={styles.inputall}>
+            <TouchableOpacity onPress={() => {onSend(inputText)}}>
+              <Image source={require('../assets/send.png')} style={styles.sendButton} />
+            </TouchableOpacity>
+            <TextInput
+              ref={inputRef} // set the reference to the input element
+              style={styles.input}
+              value={inputText}
+              onChangeText={setInputText}
+              placeholder=" اكتب رسالتك هنا"
+            />
+          </View>
+        </KeyboardAvoidingView>
+      );
+    };
 
   const renderMessage = ({ item }) => (
     <View
