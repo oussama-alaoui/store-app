@@ -23,6 +23,7 @@ export default function User_Profile({navigation, route}) {
     const   [loadinngUser, setLoadingUser] = useState(true);
     const   [modalVisibleRepo, setModalVisibleRepo] = useState(false);
     const   [modalVisibleFeed, setModalVisibleFeed] = useState(false);
+    const   [rating, setRating] = useState(10);
     useEffect(() => {
         fetch(`https://newapi.mediaplus.ma/api/v1/clients/${route.params.user_id}`, 
             {
@@ -72,6 +73,19 @@ export default function User_Profile({navigation, route}) {
     });
     if (!fontsLoaded) {
         return <Loadings/>;
+    }
+
+    
+    function get_rating()
+    {
+        var rating = 0;
+        let i;
+        for (i = 0; i < user_detail.review.length; i++) {
+            rating += user_detail.review[i].rating;
+        }
+        rating = rating / i;
+        rating = Math.round(rating);
+        setRating(rating);
     }
 
     
@@ -161,6 +175,8 @@ export default function User_Profile({navigation, route}) {
                 </Modal>
             );
         }
+        if (rating == 10)
+            get_rating();
         return (
             console.log(route.params.user_id),
             
@@ -189,14 +205,17 @@ export default function User_Profile({navigation, route}) {
                     </View>
                     <View style={{width: '100%', position: 'absolute', marginTop:70}}>
                         <View style={{width:(width - 120)/2, alignItems:'center'}}>
-                            <TouchableOpacity style={{width: 110, height: 24, alignItems: 'center', flexDirection: 'row',justifyContent: 'space-between'}}
+                            <TouchableOpacity style={{width: 115, height: 24, alignItems: 'center', flexDirection: 'row',justifyContent: 'space-between'}}
                                 onPress={() => navigation.navigate('UserReview', {user_id: route.params.user_id})}
                             >
-                                <Image source={require('../assets/star_active.png')} style={{width: 18, height: 18}}/>
-                                <Image source={require('../assets/star_active.png')} style={{width: 18, height: 18}}/>
-                                <Image source={require('../assets/star_active.png')} style={{width: 18, height: 18}}/>
-                                <Image source={require('../assets/star_active.png')} style={{width: 18, height: 18}}/>
-                                <Image source={require('../assets/star_inactive.png')} style={{width: 18, height: 18}}/>
+                                                        <Rating
+                                rating={rating}
+                                max={5}
+                                iconWidth={24}
+                                iconHeight={24}
+                                editable={false}
+                            >
+                            </Rating>
                             </TouchableOpacity>
                             
                         </View>
@@ -277,10 +296,6 @@ export default function User_Profile({navigation, route}) {
                                                 <></>
                                             )}
                                             <Image source={require('../assets/filter.png')} style={{width: 15, height: 15, marginLeft: 3}}/>
-                                        </View>
-                                        <View style={{ flexDirection: 'row' }}>
-                                            <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 10, color: '#A8A6A6'}}>5 أشخاص</Text>
-                                            <Image source={require('../assets/user.png')} style={{width: 15, height: 15, marginLeft: 3}}/>
                                         </View>
                                     </View>
                                     </TouchableOpacity>

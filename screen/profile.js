@@ -13,8 +13,8 @@ import Matricule from './svg_assets/matricule'
 import { RemoveData, GetData } from "./Syncstorage";
 import Loadings from "./complement/loadings";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { get } from "react-native/Libraries/Utilities/PixelRatio";
 import { RefreshControl } from "react-native";
+import  Rating from 'react-native-easy-rating';
 
 export default function Profile({navigation, route}) {
 
@@ -24,6 +24,7 @@ export default function Profile({navigation, route}) {
     const   [loading, setLoading] = useState(true);
     const  [user_id, setUser_id] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
+    const [rating, setRating] = useState(10);
     
     function getuser_id(){
         GetData("user_id").then((value) => {
@@ -75,7 +76,6 @@ export default function Profile({navigation, route}) {
                 .then((response) => response.json())
                 .then((json) => {
                     setAll_products(json.data)
-                    console.log(json.data)
                     setLoading(loading => ++loading)
                 })
                 .catch((error) => {
@@ -87,6 +87,18 @@ export default function Profile({navigation, route}) {
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
+
+    function get_rating()
+    {
+        var rating = 0;
+        let i;
+        for (i = 0; i < user_detail.review.length; i++) {
+            rating += user_detail.review[i].rating;
+        }
+        rating = rating / i;
+        rating = Math.round(rating);
+        setRating(rating);
+    }
 
     const onRefresh = React.useCallback(() => {
         console.log("refreshing");
@@ -102,6 +114,8 @@ export default function Profile({navigation, route}) {
         return <Loadings/>;
     }
     else {
+        if (rating == 10)
+            get_rating();
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
             <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
@@ -120,14 +134,17 @@ export default function Profile({navigation, route}) {
                 </View>
 
                 <View style={styles.bottom}>
-                    <TouchableOpacity style={{width: '30%', height: 30, alignItems: 'center', backgroundColor: '#fff', flexDirection: 'row',justifyContent: 'space-between'}}
+                    <TouchableOpacity style={{width: 115, height: 30, alignItems: 'center', backgroundColor: '#fff', flexDirection: 'row',justifyContent: 'space-between'}}
                         onPress={() => navigation.navigate('UserReview', {user_id: user_detail.id})}
                     >
-                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                        <Image source={require('../assets/star_active.png')} style={{width: '15%', height: '55%'}}/>
-                        <Image source={require('../assets/star_inactive.png')} style={{width: '15%', height: '55%'}}/>
+                        <Rating
+                            rating={rating}
+                            max={5}
+                            iconWidth={24}
+                            iconHeight={24}
+                            editable={false}
+                        >
+                        </Rating>
                     </TouchableOpacity>
                     <TouchableOpacity style={{width: '30%', height: '75%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#678DF9', borderRadius: 13}} onPress={() => navigation.navigate("Pay_site")}>
                         <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#fff'}}>دفع للموقع</Text>
@@ -217,10 +234,6 @@ export default function Profile({navigation, route}) {
                                                 <></>
                                             )}
                                             <Image source={require('../assets/filter.png')} style={{width: 15, height: 15, marginLeft: 3}}/>
-                                        </View>
-                                        <View style={{ flexDirection: 'row' }}>
-                                            <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 10, color: '#A8A6A6'}}>5 أشخاص</Text>
-                                            <Image source={require('../assets/user.png')} style={{width: 15, height: 15, marginLeft: 3}}/>
                                         </View>
                                     </View>
                                     </TouchableOpacity>

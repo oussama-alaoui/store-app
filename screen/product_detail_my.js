@@ -141,20 +141,20 @@ export default function Product_detail_my({ navigation, route })
                         />
                     </View>
                     <View style={{ width: 130, height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#FF7058', borderRadius: 18}}>
-                        <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff'}}>خصوصي</Text>
+                    <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff'}}>{product_detail.type == 2 ? "خصوصي" : product_detail.type == 1 ? "عام" : "دباب"}</Text>
                     </View>
                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#302D52', marginTop: 6}}>الإعلان رقم <Text style={{ fontFamily: "X_Bold", fontSize: 28, color: '#302D52', marginTop: 6}} onPress={copyToClipboard}>{product_detail.id}</Text></Text>
                     
                     <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: 6, backgroundColor: '#F3F6FF'}}>
                         { product_detail.max ?
-                        <View style={{height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, borderRadius: 9, flexDirection: 'row', justifyContent: "space-around", padding: 10}}>
+                        <View style={{marginHorizontal: 10, alignItems: "center", justifyContent: "center", marginTop: 6, borderRadius: 9, flexDirection: 'row', justifyContent: "space-around", padding: 10}}>
                             <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_detail.max ? product_detail.max : "لايوجد"} ريال</Text>
                             <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>الحد : </Text>
                         </View>
                         :
                         <></>
                         }
-                        <View style={{height: 42, alignItems: "center", justifyContent: "center", marginTop: 6, borderRadius: 9, flexDirection: 'row', justifyContent: "space-around", padding: 10}}>
+                        <View style={{marginHorizontal: 10, alignItems: "center", justifyContent: "center", marginTop: 6, borderRadius: 9, flexDirection: 'row', justifyContent: "space-around", padding: 10}}>
                             <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>{product_bids && product_bids.length > 0 ? product_bids[0].bid_price : product_detail.price} ريال</Text>
                             <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#7479BF'}}>السوم : </Text>
                         </View>

@@ -77,6 +77,27 @@ const ChatScreen = ({navigation, route}) => {
     const MessageInput = () => {
       const [inputText, setInputText] = useState('');
       const inputRef = useRef(null); // create a reference to the input element
+      const [KeyboardHeight, setKeyboardHeight] = useState(0); // create a state to store the keyboard height
+      useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+          'keyboardDidShow',
+          () => {
+            setKeyboardHeight(Platform.OS === 'ios' ? 300 : 150); // set the keyboard height
+          }
+        );
+      
+        const keyboardDidHideListener = Keyboard.addListener(
+          'keyboardDidHide',
+          () => {
+            setKeyboardHeight(0); // reset the keyboard height
+          }
+        );
+      
+        return () => {
+          keyboardDidShowListener.remove();
+          keyboardDidHideListener.remove();
+        };
+      }, []);
     
       function onSend(text) {
         try {
@@ -91,31 +112,28 @@ const ChatScreen = ({navigation, route}) => {
             collection(db, `rooms/${route.params.room_id}/messages`),
             data
           );
-          setInputText(''); // clear the input text
-          inputRef.current.focus(); // focus on the input element
+          Keyboard.dismiss(); // dismiss the keyboard
+          inputRef.current.focus()
         } catch (e) {
           console.log(e);
-        }
+        } // clear the input text
       }
     
       return (
-        <KeyboardAvoidingView
-          style={styles.inputContainer}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-          <View style={styles.inputall}>
-            <TouchableOpacity onPress={() => {onSend(inputText)}}>
-              <Image source={require('../assets/send.png')} style={styles.sendButton} />
-            </TouchableOpacity>
-            <TextInput
-              ref={inputRef} // set the reference to the input element
-              style={styles.input}
-              value={inputText}
-              onChangeText={setInputText}
-              placeholder=" اكتب رسالتك هنا"
-            />
-          </View>
-        </KeyboardAvoidingView>
+      <View style={styles.inputContainer}>
+        <View style={styles.inputall}>
+          <TouchableOpacity onPress={() => {onSend(inputText)}}>
+            <Image source={require('../assets/send.png')} style={styles.sendButton} />
+          </TouchableOpacity>
+          <TextInput
+            ref={inputRef} // set the reference to the input element
+            style={styles.input}
+            value={inputText}
+            onChangeText={setInputText}
+            placeholder=" اكتب رسالتك هنا"
+          />
+        </View>
+      </View>
       );
     };
 

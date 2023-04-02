@@ -107,6 +107,15 @@ export default function Edit_product({navigation, route}) {
         return <Loadings/>;
     }
 
+    function trans_num(num, str){
+        // check if the number is arabic or english
+        if (num >= 0 && num <= 9){
+            to_ar_num(num, str);
+        }else{
+            to_en_num(num, str);
+        }
+    }
+
         const ModalPromise = () => {
         const   [Pay, setPay] = useState(false);
         return (
@@ -187,7 +196,7 @@ export default function Edit_product({navigation, route}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#000"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_en_num(text, 4)}
+                                    onChangeText={(text) => trans_num(text, 4)}
                                     value={arfourthnumber }
                                     maxLength={1}
                                 />
@@ -199,7 +208,7 @@ export default function Edit_product({navigation, route}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
                                     placeholderTextColor="#000"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_en_num(text, 3)}
+                                    onChangeText={(text) => trans_num(text, 3)}
                                     value={arthirdnumber}
                                     maxLength={1}
                                 />
@@ -207,7 +216,7 @@ export default function Edit_product({navigation, route}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#959"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_en_num(text, 2)}
+                                    onChangeText={(text) => trans_num(text, 2)}
                                     value={arsecondnumber}
                                     maxLength={1}
                                 />
@@ -215,7 +224,7 @@ export default function Edit_product({navigation, route}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#959"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_en_num(text, 1)}
+                                    onChangeText={(text) => trans_num(text, 1)}
                                     value={arfirstnumber}
                                     maxLength={1}
                                 />
@@ -263,7 +272,7 @@ export default function Edit_product({navigation, route}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#000"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_ar_num(text, 4)}
+                                    onChangeText={(text) => trans_num(text, 4)}
                                     value={engfourthnumber}
                                     maxLength={1}
                                 />
@@ -275,7 +284,7 @@ export default function Edit_product({navigation, route}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2, paddingLeft: 15}}
                                     placeholderTextColor="#000"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_ar_num(text, 3)}
+                                    onChangeText={(text) => trans_num(text, 3)}
                                     value={engthirdnumber}
                                     maxLength={1}
                                 />
@@ -283,7 +292,7 @@ export default function Edit_product({navigation, route}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#959"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_ar_num(text, 2)}
+                                    onChangeText={(text) => trans_num(text, 2)}
                                     value={engsecondnumber}
                                     maxLength={1}
                                 />
@@ -291,7 +300,7 @@ export default function Edit_product({navigation, route}) {
                                     style={{ width: "20%", height: "60%", fontFamily: "Bold", fontSize: 24, color: "#000", textAlign: "right", borderBottomWidth: 2}}
                                     placeholderTextColor="#959"
                                     keyboardType="numeric"
-                                    onChangeText={(text) => to_ar_num(text, 1)}
+                                    onChangeText={(text) => trans_num(text, 1)}
                                     value={engfirstnumber}
                                     maxLength={1}
                                 />
