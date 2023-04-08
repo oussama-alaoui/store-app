@@ -81,9 +81,10 @@ export default function User_Profile({navigation, route}) {
         var rating = 0;
         let i;
         for (i = 0; i < user_detail.review.length; i++) {
-            rating += user_detail.review[i].rating;
+            // cast to int 
+            rating = rating + parseInt(user_detail.review[i].rating);
         }
-        rating = rating / i;
+        rating = rating / (i || 1);  // <-- added this line
         rating = Math.round(rating);
         setRating(rating);
     }
@@ -227,23 +228,23 @@ export default function User_Profile({navigation, route}) {
                         <Text style={{fontFamily: 'Bold', fontSize: 16, color: '#fff'}}>الرسائل</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1FBFF'}}>
+                <View style={{width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red'}}>
                         <View style={{width: '90%', justifyContent: 'space-between', margin: 10, writingDirection: 'rtl'}}>
                             <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#000000', writingDirection: 'rtl'}}>اللوحات المعروضة</Text>
                         </View>
-                    <ScrollView horizontal='true' overScrollMode="never">
-                        <View style={styles.body}>
+                    <ScrollView horizontal='true' overScrollMode="never" style={{width: '100%', height: '100%', backgroundColor: '#fff', paddingVertical: 10}}>
+                        <View >
                             {all_products.data.map((item, index) => {
                                 const date = new Date(item.created_at);
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
                                     console.log("here"),
-                                    <TouchableOpacity key={index} style={{width: '92%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1, marginRight: "5%"}} onPress={() => navigation.navigate('Product_detail', {product_id: item.id})}>
+                                    <TouchableOpacity key={index} style={{width: '90%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1}} onPress={() => navigation.navigate('Product_detail_my', {product_id: item.id})}>
                                     <View style={{width: '100%', height: '78%', borderRadius: 10, justifyContent: 'center', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
                                     {/* 1st colum */}
                                                 <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
                                                     <View style={{width: '100%', height: '35%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 4}}>
-                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max ? item.max + "ريال" : "لايوجد"}</Text>
+                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>{item.max ? item.max + "ريال" : "لايوجد"}</Text>
                                                         <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
                                                         <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
                                                     </View>
@@ -433,11 +434,11 @@ const styles = StyleSheet.create({
     body: {
         marginBottom: '90%',
         width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
         flex: 1,
         height: 'auto',
         alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#ff3',
     },
 });
 

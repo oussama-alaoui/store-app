@@ -11,7 +11,7 @@ import Search_results from './screen/search_results';
 import BottomNav from './navigator/BottomNavigator';
 import Favorite_product from './screen/favorite_product';
 import User_Profile from './screen/user_profile';
-import Pay_site from './screen/pay_to_site';
+import ScreenWithLinks from './screen/pay_to_site';
 import Product_detail_my from './screen/product_detail_my';
 import UserReview from './screen/user_review';
 import ChatScreen from './screen/messages_details';
@@ -57,7 +57,7 @@ export default function App() {
             <Stack.Screen name="Search_results" component={Search_results} options={{ headerShown: false }} />
             <Stack.Screen name="Favorite_product" component={Favorite_product} options={{ headerShown: false }} />
             <Stack.Screen name="User_Profile" component={User_Profile} options={{ headerShown: false }} />
-            <Stack.Screen name="Pay_site" component={Pay_site} options={{ headerShown: false }} />
+            <Stack.Screen name="Pay_site" component={ScreenWithLinks} options={{ headerShown: false }} />
             <Stack.Screen name="Product_detail_my" component={Product_detail_my} options={{ headerShown: false }} />
             <Stack.Screen name="UserReview" component={UserReview} options={{ headerShown: false }} />
             <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ headerShown: false }} />
@@ -78,7 +78,7 @@ export default function App() {
               <Stack.Screen name="Search_results" component={Search_results} options={{ headerShown: false }} />
               <Stack.Screen name="Favorite_product" component={Favorite_product} options={{ headerShown: false }} />
               <Stack.Screen name="User_Profile" component={User_Profile} options={{ headerShown: false }} />
-              <Stack.Screen name="Pay_site" component={Pay_site} options={{ headerShown: false }} />
+              <Stack.Screen name="Pay_site" component={ScreenWithLinks} options={{ headerShown: false }} />
               <Stack.Screen name="Product_detail_my" component={Product_detail_my} options={{ headerShown: false }} />
               <Stack.Screen name="UserReview" component={UserReview} options={{ headerShown: false }} />
               <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ headerShown: false }} />

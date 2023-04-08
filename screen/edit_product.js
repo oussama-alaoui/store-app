@@ -126,7 +126,7 @@ export default function Edit_product({navigation, route}) {
                 onRequestClose={() => {
                     setModalVisibleFeed(!modalVisibleFeed);
                 }} style={{height: "100%", width: "100%", position: "absolute"}}>
-                <View style={{height: "100%", width: "100%", backgroundColor: "rgba(52, 52, 52, 0.3)", justifyContent:"center"}}>
+                <View style={{height: "100%", width: "100%", backgroundColor: "rgba(177, 156, 217, 0.2)", justifyContent:"center"}}>
                 <View style={{marginHorizontal: 20, backgroundColor: "#fff", borderRadius: 20}}>
                     <View style={{ width: "78%", marginVertical: 40, flexDirection: "row", justifyContent: "space-between"}}>
                             <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginHorizontal: 10}}>أتعهد بالدفع للموقع</Text>
@@ -629,7 +629,8 @@ export default function Edit_product({navigation, route}) {
     
     function to_en(c, j)
     {
-        if (c == "ا"){c = "أ";}
+        if (c == "ا" || c == "آ" || c == "إ"){c = "أ";}
+        if (c == "ئ" || c == "ؤ" || c == "ي"){c = "ى";}
         console.log("kkkkk");
         var ar = 'أبحدرسصطعقكلمنهوى'.split('');
         var en = "ABJDRSXTEGKLZNHUV";

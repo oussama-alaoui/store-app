@@ -225,7 +225,7 @@ export default function Product_detail_my({ navigation, route })
                         {
                             product_bids != null ? product_bids.map((item, index) => {
 
-                            return <View key={"bid_"+index} style={{ width: "60%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", marginLeft: '40%'}}>
+                            return <TouchableOpacity key={"bid_"+index} style={{width: "90%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center"}} onPress={() => navigation.navigate("User_Profile", {user_id: item.from_id.id})}>
                                 <View style={{ width: 100, height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100}}>
                                     <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>{item.from_id.username}</Text>
                                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>{item.bid_price} ريال</Text>
@@ -233,7 +233,7 @@ export default function Product_detail_my({ navigation, route })
                                 <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
                                     <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                             })
                             : <></>
                         }

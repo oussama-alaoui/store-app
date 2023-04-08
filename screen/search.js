@@ -64,7 +64,7 @@ export default function Search({navigation}) {
             <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: 20, marginRight: 10, color: "#302C6B"}}>
                 البحث على إعلان
             </Text>
-            <View style={{backgroundColor: "#F1FBFF", width: "100%", height: "90%", alignItems: "center"}}>
+            <View style={{backgroundColor: "rgba(177, 156, 217, 0.2)", width: "100%", height: "90%", alignItems: "center"}}>
             <View style={{ width: "90%", height: 40, flexDirection: "row", justifyContent: "space-between", marginTop: 20}}>
                 <TouchableOpacity onPress={() => setCategory(0)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 0 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center", color: "#fff"}}>
                     <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 0 ? "#fff" : "#000"}}>دباب </Text>
@@ -455,8 +455,9 @@ export default function Search({navigation}) {
     {
         if (num == "")
             return put_en_alpha(num, position, 0)
-        console.log('num : ', num)
+        console.log('num : ', num)        
         if (num == "ا" || num == "آ" || num == "إ"){num = "أ";}
+        if (num == "ئ" || num == "ؤ" || num == "ي"){num = "ى";}
         if (validator("ABJDRSXTEGKLZNHUVأبحدرسصطعقكلمنهوى", num) == false)
             return
         if ("أبحدرسصطعقكلمنهوى".indexOf(num) != -1)

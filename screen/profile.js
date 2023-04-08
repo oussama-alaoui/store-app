@@ -93,7 +93,7 @@ export default function Profile({navigation, route}) {
         var rating = 0;
         let i;
         for (i = 0; i < user_detail.review.length; i++) {
-            rating += user_detail.review[i].rating;
+            rating = rating + parseInt(user_detail.review[i].rating);
         }
         rating = rating / i;
         rating = Math.round(rating);
@@ -159,7 +159,7 @@ export default function Profile({navigation, route}) {
                 </View>
             </View>
             
-            <View style={{width: '100%', height: '100%', top: 150, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1FBFF'}}>
+            <View style={{width: '100%', height: '100%', top: 150, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(177, 156, 217, 0.2)'}}>
                     <View style={{width: '90%', height: '5%', justifyContent: 'space-between', margin: 10, flexDirection: 'row'}}>
 
                         <TouchableOpacity style={{width: 80, height: 30, justifyContent: 'space-around', alignItems: 'center', flexDirection: 'row'}} onPress={() => navigation.navigate('Add_product')}>
@@ -290,5 +290,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 'auto',
         alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: '2.5%',
     },
 });

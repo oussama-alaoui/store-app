@@ -8,6 +8,7 @@ import { TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Loadings from "./complement/loadings";
+import { Keyboard } from "react-native";
 
 
 const { width, height } = Dimensions.get('window');
@@ -37,7 +38,7 @@ export default function Register({navigation}, props) {
                 <View style={{flexDirection:'column', flex: 1,}}>
                     <ImageBackground
                         style={styles.background_img}
-                        source={require('../assets/bg_register.jpg')}>
+                        source={require('../assets/bg_register.png')}>
                         {/* <LinearGradient 
                             colors={['#0000001d', '#ECECFFaa']} 
                             style={{height : '100%', width : '100%'}}>

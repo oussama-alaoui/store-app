@@ -4,7 +4,7 @@
     "slug": "marketplace",
     "version": "1.1.0",
     "orientation": "portrait",
-    "icon": "./assets/app_icon/app_icon.png",
+    "icon": "./assets/app_icon/app_logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/app_icon/PW-02.png",

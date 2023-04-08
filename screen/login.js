@@ -36,7 +36,7 @@ export default function Login({navigation}) {
       <SafeAreaView>
       <ImageBackground
                         style={styles.background_img}
-                        source={require('../assets/login_background.jpeg')}>
+                        source={require('../assets/login_background.png')}>
                         <LinearGradient 
                             colors={['#0000001d', '#ECECFFDD']} 
                             style={{height : '100%', width : '100%'}}>

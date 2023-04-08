@@ -129,7 +129,7 @@ export default function Add_product({navigation}) {
                 <Text style={{borderRadius: 20, fontWeight: 'bold', fontSize:14, paddingHorizontal: 20,paddingTop: 7, paddingBottom: 5, color:'black', backgroundColor:'rgba(255, 75, 0, .35)'}}>{error}</Text>
             </View>
         }
-        <View style={{backgroundColor: "#F1FBFF", width: "100%", height: "90%", alignItems: "center"}}>
+        <View style={{backgroundColor: "rgba(177, 156, 217, 0.2)", width: "100%", height: "90%", alignItems: "center"}}>
             <View style={{ width: "90%", height: 40, flexDirection: "row", justifyContent: "space-between", marginTop: 20}}>
                 <TouchableOpacity onPress={() => setCategory(0)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 0 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center", color: "#fff"}}>
                     <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 0 ? "#fff" : "#000"}}>دباب </Text>
@@ -599,6 +599,7 @@ export default function Add_product({navigation}) {
     {
         console.log("kkkkk");
         if (c == "ا" || c == "آ" || c == "إ"){c = "أ";}
+        if (c == "ئ" || c == "ؤ" || c == "ي"){c = "ى";}
         var ar = 'أبحدرسصطعقكلمنهوى'.split('');
         var en = "ABJDRSXTEGKLZNHUV";
         if(c != "")
