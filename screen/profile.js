@@ -129,9 +129,9 @@ export default function Profile({navigation, route}) {
                         <Image source={require('../assets/heart.png')} style={{width: '45%', height: '53%'}}/>
                     </TouchableOpacity>
                 </View>
-                <View style={{width: '33%', height: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFf', borderRadius: 13, top: '40%'}}>
+                <TouchableOpacity style={{width: '33%', height: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFf', borderRadius: 13, top: '40%'}} onPress={() => navigation.navigate('Upload_photo')}>
                     <Image source={require('../assets/user_1.png')} style={{width: '90%', height: '90%'}}/>
-                </View>
+                </TouchableOpacity>
 
                 <View style={styles.bottom}>
                     <TouchableOpacity style={{width: 115, height: 30, alignItems: 'center', backgroundColor: '#fff', flexDirection: 'row',justifyContent: 'space-between'}}

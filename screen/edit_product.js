@@ -74,34 +74,34 @@ export default function Edit_product({navigation, route}) {
     function init_plate_alpha_number (str, number)
     {
         if (str[0])
-            setEngfirstletter(str[0].toUpperCase());
+            setEngfirstletter(str[2].toUpperCase());
         if (str[1])
             setEngsecondletter(str[1].toUpperCase());
         if (str[2])
-            setEngthirdletter(str[2].toUpperCase());
+            setEngthirdletter(str[0].toUpperCase());
         if (number[0])
-            setEngfirstnumber(number[0]);
+            setEngfirstnumber(number[3]);
         if (number[1])
-            setEngsecondnumber(number[1]);
+            setEngsecondnumber(number[2]);
         if (number[2])
-            setEngthirdnumber(number[2]);
+            setEngthirdnumber(number[1]);
         if (number[3])
-            setEngfourthnumber(number[3]);
+            setEngfourthnumber(number[0]);
         // convert to arabic
         if (str[0])
-            to_ar(str[0], 1);
+            to_ar(str[0], 3);
         if (str[1])
             to_ar(str[1], 2);
         if (str[2])
-            to_ar(str[2], 3);
+            to_ar(str[2], 1);
         if (number[0])
-            to_ar_num(number[0], 1);
+            to_ar_num(number[0], 4);
         if (number[1])
-            to_ar_num(number[1], 2);
+            to_ar_num(number[1], 3);
         if (number[2])
-            to_ar_num(number[2], 3);
+            to_ar_num(number[2], 2);
         if (number[3])
-            to_ar_num(number[3], 4);
+            to_ar_num(number[3], 1);
     }
     if (!fontsLoaded) {
         return <Loadings/>;
@@ -151,7 +151,6 @@ export default function Edit_product({navigation, route}) {
     }
 
     return (
-        console.log(showphone),
         <View style={styles.container}>
             <ModalPromise/>
         <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: "10%", marginRight: 10, color: "#302C6B"}}>

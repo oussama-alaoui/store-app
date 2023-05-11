@@ -228,18 +228,18 @@ export default function User_Profile({navigation, route}) {
                         <Text style={{fontFamily: 'Bold', fontSize: 16, color: '#fff'}}>الرسائل</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red'}}>
+                <View style={{width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(177, 156, 217, 0.2)'}}>
                         <View style={{width: '90%', justifyContent: 'space-between', margin: 10, writingDirection: 'rtl'}}>
                             <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#000000', writingDirection: 'rtl'}}>اللوحات المعروضة</Text>
                         </View>
-                    <ScrollView horizontal='true' overScrollMode="never" style={{width: '100%', height: '100%', backgroundColor: '#fff', paddingVertical: 10}}>
+                    <ScrollView horizontal='true' overScrollMode="never" style={{width: '100%', height: '100%', paddingVertical: 10, marginBottom: "80%"}}>
                         <View >
                             {all_products.data.map((item, index) => {
                                 const date = new Date(item.created_at);
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
                                     console.log("here"),
-                                    <TouchableOpacity key={index} style={{width: '90%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1}} onPress={() => navigation.navigate('Product_detail_my', {product_id: item.id})}>
+                                    <TouchableOpacity key={index} style={{width: '92%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex:1, marginLeft: "4%"}} onPress={() => navigation.navigate('Product_detail_my', {product_id: item.id})}>
                                     <View style={{width: '100%', height: '78%', borderRadius: 10, justifyContent: 'center', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
                                     {/* 1st colum */}
                                                 <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
