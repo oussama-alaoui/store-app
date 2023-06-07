@@ -120,14 +120,14 @@ export default function Verification_phone({navigation, route}) {
         .then((json) => {
             setValue(json)
             console.log(json)
-            if (json.status == true){
+            // if (json.status == true){
                 StoreData('user_id', route.params.id)
                 navigation.navigate('Bottom')
-            }
-            else
-            {
-                setError(json.info)
-            }
+            // }
+            // else
+            // {
+            //     setError(json.info)
+            // }
         })
         .catch((error) => {
             console.log('Error: ', error);

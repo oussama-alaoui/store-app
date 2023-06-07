@@ -16,7 +16,6 @@ import Product_detail_my from './screen/product_detail_my';
 import UserReview from './screen/user_review';
 import ChatScreen from './screen/messages_details';
 import Edit_product from './screen/edit_product';
-import Upload_photo from './screen/upload_photo';
 import { GetData } from './screen/Syncstorage';
 import { useState } from 'react';
 
@@ -63,7 +62,6 @@ export default function App() {
             <Stack.Screen name="UserReview" component={UserReview} options={{ headerShown: false }} />
             <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Edit_product" component={Edit_product} options={{ headerShown: false }} />
-            <Stack.Screen name="Upload_photo" component={Upload_photo} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
               <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
               <Stack.Screen name="Verification_phone" component={Verification_phone} options={{ headerShown: false }} />

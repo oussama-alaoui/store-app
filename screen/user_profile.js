@@ -378,27 +378,37 @@ export default function User_Profile({navigation, route}) {
     async function checkAndCreateRoom (buyerId, sellerId) {
         // check if room exists
         const roomsCol = collection(db, 'rooms');
-        const q = query(roomsCol, where('user1', '==', buyerId), where('user2', '==', sellerId), where('user1', '==', sellerId), where('user2', '==', buyerId));
-        const querySnapshot = await getDocs(roomsCol);
-        if (querySnapshot.empty) {
+        const querySnapshot = await getDocs(query(roomsCol, 
+          where('user1', '==', buyerId), 
+          where('user2', '==', sellerId)
+        ));
+        if (!querySnapshot.empty) {
+          // room exists
+          const doc = querySnapshot.docs[0];
+          console.log('Room exists');
+          navigation.navigate('ChatScreen', {room_id: doc.id, otherUser: product_detail.client_id});
+        } else {
+          const querySnapshot2 = await getDocs(query(roomsCol, 
+            where('user1', '==', sellerId), 
+            where('user2', '==', buyerId)
+          ));
+          if (!querySnapshot2.empty) {
+            // room exists
+            const doc = querySnapshot2.docs[0];
+            console.log('Room exists');
+            navigation.navigate('ChatScreen', {room_id: doc.id, otherUser: product_detail.client_id});
+          } else {
             // create room
             const newRoomRef = await addDoc(collection(db, 'rooms'), {
-                user1: buyerId,
-                user2: sellerId,
-                messages: [],
+              user1: buyerId,
+              user2: sellerId,
+              messages: [],
             });
             console.log('Room created with ID: ', newRoomRef.id);
-            navigation.navigate('ChatScreen', {room_id: newRoomRef.id});
-        } else {
-            // room exists
-            console.log('Room exists');
-            querySnapshot.forEach((doc) => {
-                console.log(doc.id, ' => ', doc.data());
-                navigation.navigate('ChatScreen', {room_id: doc.id, otherUser: user_detail});
-            }
-            );
+            navigation.navigate('ChatScreen', {room_id: newRoomRef.id, otherUser: product_detail.client_id});
+          }
         }
-    };
+      };
 
 }
 

@@ -13,6 +13,7 @@ import { TextInput } from "react-native";
 import { GetData } from "./Syncstorage";
 import Loadings from "./complement/loadings";
 import Clipboard from '@react-native-clipboard/clipboard';
+import { db, collection, getDocs, query, addDoc, where } from "../firebase";
 
 
 export default function Product_detail({ navigation, route })
@@ -343,7 +344,7 @@ export default function Product_detail({ navigation, route })
                     </View>
                     ) : (
                         <>
-                        <TouchableOpacity style={{backgroundColor: '#678DF9', borderRadius: 13, paddingHorizontal: 25, paddingVertical: 5}} onPress={() => checkAndCreateRoom(route.params.user_id, client_id)}>
+                        <TouchableOpacity style={{backgroundColor: '#678DF9', borderRadius: 13, paddingHorizontal: 25, paddingVertical: 5}} onPress={() => checkAndCreateRoom(product_detail.client_id.id, client_id)}>
                             <Text style={{fontFamily: 'Bold', fontSize: 16, color: '#fff'}}>الرسائل</Text>
                         </TouchableOpacity>
                         </>
@@ -420,32 +421,40 @@ export default function Product_detail({ navigation, route })
 
     async function checkAndCreateRoom (buyerId, sellerId) {
         // check if room exists
-        // const roomsCol = collection(db, 'rooms');
-        // if(user_id == 1)
-        //     var q = query(roomsCol, where("user2", "==", user_id));
-        // else
-        //     var q = query(roomsCol, where("user1", "==", user_id));
-        // const querySnapshot = await getDocs(roomsCol);
-        // if (querySnapshot.empty) {
-        //     // create room
-        //     const newRoomRef = await addDoc(collection(db, 'rooms'), {
-        //         user1: buyerId,
-        //         user2: sellerId,
-        //         messages: [],
-        //     });
-        //     console.log('Room created with ID: ', newRoomRef.id);
-        //     navigation.navigate('ChatScreen', {room_id: newRoomRef.id});
-        // } else {
-        //     // room exists
-        //     console.log('Room exists');
-        //     querySnapshot.forEach((doc) => {
-        //         console.log(doc.id, ' => ', doc.data());
-        //         navigation.navigate('ChatScreen', {room_id: doc.id});
-        //     }
-        //     );
-        // }
-        navigation.navigate('ChatScreen', {room_id: "FNpHje8wtNmGk4QWvMDG", otherUser: product_detail.client_id});
-    };
+        const roomsCol = collection(db, 'rooms');
+        const querySnapshot = await getDocs(query(roomsCol, 
+          where('user1', '==', buyerId), 
+          where('user2', '==', sellerId)
+        ));
+        if (!querySnapshot.empty) {
+          // room exists
+          const doc = querySnapshot.docs[0];
+          console.log('Room exists');
+          navigation.navigate('ChatScreen', {room_id: doc.id, otherUser: product_detail.client_id});
+        } else {
+          const querySnapshot2 = await getDocs(query(roomsCol, 
+            where('user1', '==', sellerId), 
+            where('user2', '==', buyerId)
+          ));
+          if (!querySnapshot2.empty) {
+            // room exists
+            const doc = querySnapshot2.docs[0];
+            console.log('Room exists');
+            navigation.navigate('ChatScreen', {room_id: doc.id, otherUser: product_detail.client_id});
+          } else {
+            // create room
+            const newRoomRef = await addDoc(collection(db, 'rooms'), {
+              user1: buyerId,
+              user2: sellerId,
+              messages: [],
+            });
+            console.log('Room created with ID: ', newRoomRef.id);
+            navigation.navigate('ChatScreen', {room_id: newRoomRef.id, otherUser: product_detail.client_id});
+          }
+        }
+      };
+
+      
 }
 
 const styles = StyleSheet.create({
