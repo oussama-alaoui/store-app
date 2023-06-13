@@ -15,6 +15,7 @@ import Loadings from "./complement/loadings";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { RefreshControl } from "react-native";
 import  Rating from 'react-native-easy-rating';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Profile({navigation, route}) {
 
@@ -100,6 +101,21 @@ export default function Profile({navigation, route}) {
         setRating(rating);
     }
 
+    function handlePickImage() {
+        ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        }).then((result) => {
+            if (!result.cancelled) {
+                // Do something with the selected image, for example:
+                console.log(result.uri);
+                
+            }
+        });
+    }
+
     const onRefresh = React.useCallback(() => {
         console.log("refreshing");
         setRefreshing(true);
@@ -129,8 +145,20 @@ export default function Profile({navigation, route}) {
                         <Image source={require('../assets/heart.png')} style={{width: '45%', height: '53%'}}/>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{width: '33%', height: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFf', borderRadius: 13, top: '40%'}} onPress={() => navigation.navigate('Upload_photo')}>
-                    <Image source={require('../assets/user_1.png')} style={{width: '90%', height: '90%'}}/>
+
+                <TouchableOpacity
+                    style={{
+                        width: '33%',
+                        height: '70%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: '#FFf',
+                        borderRadius: 13,
+                        top: '40%',
+                    }}
+                    onPress={handlePickImage}
+                >
+                    <Image source={require('../assets/user_1.png')} style={{ width: '90%', height: '90%' }} />
                 </TouchableOpacity>
 
                 <View style={styles.bottom}>
