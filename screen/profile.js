@@ -58,6 +58,7 @@ export default function Profile({navigation, route}) {
             .then((response) => response.json())
             .then((json) => {
                 setUser_detail(json.data)
+                console.log(json.data);
                 setLoading(loading => ++loading)
             })
             .catch((error) => {
@@ -109,15 +110,35 @@ export default function Profile({navigation, route}) {
             quality: 1,
         }).then((result) => {
             if (!result.cancelled) {
-                // Do something with the selected image, for example:
-                console.log(result.uri);
-                
+                const formData = new FormData();
+                formData.append('photo', {
+                    uri: result.uri,
+                    type: 'image/jpeg',
+                    name: 'photo.jpg',
+                });
+                fetch(`https://newapi.mediaplus.ma/api/v1/clients/${user_id}?_method=PUT`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Accept': 'application/json',
+                    },
+                    body: formData,
+                })
+                    .then((response) => response.json())
+                    .then((json) => {
+                        console.log(json);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else {
+                console.log('cancelled');
             }
         });
     }
 
     const onRefresh = React.useCallback(() => {
-        console.log("refreshing");
+        console.log("refreshing");  
         setRefreshing(true);
         setTimeout(() => {
         setRefreshing(false);
@@ -158,7 +179,7 @@ export default function Profile({navigation, route}) {
                     }}
                     onPress={handlePickImage}
                 >
-                    <Image source={require('../assets/user_1.png')} style={{ width: '90%', height: '90%' }} />
+                    <Image source={{uri: user_detail.photo}} style={{width: 100, height: 100, resizeMode: 'cover'}} />
                 </TouchableOpacity>
 
                 <View style={styles.bottom}>

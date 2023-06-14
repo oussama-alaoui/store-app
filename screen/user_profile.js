@@ -202,7 +202,7 @@ export default function User_Profile({navigation, route}) {
                 </View>
                 <View style={{position: 'absolute', width: '100%',alignItems:'center', marginTop:85}}>
                     <View style={{width: 120, height: 120, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderColor: '#4D62EE', borderWidth: 5, borderRadius: 13}}>
-                        <Image source={require('../assets/user_1.png')} style={{width: '90%', height: '90%'}}/>
+                        <Image source={{uri: user_detail.photo}} style={{width: '90%', height: '90%'}}/>
                     </View>
                     <View style={{width: '100%', position: 'absolute', marginTop:70}}>
                         <View style={{width:(width - 120)/2, alignItems:'center'}}>
