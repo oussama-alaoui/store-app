@@ -378,7 +378,7 @@ export default function Product_detail({ navigation, route })
                                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>{item.bid_price} ريال</Text>
                                 </View>
                                 <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                    <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
+                                    <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={{uri: `https://newapi.mediaplus.ma/storage/${item.from_id.photo}`}}/>
                                 </View>
                             </TouchableOpacity>
                             })

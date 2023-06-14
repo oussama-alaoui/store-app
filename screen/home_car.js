@@ -213,7 +213,7 @@ import { ActivityIndicator } from 'react-native';
                                                         <View style={{width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center'}}>
                                                                 <Text style={{fontSize: 13, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3'}}>{item.client_id.username}</Text>
                                                         </View>
-                                                        <Image source={require('../assets/user_1.png')} style={{width: 47, height: 50, resizeMode: 'contain', right: 16}}/>
+                                                        <Image source={{uri: `https://newapi.mediaplus.ma/storage/${item.client_id.photo}`}} style={{width: 47, height: 50, resizeMode: 'contain', right: 16}}/>
                                                         </View>
                                                     
                                                         <View style={{width: '100%', height: '50%', justifyContent: 'space-between', alignItems: 'center'}}>

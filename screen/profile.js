@@ -179,7 +179,7 @@ export default function Profile({navigation, route}) {
                     }}
                     onPress={handlePickImage}
                 >
-                    <Image source={{uri: user_detail.photo}} style={{width: 100, height: 100, resizeMode: 'cover'}} />
+                    <Image source={{uri: `https://newapi.mediaplus.ma/storage/${user_detail.photo}`}} style={{width: 100, height: 100, resizeMode: 'cover'}} />
                 </TouchableOpacity>
 
                 <View style={styles.bottom}>
