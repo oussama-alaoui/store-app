@@ -101,14 +101,16 @@ export default function Add_product({navigation}) {
                                 onValueChange={() => setPay(!Pay)}
                             />
                     </View>
-                    <TouchableOpacity style={{marginHorizontal: 30, paddingVertical: 15, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center', opacity: Pay == false ? .5 : 1}}
+                    <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-around", marginBottom: 1}}>
+                    <TouchableOpacity style={{paddingVertical: 15, borderRadius: 10, marginBottom: 30, justifyContent: 'center', alignItems: 'center', opacity: Pay == false ? .5 : 1, width: "40%"}} onPress={() => setModalVisibleFeed(false)}>
+                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>إغلاق</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{paddingVertical: 15, borderRadius: 10, marginBottom: 30, justifyContent: 'center', alignItems: 'center', opacity: Pay == false ? .5 : 1, width: "40%"}}
                         disabled={Pay == false ? true : false}
                         onPress={() => check_all()}>
-                        <Text style={{fontFamily: 'Small', fontSize: 16, color: "#fff"}}>إرسال</Text>
+                        <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#000"}}>إرسال</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{position: "absolute", top: 15, right: 15}} onPress={() => setModalVisibleFeed(false)}>
-                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>X</Text>
-                    </TouchableOpacity>
+                    </View>
                 </View>
                 </View>
                 
@@ -748,7 +750,7 @@ export default function Add_product({navigation}) {
     {
         if (category == 0)
         {
-            var str = engfirstletter+engsecondletter;
+            var str = engsecondletter+engfirstletter;
             var number = engthirdnumber+engsecondnumber+engfirstnumber;
         }
         else

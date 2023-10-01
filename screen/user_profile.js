@@ -119,11 +119,11 @@ export default function User_Profile({navigation, route}) {
                             numberOfLines={4}
                         />
                         <View style={{flexDirection: "row",marginHorizontal: 20 , justifyContent: "space-between"}}>
-                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 30, backgroundColor: '#f26f66', justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => setModalVisibleRepo(!modalVisibleRepo)}>
-                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>رجوع</Text>
+                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 30, justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => setModalVisibleRepo(!modalVisibleRepo)}>
+                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "red"}}>رجوع</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 10, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => post_repot(inputValue)}>
-                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
+                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 10, justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => post_repot(inputValue)}>
+                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#000"}}>إرسال</Text>
                             </TouchableOpacity>
                         </View>
  
@@ -164,11 +164,11 @@ export default function User_Profile({navigation, route}) {
                             numberOfLines={4}
                         />
                         <View style={{flexDirection: "row",marginHorizontal: 20 , justifyContent: "space-between"}}>
-                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 30, backgroundColor: '#f26f66', justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => setModalVisibleFeed(!modalVisibleFeed)}>
-                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>رجوع</Text>
+                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 30, justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => setModalVisibleFeed(!modalVisibleFeed)}>
+                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "red"}}>رجوع</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 10, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => post_feedback(comment, rate)}>
-                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
+                            <TouchableOpacity style={{height: 40, borderRadius: 10, marginBottom: 10, justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => post_feedback(comment, rate)}>
+                                <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#000"}}>إرسال</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -202,7 +202,7 @@ export default function User_Profile({navigation, route}) {
                 </View>
                 <View style={{position: 'absolute', width: '100%',alignItems:'center', marginTop:85}}>
                     <View style={{width: 120, height: 120, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderColor: '#4D62EE', borderWidth: 5, borderRadius: 13}}>
-                        <Image source={{uri: `https://newapi.mediaplus.ma/storage/${user_detail.photo}`}} style={{width: '90%', height: '90%'}}/>
+                        <Image source={{uri: user_detail.photo ? `https://newapi.mediaplus.ma/storage/${user_detail.photo}` : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"}} style={{width: '90%', height: '90%'}}/>
                     </View>
                     <View style={{width: '100%', position: 'absolute', marginTop:70}}>
                         <View style={{width:(width - 120)/2, alignItems:'center'}}>
@@ -239,7 +239,7 @@ export default function User_Profile({navigation, route}) {
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
                                     console.log("here"),
-                                    <TouchableOpacity key={index} style={{width: '92%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex:1, marginLeft: "4%"}} onPress={() => navigation.navigate('Product_detail_my', {product_id: item.id})}>
+                                    <TouchableOpacity key={index} style={{width: '92%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex:1, marginLeft: "4%"}} onPress={() => navigation.navigate('Product_detail', {product_id: item.id})}>
                                     <View style={{width: '100%', height: '78%', borderRadius: 10, justifyContent: 'center', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
                                     {/* 1st colum */}
                                                 <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
@@ -386,7 +386,7 @@ export default function User_Profile({navigation, route}) {
           // room exists
           const doc = querySnapshot.docs[0];
           console.log('Room exists');
-          navigation.navigate('ChatScreen', {room_id: doc.id, otherUser: product_detail.client_id});
+          navigation.navigate('ChatScreen', {room_id: doc.id, otherUser: buyerId});
         } else {
           const querySnapshot2 = await getDocs(query(roomsCol, 
             where('user1', '==', sellerId), 
@@ -396,7 +396,7 @@ export default function User_Profile({navigation, route}) {
             // room exists
             const doc = querySnapshot2.docs[0];
             console.log('Room exists');
-            navigation.navigate('ChatScreen', {room_id: doc.id, otherUser: product_detail.client_id});
+            navigation.navigate('ChatScreen', {room_id: doc.id, otherUser: buyerId});
           } else {
             // create room
             const newRoomRef = await addDoc(collection(db, 'rooms'), {
@@ -405,7 +405,7 @@ export default function User_Profile({navigation, route}) {
               messages: [],
             });
             console.log('Room created with ID: ', newRoomRef.id);
-            navigation.navigate('ChatScreen', {room_id: newRoomRef.id, otherUser: product_detail.client_id});
+            navigation.navigate('ChatScreen', {room_id: newRoomRef.id, otherUser: buyerId});
           }
         }
       };

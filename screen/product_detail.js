@@ -13,6 +13,7 @@ import { TextInput } from "react-native";
 import { GetData } from "./Syncstorage";
 import Loadings from "./complement/loadings";
 import Clipboard from '@react-native-clipboard/clipboard';
+import { Ionicons } from '@expo/vector-icons';
 import { db, collection, getDocs, query, addDoc, where } from "../firebase";
 
 
@@ -26,7 +27,6 @@ export default function Product_detail({ navigation, route })
     const [product_detail, setProduct_detail] = useState({})
     const [loading, setLoading] = useState(true)
     const [client_id, setClient_id] = useState(null)
-
     useEffect(() => {
         GetData('user_id').then((res) => {
             console.log("user_id", res)
@@ -61,11 +61,11 @@ export default function Product_detail({ navigation, route })
      });
      function fetchBids()
      {
-        fetch(`https://newapi.mediaplus.ma/api/v1/bids/article_id/${route.params.product_id}`, 
-            {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
+         fetch(`https://newapi.mediaplus.ma/api/v1/bids/article_id/${route.params.product_id}`, 
+         {
+             method: 'GET',
+             headers: {
+                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             
             }
@@ -76,20 +76,21 @@ export default function Product_detail({ navigation, route })
             })
             .catch((error) => {
                 console.error(error);
-        })
-     }
-     useEffect(() => {
-        fetch(`https://newapi.mediaplus.ma/api/v1/articles/${route.params.product_id}`, 
+            })
+        }
+        useEffect(() => {
+            fetch(`https://newapi.mediaplus.ma/api/v1/articles/${route.params.product_id}`, 
             {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    
             }
             })
             .then((response) => response.json())
             .then((json) => {
+                
                 setProduct_detail(json.data)
                 setLoading(false)
             })
@@ -97,22 +98,54 @@ export default function Product_detail({ navigation, route })
                 console.error(error);
         })
         fetchBids()
-     }, [route.params.product_id, true])
-     if (!fontsLoaded) {
-         return <Loadings/>;
-     }
-     const copyToClipboard = () => {
-         Clipboard.setString('012548');
+    }, [route.params.product_id, true])
+    if (!fontsLoaded) {
+        return <Loadings/>;
+    }
+    const copyToClipboard = () => {
+        Clipboard.setString('012548');
+    }
+    // translate number to arabic
+    const ar_number = (c) => {
+        var c_split = c.split('');
+        var ar = '٠١٢٣٤٥٦٧٨٩'.split('');
+        var en = '0123456789'.split('');
+        var result = "";
+        console.log("c_split: ", c_split);
+        for(var i = 0; i < c_split.length; i++){
+            for(var j = 0; j < 10; j++)
+                if (en[j] == c_split[i])
+                    result += ar[j];
+        }
+        return result;
     }
 
+    // translate letter to arabic
+    const ar_letter = (c) => {
+        var c_split = c.split('');
+        var ar = 'أبحدرسصطعقكلمنهوى'.split('');
+        var en = "ABJDRSXTEGKLZNHUV".split('');
+        var result = "";
+        console.log("c_split: ", c_split);
+        for(var i = 0; i < c_split.length; i++){
+            for(var j = 0; j < 17; j++)
+                if (en[j] == c_split[i])
+                    result += ar[j];
+        }
+        // rotate the letter
+        result = result.split('').reverse().join(' ');
+        return result;
+    }
+
+    
     const ModalNewBid = () => {
         const   [bidPrice, setBidPrice] = useState('');
         return (
             <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisibleFeed}
-                onRequestClose={() => {
+            animationType="slide"
+            transparent={true}
+            visible={modalVisibleFeed}
+            onRequestClose={() => {
                     setModalVisibleFeed(!modalVisibleFeed);
                 }} style={{height: "100%", width: "100%", position: "absolute"}}>
                 <View style={{height: "100%", width: "100%", backgroundColor: "rgba(52, 52, 52, 0.3)", justifyContent:"center"}}>
@@ -120,14 +153,18 @@ export default function Product_detail({ navigation, route })
                     <Text style={{paddingTop: 30, textAlign: "center", fontFamily: "Bold", fontSize: 20}}>إضافة مزايدة</Text>
                     
                     <TextInput
-                        style={{height: 60, marginHorizontal: 30, borderRadius: 10, marginVertical: 20, elevation: 2, shadowColor: '#aab8e6', paddingRight: 15, textAlign: 'right', writingDirection: 'rtl',}}
+                        style={{height: 60, marginHorizontal: 30, borderRadius: 10, marginVertical: 20, elevation: 1, shadowColor: '#aab8e6', paddingRight: 15, textAlign: 'right', writingDirection: 'rtl',}}
                         onChangeText={text => setBidPrice(text)}
                         keyboardType="numeric"
                         defaultValue={bidPrice}
                         placeholder="قيمة المزايدة"
                         multiline={false}
                     />
-                    <TouchableOpacity style={{marginHorizontal: 30, paddingVertical: 15, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center'}}
+                    <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-around", marginBottom: 1}}>
+                    <TouchableOpacity style={{paddingVertical: 15, borderRadius: 10, marginBottom: 10, justifyContent: 'center', alignItems: 'center', width: "40%"}} onPress={() => setModalVisibleFeed(false)}>
+                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>إغلاق</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{paddingVertical: 15, borderRadius: 10, marginBottom: 10, justifyContent: 'center', alignItems: 'center', width: "40%"}}
                         onPress={() => {
                             if (bidPrice == '')
                             {
@@ -178,11 +215,9 @@ export default function Product_detail({ navigation, route })
                                     console.error(error);
                             })
                         }}>
-                        <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#fff"}}>إرسال</Text>
+                        <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#000"}}>إرسال</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{position: "absolute", top: 15, right: 15}} onPress={() => setModalVisibleFeed(false)}>
-                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>X</Text>
-                    </TouchableOpacity>
+                    </View>
                 </View>
                 </View>
                 
@@ -193,12 +228,14 @@ export default function Product_detail({ navigation, route })
     if (loading) {
         return (
             <Loadings/>
-        )
-    }
-    else
-    {
+            )
+        }
+        else
+        {
+            var ar_num = ar_number(product_detail.en_numbers)
+            var ar_alpha = ar_letter(product_detail.en_alpha)
+            const message = `أعجبني هذا الإعلان رقم ${product_detail.id} في تطبيق لوحتي⁩ للوحة \n\n[ ${product_detail.en_alpha} ${product_detail.en_numbers}]\n[${ar_alpha} ${ar_num}]\n\nيمكنك البحث عن اللوحة عن طريق رقم الاعلان باستخدام التطبيق.\nلتحميل التطبيق\nLohty.com \n\nاول منصة لعرض جميع انواع اللوح بالسعودية 🇸🇦`;
         return (
-            console.log("im here: " + isLiked),
             <View style={styles.container}>
                 <ModalNewBid></ModalNewBid>
                 <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true} overScrollMode="never">
@@ -306,7 +343,7 @@ export default function Product_detail({ navigation, route })
                     </View>
                     <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>{product_detail.city_id.city_name}</Text>
                     {product_detail.show_contact == "show" ?   (
-                        <View style={{ width: "30%", height: 40, alignItems: "center", justifyContent: "center", borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
+                        <View style={{ width: "40%", height: 40, alignItems: "center", justifyContent: "center", borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                         <TouchableOpacity style={[styles.button4, {backgroundColor: '#d7ebd5'}]} onPress={() => {
                                                                                                                 let msg = "type something";
                                                                                                                 let phoneWithCountryCode = product_detail.client_id.phone;
@@ -325,10 +362,7 @@ export default function Product_detail({ navigation, route })
                                                                                                                 } 
                                                                                                                 }
                                                                                                             }}>
-                            <Image
-                                style={{ width: 20, height: 20, resizeMode: 'contain'}}
-                                source={require("../assets/whatsapp.png")}
-                            />
+                            <Ionicons name="logo-whatsapp" size={24} color="black" />
                         </TouchableOpacity>
                         <View style={{ width: 1, height: 28, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                         </View>
@@ -336,16 +370,18 @@ export default function Product_detail({ navigation, route })
                                                                                                                     if (Platform.OS === 'android') { phoneNumber = `tel:${product_detail.client_id.phone}`; }
                                                                                                                     else {phoneNumber = `telprompt:${product_detail.client_id.phone}`; }
                                                                                                                     Linking.openURL(phoneNumber)}} >
-                            <Image
-                                style={ {width: 20, height: 20, resizeMode: 'contain'}}
-                                source={require("../assets/telephone-call.png")}
-                            />
+                            <Ionicons name="ios-call" size={24} color="black" />
+                        </TouchableOpacity>
+                        <View style={{ width: 1, height: 28, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
+                        </View>
+                        <TouchableOpacity style={[styles.button4, {backgroundColor: '#d7ebd5'}]}  onPress={() => checkAndCreateRoom(product_detail.client_id.id, client_id)}>
+                            <Ionicons name="chatbox-outline" size={24} color="black" />
                         </TouchableOpacity>
                     </View>
                     ) : (
                         <>
-                        <TouchableOpacity style={{backgroundColor: '#678DF9', borderRadius: 13, paddingHorizontal: 25, paddingVertical: 5}} onPress={() => checkAndCreateRoom(product_detail.client_id.id, client_id)}>
-                            <Text style={{fontFamily: 'Bold', fontSize: 16, color: '#fff'}}>الرسائل</Text>
+                        <TouchableOpacity style={[styles.button4, {backgroundColor: '#d7ebd5'}]}  onPress={() => checkAndCreateRoom(product_detail.client_id.id, client_id)}>
+                            <Ionicons name="chatbox-outline" size={24} color="black" />
                         </TouchableOpacity>
                         </>
                     )} 
@@ -372,13 +408,13 @@ export default function Product_detail({ navigation, route })
                         {
                             product_bids != null ? product_bids.map((item, index) => {
 
-                            return <TouchableOpacity key={"bid_"+index} style={{width: "90%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center"}} onPress={() => navigation.navigate("User_Profile", {user_id: item.from_id.id})}>
+                            return <TouchableOpacity key={"bid_"+index} style={{width: "90%", height: 90, marginTop: 10, borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", alignItems: "center"}} onPress={() => navigation.navigate(item.from_id.id != client_id ? "User_Profile" : "Profile", {user_id: item.from_id.id})}>
                                 <View style={{height: 80, alignItems: "center", justifyContent: "center", borderRadius: 100, marginRight: 20, width: "80%"}}>
                                     <Text style={{ fontFamily: "Bold", fontSize: 17, color: '#000'}}>{item.from_id.username}</Text>
                                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>{item.bid_price} ريال</Text>
                                 </View>
                                 <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                    <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={{uri: `https://newapi.mediaplus.ma/storage/${item.from_id.photo}`}}/>
+                                    <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={{uri: item.from_id.photo ? `https://newapi.mediaplus.ma/storage/${item.from_id.photo}` : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"}}/>
                                 </View>
                             </TouchableOpacity>
                             })
@@ -393,8 +429,7 @@ export default function Product_detail({ navigation, route })
                         <TouchableOpacity style={styles.button3} onPress={async () => {
             try {
             const result = await Share.share({
-                message:
-                'React Native | A framework for building native apps using React',
+                message: message,
             });
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {

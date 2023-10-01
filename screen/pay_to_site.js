@@ -2,6 +2,7 @@ import { useFonts } from 'expo-font';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Linking, Image } from 'react-native';
 import Loadings from "./complement/loadings";
+import { Ionicons } from '@expo/vector-icons';
 
 const ScreenWithLinks = ({navigation}) => {
   const handleLinkPress = (url) => {
@@ -45,6 +46,21 @@ const ScreenWithLinks = ({navigation}) => {
             style={{alignItems: 'flex-end', marginBottom: 10, borderBottomColor: '#e8e8e8', borderBottomWidth: 2, paddingBottom: 10}}
             onPress={() => handleLinkPress('https://lohty.com/#contact')}>
           <Text style={styles.link}>تواصل معنا</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+            style={{alignItems: 'flex-end', marginBottom: 10, borderBottomColor: '#e8e8e8', borderBottomWidth: 2, paddingBottom: 10}}
+            onPress={() => handleLinkPress('https://twitter.com/lohty_ksa')}>
+          <Ionicons name="logo-twitter" size={24} color="#376286" />
+        </TouchableOpacity>
+        <TouchableOpacity
+            style={{alignItems: 'flex-end', marginBottom: 10, borderBottomColor: '#e8e8e8', borderBottomWidth: 2, paddingBottom: 10}}
+            onPress={() => handleLinkPress('https://www.instagram.com/lohty_ksa')}>
+          <Ionicons name="logo-instagram" size={24} color="#376286" />
+        </TouchableOpacity>
+        <TouchableOpacity
+            style={{alignItems: 'flex-end', marginBottom: 10, borderBottomColor: '#e8e8e8', borderBottomWidth: 2, paddingBottom: 10}}
+            onPress={() => handleLinkPress('https://lohty.com/#contact')}>
+          <Ionicons name="logo-whatsapp" size={24} color="#376286" />
         </TouchableOpacity>
       </View>
     </View>

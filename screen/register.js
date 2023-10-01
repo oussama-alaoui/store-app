@@ -30,7 +30,7 @@ export default function Register({navigation}, props) {
     }
     
     return (
-        <TouchableOpacity onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
         <KeyboardAwareScrollView >
         <SafeAreaView style={styles.container}>
             <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
@@ -95,7 +95,7 @@ export default function Register({navigation}, props) {
             </View>
         </SafeAreaView>
         </KeyboardAwareScrollView>
-        </TouchableOpacity>
+        </View>
 
     );
 
@@ -123,7 +123,6 @@ export default function Register({navigation}, props) {
         .then((response) => response.json())
         .then((json) => {
             setValue(json)
-            console.log(json.data.id)
             if (json.status == true){
                 navigation.navigate('Verification_phone', {id: json.data.id})
             }

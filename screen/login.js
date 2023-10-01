@@ -15,6 +15,7 @@ const { width, height } = Dimensions.get('window');
 
 export default function Login({navigation}) {
     const [value, setValue] = useState('')
+    const [keuboard, setKeuboard] = useState(false)
     const [error, setError] = useState('')
     const [Number, setNumber] = useState();
     const [username, setUsername] = useState("");
@@ -31,7 +32,7 @@ export default function Login({navigation}) {
 
 
     return (
-      <TouchableOpacity onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
     <KeyboardAwareScrollView >
       <SafeAreaView>
       <ImageBackground
@@ -61,6 +62,9 @@ export default function Login({navigation}) {
           keyboardType="ascii-capable"
           placeholderTextColor="rgba(0,0,0, 0.25)"
         />
+        <TouchableOpacity style={{ ft: 10, zIndex: 10 }}>
+          <Text style={{ fontSize: 13, color: '#000000' }}>نسيت إسم المستخدم؟</Text>
+        </TouchableOpacity>
         <Text style={[styles.input_label]}>رقم الهاتف</Text>
         <View style={{ position: 'relative' }}>
           <Text style={{ fontFamily: 'Bold', fontSize: 13, position: 'absolute', top: 12, left: 10, color: '#000000', zIndex: 10 }}>+966</Text>
@@ -89,7 +93,7 @@ export default function Login({navigation}) {
       </View>
       </SafeAreaView>
     </KeyboardAwareScrollView>
-    </TouchableOpacity>
+    </View>
 );
 
     async function input_check(){
@@ -116,7 +120,7 @@ export default function Login({navigation}) {
             setValue(json)
             console.log(json.info)
             if (json.status == true){
-                navigation.navigate('Verification_phone', {id: json.info.id})
+                navigation.navigate('Verification_phone', {id: json.info.id, phone: json.info.phone, username: json.info.username})
             }
             else
             {

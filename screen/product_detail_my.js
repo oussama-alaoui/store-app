@@ -39,6 +39,7 @@ export default function Product_detail_my({ navigation, route })
             })
             .then((response) => response.json())
             .then((json) => {
+                console.log("data", json.data)
                 setProduct_detail(json.data)
                 setLoading(false)
                 // console.log(json.data)
@@ -72,6 +73,39 @@ export default function Product_detail_my({ navigation, route })
         alert('تم نسخ الرقم');
     };
 
+        // translate number to arabic
+        const ar_number = (c) => {
+            var c_split = c.split('');
+            var ar = '٠١٢٣٤٥٦٧٨٩'.split('');
+            var en = '0123456789'.split('');
+            var result = "";
+            console.log("c_split: ", c_split);
+            for(var i = 0; i < c_split.length; i++){
+                for(var j = 0; j < 10; j++)
+                    if (en[j] == c_split[i])
+                        result += ar[j];
+            }
+            return result;
+        }
+    
+        // translate letter to arabic
+        const ar_letter = (c) => {
+            var c_split = c.split('');
+            var ar = 'أبحدرسصطعقكلمنهوى'.split('');
+            var en = "ABJDRSXTEGKLZNHUV".split('');
+            var result = "";
+            console.log("c_split: ", c_split);
+            for(var i = 0; i < c_split.length; i++){
+                for(var j = 0; j < 17; j++)
+                    if (en[j] == c_split[i])
+                    {
+                        result += ar[j];
+                    }
+            }
+            result = result.split('').reverse().join(' ');
+            return result;
+        }
+
 
     if (loading) {
         return (
@@ -80,6 +114,9 @@ export default function Product_detail_my({ navigation, route })
     }
     else
     {
+        var ar_num = ar_number(product_detail.en_numbers)
+        var ar_alpha = ar_letter(product_detail.en_alpha)
+        const message = `أعجبني هذا الإعلان رقم ${product_detail.id} في تطبيق لوحتي⁩ للوحة \n\n[ ${product_detail.en_alpha} ${product_detail.en_numbers}]\n[${ar_alpha} ${ar_num}]\n\nيمكنك البحث عن اللوحة عن طريق رقم الاعلان باستخدام التطبيق.\nلتحميل التطبيق\nLohty.com \n\nاول منصة لعرض جميع انواع اللوح بالسعودية 🇸🇦`;
         return (
             <View style={styles.container}>
                 <ScrollView style={{flex:1, width: "100%", height: "auto", alignItem: 'center'}} scrollEnabled={true} overScrollMode="never">
@@ -160,48 +197,6 @@ export default function Product_detail_my({ navigation, route })
                         </View>
                     </View>
                     <Text style={{ fontFamily: "Bold", fontSize: 16, color: '#616161'}}>{product_detail.city_id.city_name}</Text>
-                    {product_detail.show_contact == "show" ?   (
-                        <View style={{ width: "30%", height: 40, alignItems: "center", justifyContent: "center", borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
-                        <TouchableOpacity style={[styles.button4, {backgroundColor: '#d7ebd5'}]} onPress={() => {
-                                                                                                                let msg = "type something";
-                                                                                                                let phoneWithCountryCode = product_detail.client_id.phone;
-                                                                                                            
-                                                                                                                let mobile =
-                                                                                                                Platform.OS == "ios" ? phoneWithCountryCode : phoneWithCountryCode;
-                                                                                                                if (mobile) {
-                                                                                                                if (msg) {
-                                                                                                                    let url = "whatsapp://send?text=" + msg + "&phone=" + mobile;
-                                                                                                                    Linking.openURL(url)
-                                                                                                                    .then(data => {
-                                                                                                                        console.log("WhatsApp Opened");
-                                                                                                                    })
-                                                                                                                    .catch(() => {
-                                                                                                                        alert("Make sure WhatsApp installed on your device");
-                                                                                                                    });
-                                                                                                                } 
-                                                                                                                }
-                                                                                                            }}>
-                            <Image
-                                style={{ width: 20, height: 20, resizeMode: 'contain'}}
-                                source={require("../assets/whatsapp.png")}
-                            />
-                        </TouchableOpacity>
-                        <View style={{ width: 1, height: 28, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
-                        </View>
-                        <TouchableOpacity style={[styles.button4, {backgroundColor: '#d5e3eb'}]} onPress={() => {    let phoneNumber = '';
-                                                                                                                    if (Platform.OS === 'android') { phoneNumber = `tel:${product_detail.client_id.phone}`; }
-                                                                                                                    else {phoneNumber = `telprompt:${product_detail.client_id.phone}`; }
-                                                                                                                    Linking.openURL(phoneNumber)}} >
-                            <Image
-                                style={ {width: 20, height: 20, resizeMode: 'contain'}}
-                                source={require("../assets/telephone-call.png")}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    ) : (
-                        <>
-                        </>
-                    )} 
                     
                     <View style={{ width: "90%", height: 1, alignItems: "center", justifyContent: "center", marginTop: 5, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                     </View>
@@ -231,7 +226,7 @@ export default function Product_detail_my({ navigation, route })
                                     <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#7479BF'}}>{item.bid_price} ريال</Text>
                                 </View>
                                 <View style={{ width: 80, height: 80, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                    <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={{uri: `https://newapi.mediaplus.ma/storage/${item.from_id.photo}`}}/>
+                                    <Image style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 30}} source={{uri: item.from_id.photo ? `https://newapi.mediaplus.ma/storage/${item.from_id.photo}` : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"}}/>
                                 </View>
                             </TouchableOpacity>
                             })
@@ -244,8 +239,7 @@ export default function Product_detail_my({ navigation, route })
                         <TouchableOpacity style={styles.button3} onPress={async () => {
             try {
             const result = await Share.share({
-                message:
-                'React Native | A framework for building native apps using React',
+                message: message,
             });
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {

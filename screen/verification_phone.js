@@ -16,7 +16,8 @@ export default function Verification_phone({navigation, route}) {
     const [error, setError] = useState('')
     const [Number, setNumber] = useState('');
     const [value, setValue] = useState('')
-    // const [Date, setDate] = useState(new Date().getDate() + "/" + new Date().getMonth() + "/" + new Date().getFullYear());
+    const time = new Date().toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true});
+    const date = new Date().toLocaleDateString('en-US', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
 
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
@@ -59,14 +60,16 @@ export default function Verification_phone({navigation, route}) {
                 
                 <TextInput
                     style={styles.input_box}
-                    maxLength={5}
-                    letterSpacing={35}
+                    maxLength={4}
+                    letterSpacing={40}
                     placeholder=""
                     keyboardType="numeric"
                     onChangeText={(Number) => setNumber(Number)}
                     value={Number}
                 />
-                <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 12, marginTop: 10, marginBottom: 10, color: '#495BFA'}}>إعادة إرسال الرمز</Text>
+                <TouchableOpacity onPress={() => resend(route.params.username, route.params.phone)}>
+                    <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 12, marginTop: 10, marginBottom: 10, color: '#495BFA'}}>إعادة إرسال الرمز</Text>
+                </TouchableOpacity>
 
                 <View style={{
                     marginTop:30,
@@ -80,11 +83,11 @@ export default function Verification_phone({navigation, route}) {
                 <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', marginVertical: 25}}>
                     <View style={{ flexDirection: 'row'}}>
                         <Image source={require('../assets/calendar.png')} style={{marginRight: 1, width: 12, height: 12}}/>
-                        <Text style={{fontWeight: '600',fontSize: 8, color: '#A8A6A6'}}> Thunsday, 22 August 2022</Text>
+                        <Text style={{fontWeight: '600',fontSize: 8, color: '#A8A6A6'}}>{date}</Text>
                     </View>
                     <View style={{ flexDirection: 'row'}}>
                         <Image source={require('../assets/clock.png')} style={{marginRight: 1, width: 12, height: 12}}/>
-                        <Text style={{fontFamily: 'Bold',fontWeight: '600',fontSize: 8, color: '#A8A6A6'}}> 15:00</Text>
+                        <Text style={{fontWeight: '600',fontSize: 8, color: '#A8A6A6'}}>{time}</Text>
                     </View>
                     <View style={{ flexDirection: 'row'}}>
                         <Image source={require('../assets/user.png')} style={{marginRight: 1, width: 12, height: 12}}/>
@@ -133,6 +136,29 @@ export default function Verification_phone({navigation, route}) {
             console.log('Error: ', error);
         });
     }
+
+    async function resend(user, phone){
+        await fetch("https://newapi.mediaplus.ma/api/v1/verify", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "phone": phone,
+                "username": user,
+            })
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            setValue(json)
+            if (json.status == true){
+                console.log(json)
+            }
+        }
+        ).catch((error) => {
+            console.error(error)
+        })
+    }
 }
 
 const styles = StyleSheet.create({
@@ -151,7 +177,7 @@ const styles = StyleSheet.create({
     },
 
     input_box: {
-        width: width - 90,
+        width: width - 105,
         height: 80,
         borderRadius: 17,
         backgroundColor: '#F3F4F9',

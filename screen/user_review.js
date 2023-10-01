@@ -73,7 +73,7 @@ export default function UserReview({navigation, route}) {
                                 <Text   style={{borderRadius: 10, elevation: 2, shadowColor: 'black', paddingRight: 15, textAlign: 'right', writingDirection: 'rtl',padding: 14, lineHeight: 25, color: '#8D8D8D', fontFamily: 'Bold', fontSize: 13}} >{review.details}</Text>
                             </View>
                             <View style={{ width: 60, height: 60, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4}}>
-                                <Image style={{ width: 40, height: 40, resizeMode: 'contain', borderRadius: 30}} source={require("../assets/user_1.png")}/>
+                                <Image style={{ width: 40, height: 40, resizeMode: 'contain', borderRadius: 30}} source={review.from_id.photo ? {uri: `https://newapi.mediaplus.ma/storage/${review.from_id.photo}`} : require('../assets/user_1.png')} />
                             </View>
                         </View>
                     )

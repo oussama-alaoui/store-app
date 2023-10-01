@@ -30,19 +30,19 @@ export default function Edit_product({navigation, route}) {
     const [engsecondletter, setEngsecondletter] = useState();
     const [engthirdletter, setEngthirdletter] = useState();
 
-    const [arfirstletter, setArfirstletter] = useState("");
-    const [arsecondletter, setArsecondletter] = useState("");
-    const [arthirdletter, setArthirdletter] = useState("");
+    const [arfirstletter, setArfirstletter] = useState(null);
+    const [arsecondletter, setArsecondletter] = useState(null);
+    const [arthirdletter, setArthirdletter] = useState(null);
 
-    const [engfirstnumber, setEngfirstnumber] = useState("");
-    const [engsecondnumber, setEngsecondnumber] = useState("");
-    const [engthirdnumber, setEngthirdnumber] = useState("");
-    const [engfourthnumber, setEngfourthnumber] = useState("");
+    const [engfirstnumber, setEngfirstnumber] = useState(null);
+    const [engsecondnumber, setEngsecondnumber] = useState(null);
+    const [engthirdnumber, setEngthirdnumber] = useState(null);
+    const [engfourthnumber, setEngfourthnumber] = useState(null);
 
-    const [arfirstnumber, setArfirstnumber] = useState("");
-    const [arsecondnumber, setArsecondnumber] = useState("");
-    const [arthirdnumber, setArthirdnumber] = useState("");
-    const [arfourthnumber, setArfourthnumber] = useState("");
+    const [arfirstnumber, setArfirstnumber] = useState(null);
+    const [arsecondnumber, setArsecondnumber] = useState(null);
+    const [arthirdnumber, setArthirdnumber] = useState(null);
+    const [arfourthnumber, setArfourthnumber] = useState(null);
     const [error, setError] = useState('')
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
@@ -65,20 +65,23 @@ export default function Edit_product({navigation, route}) {
     }, []);
 
     useEffect(() => {
-        init_plate_alpha_number(route.params.product.en_alpha, route.params.product.en_numbers);
         GetData("user_id").then((data) => {
             setClient_id(data);
+            init_plate_alpha_number(route.params.product.en_alpha, route.params.product.en_numbers, route.params.product.type);
         });
     }, []);
 
-    function init_plate_alpha_number (str, number)
+    function init_plate_alpha_number (str, number, category)
     {
+        console.log(str);
+        if(category != 0){
         if (str[0])
             setEngfirstletter(str[2].toUpperCase());
+        }
         if (str[1])
+            setEngfirstletter(str[0].toUpperCase());
+        if (str[0])
             setEngsecondletter(str[1].toUpperCase());
-        if (str[2])
-            setEngthirdletter(str[0].toUpperCase());
         if (number[0])
             setEngfirstnumber(number[3]);
         if (number[1])
@@ -87,21 +90,39 @@ export default function Edit_product({navigation, route}) {
             setEngthirdnumber(number[1]);
         if (number[3])
             setEngfourthnumber(number[0]);
-        // convert to arabic
-        if (str[0])
-            to_ar(str[0], 3);
-        if (str[1])
-            to_ar(str[1], 2);
-        if (str[2])
-            to_ar(str[2], 1);
-        if (number[0])
-            to_ar_num(number[0], 4);
-        if (number[1])
-            to_ar_num(number[1], 3);
-        if (number[2])
-            to_ar_num(number[2], 2);
-        if (number[3])
-            to_ar_num(number[3], 1);
+        if (category == 0){
+            if (str[0])
+                to_ar(str[0], 2);
+            if (str[1])
+                to_ar(str[1], 1);
+            if (str[2])
+                to_ar(str[2], 3);
+                if (str[2])
+                to_ar(str[2], 1);
+            if (number[0])
+                to_ar_num(number[0], 3);
+            if (number[1])
+                to_ar_num(number[1], 2);
+            if (number[2])
+                to_ar_num(number[2], 1);
+        }
+
+        else{
+            if (str[0])
+                to_ar(str[0], 3);
+            if (str[1])
+                to_ar(str[1], 2);
+            if (str[2])
+                to_ar(str[2], 1);
+            if (number[0])
+                to_ar_num(number[0], 4);
+            if (number[1])
+                to_ar_num(number[1], 3);
+            if (number[2])
+                to_ar_num(number[2], 2);
+            if (number[3])
+                to_ar_num(number[3], 1);
+        }
     }
     if (!fontsLoaded) {
         return <Loadings/>;
@@ -135,14 +156,16 @@ export default function Edit_product({navigation, route}) {
                                 onValueChange={() => setPay(!Pay)}
                             />
                     </View>
-                    <TouchableOpacity style={{marginHorizontal: 30, paddingVertical: 15, borderRadius: 10, marginBottom: 30, backgroundColor: '#678DF9', justifyContent: 'center', alignItems: 'center', opacity: Pay == false ? .5 : 1}}
+                    <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-around", marginBottom: 1}}>
+                    <TouchableOpacity style={{paddingVertical: 15, borderRadius: 10, marginBottom: 30, justifyContent: 'center', alignItems: 'center', opacity: Pay == false ? .5 : 1, width: "40%"}} onPress={() => setModalVisibleFeed(false)}>
+                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>إغلاق</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{paddingVertical: 15, borderRadius: 10, marginBottom: 30, justifyContent: 'center', alignItems: 'center', opacity: Pay == false ? .5 : 1, width: "40%"}}
                         disabled={Pay == false ? true : false}
                         onPress={() => check_all()}>
-                        <Text style={{fontFamily: 'Small', fontSize: 16, color: "#fff"}}>إرسال</Text>
+                        <Text style={{fontFamily: 'Bold', fontSize: 16, color: "#000"}}>إرسال</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{position: "absolute", top: 15, right: 15}} onPress={() => setModalVisibleFeed(false)}>
-                        <Text style={{fontFamily: 'Bold', fontSize: 20, color: "red"}}>X</Text>
-                    </TouchableOpacity>
+                    </View>
                 </View>
                 </View>
                 
@@ -162,7 +185,7 @@ export default function Edit_product({navigation, route}) {
                 <Text style={{borderRadius: 20, fontWeight: 'bold', fontSize:14, paddingHorizontal: 20,paddingTop: 7, paddingBottom: 5, color:'black', backgroundColor:'rgba(255, 75, 0, .35)'}}>{error}</Text>
             </View>
         }
-        <View style={{backgroundColor: "#F1FBFF", width: "100%", height: "90%", alignItems: "center"}}>
+        <View style={{backgroundColor: 'rgba(177, 156, 217, 0.2)', width: "100%", height: "90%", alignItems: "center"}}>
             <View style={{ width: "90%", height: 40, flexDirection: "row", justifyContent: "space-between", marginTop: 20}}>
                 <TouchableOpacity onPress={() => setCategory(0)} style={{ width: "32%", justifyContent: "center", height: "100%", backgroundColor: category == 0 ? "#6997FC" : "#F2F2FF", borderRadius: 10, alignItems: "center", color: "#fff"}}>
                     <Text style={{ fontFamily: "Bold", fontSize: 18, color: category == 0 ? "#fff" : "#000"}}>دباب </Text>
@@ -774,13 +797,19 @@ export default function Edit_product({navigation, route}) {
     {
         if (category == 0)
         {
-            var str = engfirstletter+engsecondletter;
+            var str = engsecondletter+engfirstletter;
             var number = engthirdnumber+engsecondnumber+engfirstnumber;
+            number = number.replace(/null/g, "");
+            number = number.replace(/undefined/g, "");
         }
         else
         {
             var str = engthirdletter+engsecondletter+engfirstletter;
             var number = engfourthnumber+engthirdnumber+engsecondnumber+engfirstnumber;
+            // remove null and undefined from number
+            number = number.replace(/null/g, "");
+            number = number.replace(/undefined/g, "");
+            console.log("category is : " + category + " and platedesigne is : " + number);
         }
         var value = JSON.stringify({
             price: startedPrice,

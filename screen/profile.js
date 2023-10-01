@@ -94,6 +94,8 @@ export default function Profile({navigation, route}) {
     {
         var rating = 0;
         let i;
+        if (user_detail.review == undefined)
+            return;
         for (i = 0; i < user_detail.review.length; i++) {
             rating = rating + parseInt(user_detail.review[i].rating);
         }
@@ -179,7 +181,7 @@ export default function Profile({navigation, route}) {
                     }}
                     onPress={handlePickImage}
                 >
-                    <Image source={{uri: `https://newapi.mediaplus.ma/storage/${user_detail.photo}`}} style={{width: 100, height: 100, resizeMode: 'cover'}} />
+                    <Image source={{uri: user_detail.photo ? `https://newapi.mediaplus.ma/storage/${user_detail.photo}` : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"}} style={{width: 100, height: 100, resizeMode: 'cover'}} />
                 </TouchableOpacity>
 
                 <View style={styles.bottom}>

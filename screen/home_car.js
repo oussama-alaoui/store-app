@@ -81,6 +81,10 @@ import { ActivityIndicator } from 'react-native';
         setPage(1);
     }, [category]);
 
+    useEffect(() => {
+        getuser_id();
+    }, [navigation]);
+
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         setPage(1);
@@ -213,7 +217,7 @@ import { ActivityIndicator } from 'react-native';
                                                         <View style={{width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center'}}>
                                                                 <Text style={{fontSize: 13, fontFamily: 'Bold', letterSpacing: 2, color: '#616DE3'}}>{item.client_id.username}</Text>
                                                         </View>
-                                                        <Image source={{uri: `https://newapi.mediaplus.ma/storage/${item.client_id.photo}`}} style={{width: 47, height: 50, resizeMode: 'contain', right: 16}}/>
+                                                        <Image source={{uri: item.client_id.photo ? `https://newapi.mediaplus.ma/storage/${item.client_id.photo}` : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"}} style={{width: 30, height: 30, borderRadius: 50, top: 5, right: 7}}/>
                                                         </View>
                                                     
                                                         <View style={{width: '100%', height: '50%', justifyContent: 'space-between', alignItems: 'center'}}>
