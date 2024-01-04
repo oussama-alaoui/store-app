@@ -26,9 +26,9 @@ export default function Edit_product({navigation, route}) {
     const [showType, setShowType] = useState(false);
     const [modalVisibleFeed, setModalVisibleFeed] = useState(false)
 
-    const [engfirstletter, setEngfirstletter] = useState();
-    const [engsecondletter, setEngsecondletter] = useState();
-    const [engthirdletter, setEngthirdletter] = useState();
+    const [engfirstletter, setEngfirstletter] = useState(null);
+    const [engsecondletter, setEngsecondletter] = useState(null);
+    const [engthirdletter, setEngthirdletter] = useState(null);
 
     const [arfirstletter, setArfirstletter] = useState(null);
     const [arsecondletter, setArsecondletter] = useState(null);
@@ -73,59 +73,52 @@ export default function Edit_product({navigation, route}) {
 
     function init_plate_alpha_number (str, number, category)
     {
-        console.log(str);
-        if(category != 0){
-        if (str[0])
-            setEngfirstletter(str[2].toUpperCase());
-        }
-        if (str[1])
-            setEngfirstletter(str[0].toUpperCase());
-        if (str[0])
-            setEngsecondletter(str[1].toUpperCase());
-        if (number[0])
-            setEngfirstnumber(number[3]);
-        if (number[1])
-            setEngsecondnumber(number[2]);
-        if (number[2])
-            setEngthirdnumber(number[1]);
-        if (number[3])
-            setEngfourthnumber(number[0]);
-        if (category == 0){
-            if (str[0])
-                to_ar(str[0], 2);
-            if (str[1])
-                to_ar(str[1], 1);
-            if (str[2])
-                to_ar(str[2], 3);
-                if (str[2])
-                to_ar(str[2], 1);
-            if (number[0])
-                to_ar_num(number[0], 3);
-            if (number[1])
-                to_ar_num(number[1], 2);
-            if (number[2])
-                to_ar_num(number[2], 1);
-        }
-
-        else{
-            if (str[0])
-                to_ar(str[0], 3);
-            if (str[1])
-                to_ar(str[1], 2);
-            if (str[2])
-                to_ar(str[2], 1);
-            if (number[0])
-                to_ar_num(number[0], 4);
-            if (number[1])
-                to_ar_num(number[1], 3);
-            if (number[2])
-                to_ar_num(number[2], 2);
-            if (number[3])
-                to_ar_num(number[3], 1);
-        }
-    }
-    if (!fontsLoaded) {
-        return <Loadings/>;
+        var ar = 'أبحدرسصطعقكلمنهوى'.split('');
+        var en = "ABJDRSXTEGKLZNHUV".split('');
+        var ar_num = '٠١٢٣٤٥٦٧٨٩'.split('');
+        var en_num = '0123456789'.split('');
+        // reverse the string
+        str = str.split("").reverse();
+        number = number.split("").reverse();
+        // init the arabic letters
+        en.forEach((element, index) => {
+            if (element == str[0]){
+                setEngfirstletter(str[0]);
+                setArfirstletter(ar[index]);
+            }
+            if (element == str[1]){
+                setEngsecondletter(str[1]);
+                setArsecondletter(ar[index]);
+            }
+            if (element == str[2]){
+                setEngthirdletter(str[2]);
+                setArthirdletter(ar[index]);
+            }
+        });
+        // init the numbers
+        console.log(number);
+        console.log(number.length, "length");
+        en_num.forEach((element, index) => {
+            if (element == number[0]){
+                setEngfirstnumber(number[0]);
+                setArfirstnumber(ar_num[index]);
+            }
+            if (element == number[1]){
+                console.log(number[1], "second");
+                setEngsecondnumber(number[1]);
+                setArsecondnumber(ar_num[index]);
+            }
+            if (element == number[2]){
+                console.log(number[2]);
+                setEngthirdnumber(number[2]);
+                setArthirdnumber(ar_num[index]);
+            }
+            if (element == number[3]){
+                setEngfourthnumber(number[3]);
+                setArfourthnumber(ar_num[index]);
+            }
+        });
+        console.log(engfirstletter, engsecondletter, engthirdletter, engfirstnumber, engsecondnumber, engthirdnumber, engfourthnumber);
     }
 
     function trans_num(num, str){
@@ -767,7 +760,6 @@ export default function Edit_product({navigation, route}) {
 
     function check_all()
     {
-        // check if paltedesigne is in category
         if ((category == 0 && platedesigne != "motor") || 
         (category == 1 && (platedesigne != "public-00" && platedesigne != "public-01")) || 
         (category == 2 && (platedesigne != "basic-00" && platedesigne != "basic-01" && platedesigne != "basic-02" && platedesigne != "basic-03" && platedesigne != "basic-04" && platedesigne != "basic-05" && platedesigne != "basic-06")))
@@ -798,18 +790,23 @@ export default function Edit_product({navigation, route}) {
         if (category == 0)
         {
             var str = engsecondletter+engfirstletter;
-            var number = engthirdnumber+engsecondnumber+engfirstnumber;
+            var number = engfirstnumber+engsecondnumber+engthirdnumber;
             number = number.replace(/null/g, "");
             number = number.replace(/undefined/g, "");
+            str = str.replace(/null/g, "");
+            str = str.replace(/undefined/g, "");
         }
         else
         {
             var str = engthirdletter+engsecondletter+engfirstletter;
-            var number = engfourthnumber+engthirdnumber+engsecondnumber+engfirstnumber;
-            // remove null and undefined from number
+            console.log("category is1 : " ,engfirstnumber, engsecondnumber, engthirdnumber, engfourthnumber);
+            var number = engfirstnumber+engsecondnumber+engthirdnumber+engfourthnumber;
             number = number.replace(/null/g, "");
             number = number.replace(/undefined/g, "");
             console.log("category is : " + category + " and platedesigne is : " + number);
+            str = str.replace(/null/g, "");
+            str = str.replace(/undefined/g, "");
+            // console.log("category is : " + category + " and platedesigne is : " + number);
         }
         var value = JSON.stringify({
             price: startedPrice,
@@ -818,7 +815,7 @@ export default function Edit_product({navigation, route}) {
             description: description,
             city_id: city,
             client_id: client_id,
-            en_numbers: number,
+            en_numbers: number.split('').reverse().join(''),
             en_alpha: str,
             show_contact: showphone == true ? "show" : "hide",
             style: platedesigne,

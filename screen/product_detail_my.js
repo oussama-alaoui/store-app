@@ -211,7 +211,7 @@ export default function Product_detail_my({ navigation, route })
                         <View style={{ width: "30%", height: 1, marginTop: 10, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                         </View>
                         <View style={{ width: "40%", height: 37, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#72A2FE', borderRadius: 18}}>
-                            <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff'}}>المزايدة</Text>
+                            <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff', lineHeight: 35}}>المزايدة</Text>
                         </View>
                         <View style={{ width: "30%", height: 1, marginTop: 10, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                         </View>

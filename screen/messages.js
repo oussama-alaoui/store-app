@@ -94,8 +94,8 @@ export default function Messages({navigation}) {
     
             const otherUserId = room.user1 === user_id ? room.user2 : room.user1;
             room.otherUser = await getUserInfo(otherUserId);
-    
-            roomsarray.push(room);
+            if (room.otherUser != undefined)
+                roomsarray.push(room);
         });
     
         await Promise.all([...promises1, ...promises2]);
@@ -108,7 +108,7 @@ export default function Messages({navigation}) {
     if (loading){
         return <Loadings/>
     }
-    if(!loading && rooms.length == 0){
+    else if(!loading && rooms.length == 0){
         return (
            <View style={[styles.container, {justifyContent:"center"}]}>
                 <Image source={require('../assets/warning.png')} style={{width: 76.5 * 2.5, height :57.8 * 2.5}}/>
@@ -123,6 +123,8 @@ export default function Messages({navigation}) {
                 <Text style={{fontFamily: "Bold", fontSize: 20, color: "#6C63FF", marginVertical: 15}}>صندوق الوارد</Text>
                 <View style={{width: "100%", paddingHorizontal: 20, backgroundColor: '#6C63FF', height: 2, opacity: 0.3}}></View>
                 { rooms.map((item, index) => (
+                    console.log("item", item),
+                    
                     <TouchableOpacity 
                         key={index} 
                         style={{ width: "100%", height: 90, flexDirection: 'row-reverse', backgroundColor: 'rgba(108, 99, 255, .05)', alignItems: "center", paddingHorizontal:15, borderBottomWidth:1, borderBottomColor:'rgba(108, 99, 255, .2)'}} 

@@ -89,7 +89,23 @@ export default function User_Profile({navigation, route}) {
         setRating(rating);
     }
 
-    
+    function convertPrice(price) {
+        if (price > 999999999999999) {
+            return (price / 1000000000000000) + "كواد";
+        }
+        else if (price > 999999999999) {
+            return (price / 1000000000000) + "تريليون";
+        }
+        else if (price > 999999999) {
+            return (price / 1000000000) + "مليار";
+        }
+        else if (price > 999999) {
+            return (price / 1000000) + "مليون";
+        }
+        else {
+            return price;
+        }
+    }
 
     if (loading || loadinngUser) {
         return <Loadings/>;
@@ -235,6 +251,7 @@ export default function User_Profile({navigation, route}) {
                     <ScrollView horizontal='true' overScrollMode="never" style={{width: '100%', height: '100%', paddingVertical: 10, marginBottom: "80%"}}>
                         <View >
                             {all_products.data.map((item, index) => {
+                                item.max = convertPrice(item.max);
                                 const date = new Date(item.created_at);
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
@@ -244,7 +261,14 @@ export default function User_Profile({navigation, route}) {
                                     {/* 1st colum */}
                                                 <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
                                                     <View style={{width: '100%', height: '35%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 4}}>
-                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>{item.max ? item.max + "ريال" : "لايوجد"}</Text>
+                                                        <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>
+                                                            {
+                                                                item.max ? 
+                                                                    <>{item.max} <Text style={{fontSize: 10, color: '#fff'}}>﷼</Text></>
+                                                                : "لايوجد"
+
+                                                            }
+                                                        </Text>
                                                         <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
                                                         <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
                                                     </View>

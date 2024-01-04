@@ -98,6 +98,24 @@ import { ActivityIndicator } from 'react-native';
         return <Loadings/>;
      }
 
+     function convertPrice(price) {
+        if (price > 999999999999999) {
+            return (price / 1000000000000000) + "كواد";
+        }
+        else if (price > 999999999999) {
+            return (price / 1000000000000) + "تريليون";
+        }
+        else if (price > 999999999) {
+            return (price / 1000000000) + "مليار";
+        }
+        else if (price > 999999) {
+            return (price / 1000000) + "مليون";
+        }
+        else {
+            return price;
+        }
+    }
+
     const handleLoadMore = (event) => {
         // check if the user is at the end of the list
         var i = page;
@@ -189,6 +207,8 @@ import { ActivityIndicator } from 'react-native';
                         <View style={styles.body}>
                             {articles.length > 0 ?(
                                 articles.map((item, index) => {
+                                        item.max = convertPrice(item.max);
+                                        console.log("item", item.max);
                                         return (
                                             <TouchableOpacity key={index} style={{width: '95%', height: 120, backgroundColor: '#fff', borderRadius: 10, marginTop: 10, justifyContent: 'space-around', flexDirection: 'row', flex: 1, marginBottom: 10}} onPress={() => handeDetail(item.client_id.id, item.id)}>
                                                     {/* 1st colum */}
@@ -205,7 +225,14 @@ import { ActivityIndicator } from 'react-native';
                                                         
                                                         </View>
                                                         <View style={{width: '110%', height: '24%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 5}}>
-                                                        <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>{item.max ? item.max + "ريال" : "لايوجد"}</Text>
+                                                        <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>
+                                                            {
+                                                                item.max ? 
+                                                                    <>{item.max} <Text style={{fontSize: 10, color: '#fff'}}>﷼</Text></>
+                                                                : "لايوجد"
+
+                                                            }
+                                                        </Text>
                                                             <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
                                                             <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
                                                         </View>

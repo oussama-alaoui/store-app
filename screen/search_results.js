@@ -6,10 +6,13 @@ import { TouchableOpacity } from "react-native";
 import Matricule from './svg_assets/matricule'
 import Loadings from "./complement/loadings";
 import { StatusBar } from "expo-status-bar";
+import { GetData } from "./Syncstorage";
+
 
 export default function Search_results({navigation, route}) {
     const [all_products, setAll_products] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [client_id, setClient_id] = useState(0);
     useEffect(() => {
         fetch(route.params.url,
             {
@@ -22,18 +25,50 @@ export default function Search_results({navigation, route}) {
             .then((response) => response.json())
             .then((json) => {
                 setAll_products(json.data)
-                setLoading(false)
+                getuser_id()
             })
             .catch((error) => {
                 console.error(error);
         })
         
     }, [])
+    function getuser_id(){
+        GetData("user_id").then((value) => {
+            setClient_id(value);
+            setLoading(false)
+        });
+    }
+    function convertPrice(price) {
+        if (price > 999999999999999) {
+            return (price / 1000000000000000) + "كواد";
+        }
+        else if (price > 999999999999) {
+            return (price / 1000000000000) + "تريليون";
+        }
+        else if (price > 999999999) {
+            return (price / 1000000000) + "مليار";
+        }
+        else if (price > 999999) {
+            return (price / 1000000) + "مليون";
+        }
+        else {
+            return price;
+        }
+    }
     let [fontsLoaded] = useFonts({
         Small: require("../assets/fonts/NotoSansArabic-Light.ttf"),
         Bold: require("../assets/fonts/NotoSansArabic-Bold.ttf"),
         X_Bold: require("../assets/fonts/NotoSansArabic-ExtraBold.ttf"),
     });
+    function handeDetail(id, item_id) {
+        if(client_id == id) {
+            console.log('my product'+id + ' ' + client_id)
+            navigation.navigate('Product_detail_my', {product_id: item_id})
+        } else {
+            console.log('other product'+id + ' ' + client_id)
+            navigation.navigate('Product_detail', {product_id: item_id})
+        }
+    }
     if (!fontsLoaded) {
         return <Loadings/>;
     }
@@ -59,16 +94,24 @@ export default function Search_results({navigation, route}) {
                         { all_products.data.length > 0
                         ?
                             all_products.data.map((item, index) => {
+                                item.max = convertPrice(item.max);
                                 console.log(item)
                                 const date = new Date(item.created_at);
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
-                                    <TouchableOpacity key={index} style={{width: '94%', backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1}} onPress={() => navigation.navigate('Product_detail', {product_id: item.id})}>
+                                    <TouchableOpacity key={index} style={{width: '94%', backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1}} onPress={() => handeDetail(item.client_id.id, item.id)}>
                                         <View style={{width: '100%', height: 90, borderRadius: 10, justifyContent: 'center', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
                                         {/* 1st colum */}
                                                     <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
                                                         <View style={{width: '100%', height: '35%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 4}}>
-                                                        <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}> {item.max ? item.max + "ريال" : "لايوجد"} </Text>
+                                                            <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>
+                                                                {
+                                                                    item.max ? 
+                                                                        <>{item.max} <Text style={{fontSize: 10, color: '#fff'}}>﷼</Text></>
+                                                                    : "لايوجد"
+
+                                                                }
+                                                            </Text>
                                                             <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
                                                             <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
                                                         </View>

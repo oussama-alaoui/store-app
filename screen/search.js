@@ -314,6 +314,7 @@ export default function Search({navigation}) {
             args += "null"
         else
             args += alphaSum
+        args += "/"+category
         
         console.log('city : ', city)
         console.log('ID : ', ID)

@@ -136,7 +136,23 @@ export default function Product_detail({ navigation, route })
         result = result.split('').reverse().join(' ');
         return result;
     }
-
+    function convertPrice(price) {
+        if (price > 999999999999999) {
+            return (price / 1000000000000000) + "كواد";
+        }
+        else if (price > 999999999999) {
+            return (price / 1000000000000) + "تريليون";
+        }
+        else if (price > 999999999) {
+            return (price / 1000000000) + "مليار";
+        }
+        else if (price > 999999) {
+            return (price / 1000000) + "مليون";
+        }
+        else {
+            return price;
+        }
+    }
     
     const ModalNewBid = () => {
         const   [bidPrice, setBidPrice] = useState('');
@@ -173,7 +189,7 @@ export default function Product_detail({ navigation, route })
                             }
                             if(product_bids.length > 0)
                             {
-                                if (bidPrice < product_detail.price || bidPrice <= product_bids[0].bid_price)
+                                if (bidPrice < parseInt(product_detail.price+1) || bidPrice < parseInt(product_bids[0].bid_price+1))
                                 {
                                     alert('الرجاء إدخال قيمة المزايدة أكبر من السعر الحالي')
                                     return
@@ -399,7 +415,7 @@ export default function Product_detail({ navigation, route })
                         <View style={{ width: "30%", height: 1, marginTop: 10, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                         </View>
                         <View style={{ width: "40%", height: 37, alignItems: "center", justifyContent: "center", marginTop: 6, backgroundColor: '#72A2FE', borderRadius: 18}}>
-                            <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff'}}>المزايدة</Text>
+                            <Text style={{ fontFamily: "Bold", fontSize: 20, color: '#fff', lineHeight: 35}}>المزايدة</Text>
                         </View>
                         <View style={{ width: "30%", height: 1, marginTop: 10, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around"}}>
                         </View>

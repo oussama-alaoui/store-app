@@ -62,12 +62,12 @@ export default function Login({navigation}) {
           keyboardType="ascii-capable"
           placeholderTextColor="rgba(0,0,0, 0.25)"
         />
-        <TouchableOpacity style={{ ft: 10, zIndex: 10 }}>
+        <TouchableOpacity style={{ ft: 10, zIndex: 10 }} onPress={() => forgetUsername()}>
           <Text style={{ fontSize: 13, color: '#000000' }}>نسيت إسم المستخدم؟</Text>
         </TouchableOpacity>
         <Text style={[styles.input_label]}>رقم الهاتف</Text>
         <View style={{ position: 'relative' }}>
-          <Text style={{ fontFamily: 'Bold', fontSize: 13, position: 'absolute', top: 12, left: 10, color: '#000000', zIndex: 10 }}>+966</Text>
+          <Text style={{ fontFamily: 'Bold', fontSize: 13, position: 'absolute', top: 10, left: 10, color: '#000000', zIndex: 10, marginRight: 10 }}>+966</Text>
           <TextInput
             style={[styles.input_phone, { borderRadius: 10 }]}
             onChangeText={setNumber}
@@ -131,6 +131,37 @@ export default function Login({navigation}) {
             console.error(error.info)
         })
     }
+
+    async function forgetUsername(){
+      setError("")
+      if(!Number)
+      {
+          setError('الرجاء إدخال رقم الهاتف الخاص بك')
+          return 
+      }
+      else
+      {
+          console.log("Number")
+          return
+      }
+      console.log(JSON.stringify({"phone": Number}))
+      await fetch("https://newapi.mediaplus.ma/api/v1/forget_username", {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              "phone": Number,
+          })
+      })
+      .then((response) => response.json())
+      .then((json) => {
+          setError(json.message)
+      }
+      ).catch((error) => {
+          console.error("error: ", error.info)
+      })
+    }
 }
 
 
@@ -179,7 +210,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F7FC',
         fontFamily: 'Bold',
         fontSize: 13,
-        paddingLeft: 45,
+        paddingLeft: 55,
         paddingVertical: 10,
         paddingRight: 10,
     },

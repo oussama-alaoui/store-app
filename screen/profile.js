@@ -66,6 +66,23 @@ export default function Profile({navigation, route}) {
         })
         
     }
+    function convertPrice(price) {
+        if (price > 999999999999999) {
+            return (price / 1000000000000000) + "كواد";
+        }
+        else if (price > 999999999999) {
+            return (price / 1000000000000) + "تريليون";
+        }
+        else if (price > 999999999) {
+            return (price / 1000000000) + "مليار";
+        }
+        else if (price > 999999) {
+            return (price / 1000000) + "مليون";
+        }
+        else {
+            return price;
+        }
+    }
    async function get_products(value){
             fetch(`https://newapi.mediaplus.ma/api/v1/articles/user/${value}`, 
                 {
@@ -223,6 +240,7 @@ export default function Profile({navigation, route}) {
                 <ScrollView horizontal='true' overScrollMode="never"   refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
                     <View style={styles.body}>
                             {all_products.data != undefined ?  all_products.data.map((item, index) => {
+                                item.max = convertPrice(item.max);
                                 const date = new Date(item.created_at);
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
@@ -232,7 +250,14 @@ export default function Profile({navigation, route}) {
                                     {/* 1st colum */}
                                                 <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
                                                     <View style={{width: '100%', height: '35%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 4}}>
-                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>{item.max ? item.max + "ريال" : "لايوجد"}</Text>
+                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>
+                                                            {
+                                                                item.max ? 
+                                                                    <>{item.max} <Text style={{fontSize: 10, color: '#fff'}}>﷼</Text></>
+                                                                : "لايوجد"
+
+                                                            }
+                                                        </Text>
                                                         <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
                                                         <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
                                                     </View>
@@ -243,12 +268,12 @@ export default function Profile({navigation, route}) {
                                                 <View style={{width: '35%', height: '60%', borderRadius: 10, marginTop: "1%"}}>
                                                     <View style={{width: '100%', height: '100%', justifyContent: 'space-around', alignItems: 'center'}}>
                                                         <View style={{width: '100%', height: '41%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black', left: 29}}>الرياض</Text>
-                                                            <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray', left: 12}}>المدينة </Text>
+                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black', left: 29, lineHeight: 25}}>الرياض</Text>
+                                                            <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray', left: 12, lineHeight: 25}}>المدينة </Text>
                                                         </View>
                                                         <View style={{width: '100%', height: '39%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5}}>{item.bid[0]?.bid_price || item.price} ريال</Text>
-                                                            <Text style={{fontSize: 12, fontFamily: 'Small', letterSpacing: 2, color: 'gray', left: 4}}>السعر </Text>
+                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5, lineHeight: 25}}>{item.bid[0]?.bid_price || item.price} ريال</Text>
+                                                            <Text style={{fontSize: 12, fontFamily: 'Small', letterSpacing: 2, color: 'gray', left: 4, lineHeight: 25}}>السعر </Text>
                                                         </View>
                                                     </View>
                                                 </View>

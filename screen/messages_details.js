@@ -141,13 +141,13 @@ const ChatScreen = ({navigation, route}) => {
     <View
       style={[
         styles.messageContainer,
-        item.user._id === 5 ? styles.outgoingMessageContainer : styles.incomingMessageContainer,
+        item.user._id === user_id ? styles.outgoingMessageContainer : styles.incomingMessageContainer,
       ]}
     >
       <Text
         style={[
           styles.messageText,
-          item.user._id === 5 ? styles.outgoingMessageText : styles.incomingMessageText,
+          item.user._id === user_id ? styles.outgoingMessageText : styles.incomingMessageText,
         ]}
       >
         {item.text}
@@ -155,7 +155,7 @@ const ChatScreen = ({navigation, route}) => {
       <Text
         style={[
           styles.messageTime,
-          item.user._id === 5 ? styles.outgoingMessageTime : styles.incomingMessageTime,
+          item.user._id === user_id ? styles.outgoingMessageTime : styles.incomingMessageTime,
         ]}
       >
         {new Date(item.createdAt).toLocaleTimeString([], {
