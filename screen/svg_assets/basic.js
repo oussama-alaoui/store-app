@@ -26,6 +26,9 @@ export default function Basic({style, alpha, number, w}) {
                 <WebView
                 source={{ html: `
                     <html>
+                        <head>
+                            <meta name="viewport" content="width=device-width, initial-scale=1" />
+                        </head>
                         <body style="padding:0;margin:0;">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Layer_1" data-name="Layer 1" viewBox="0 0 8038.89 1848.3" width="`+p_w+`" height="`+p_h+`">
                             <defs>

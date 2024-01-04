@@ -216,7 +216,7 @@ export default function User_Profile({navigation, route}) {
                         </View>
                     </View>
                 </View>
-                <View style={{position: 'absolute', width: '100%',alignItems:'center', marginTop:85}}>
+                <View style={{position: 'absolute', width: '100%',alignItems:'center', marginTop:130}}>
                     <View style={{width: 120, height: 120, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', borderColor: '#4D62EE', borderWidth: 5, borderRadius: 13}}>
                         <Image source={{uri: user_detail.photo ? `https://newapi.mediaplus.ma/storage/${user_detail.photo}` : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"}} style={{width: '90%', height: '90%'}}/>
                     </View>
@@ -238,7 +238,7 @@ export default function User_Profile({navigation, route}) {
                         </View>
                     </View>
                 </View>
-                <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', marginTop : 55, marginBottom : 10}}>
+                <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', marginTop : 65, marginBottom : 10}}>
                     <Text style={{fontFamily: 'Bold', fontSize: 21, color: '#292B56', paddingVertical:3}}>{user_detail.username}</Text>
                     <TouchableOpacity style={{backgroundColor: '#678DF9', borderRadius: 13, paddingHorizontal: 25, paddingVertical: 5}} onPress={() => checkAndCreateRoom(user_id, route.params.user_id)}>
                         <Text style={{fontFamily: 'Bold', fontSize: 16, color: '#fff'}}>الرسائل</Text>
@@ -248,7 +248,7 @@ export default function User_Profile({navigation, route}) {
                         <View style={{width: '90%', justifyContent: 'space-between', margin: 10, writingDirection: 'rtl'}}>
                             <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#000000', writingDirection: 'rtl'}}>اللوحات المعروضة</Text>
                         </View>
-                    <ScrollView horizontal='true' overScrollMode="never" style={{width: '100%', height: '100%', paddingVertical: 10, marginBottom: "80%"}}>
+                    <ScrollView overScrollMode="never" style={{width: '100%', height: '100%', paddingVertical: 10, marginBottom: "80%"}}>
                         <View >
                             {all_products.data.map((item, index) => {
                                 item.max = convertPrice(item.max);

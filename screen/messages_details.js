@@ -122,9 +122,6 @@ const ChatScreen = ({navigation, route}) => {
       return (
       <View style={styles.inputContainer}>
         <View style={styles.inputall}>
-          <TouchableOpacity onPress={() => {onSend(inputText)}}>
-            <Image source={require('../assets/send.png')} style={styles.sendButton} />
-          </TouchableOpacity>
           <TextInput
             ref={inputRef} // set the reference to the input element
             style={styles.input}
@@ -132,6 +129,9 @@ const ChatScreen = ({navigation, route}) => {
             onChangeText={setInputText}
             placeholder=" اكتب رسالتك هنا"
           />
+          <TouchableOpacity onPress={() => {onSend(inputText)}}>
+            <Image source={require('../assets/send.png')} style={styles.sendButton} />
+          </TouchableOpacity>
         </View>
       </View>
       );
@@ -290,6 +290,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     direction: 'rtl',
+    textAlign: 'right',
     fontFamily: 'Medium',
     paddingHorizontal: 5,
   },

@@ -118,33 +118,33 @@ export default function Messages({navigation}) {
     } 
     else{ 
         return (
-            console.log("rooms", rooms), 
-            <View style={styles.container}>
-                <Text style={{fontFamily: "Bold", fontSize: 20, color: "#6C63FF", marginVertical: 15}}>صندوق الوارد</Text>
-                <View style={{width: "100%", paddingHorizontal: 20, backgroundColor: '#6C63FF', height: 2, opacity: 0.3}}></View>
-                { rooms.map((item, index) => (
-                    console.log("item", item),
+            console.log("rooms", rooms),
+            <SafeAreaView style={styles.container}>
+                    <Text style={{fontFamily: "Bold", fontSize: 20, color: "#6C63FF", marginVertical: 15}}>صندوق الوارد</Text>
+                    <View style={{width: "100%", paddingHorizontal: 20, backgroundColor: '#6C63FF', height: 2, opacity: 0.3}}></View>
+                    { rooms.map((item, index) => (
+                        console.log("item", item),
+                        
+                        <TouchableOpacity 
+                            key={index} 
+                            style={{ width: "100%", height: 90, flexDirection: 'row-reverse', backgroundColor: 'rgba(108, 99, 255, .05)', alignItems: "center", paddingHorizontal:15, borderBottomWidth:1, borderBottomColor:'rgba(108, 99, 255, .2)'}} 
+                            onPress={() => navigation.navigate("ChatScreen", {room_id: item.id, otherUser: item.otherUser})}
+                        >
+                            <View style={{ width: 60, height: 60, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4, marginLeft: 10}}>
+                                <Image style={{ width: 45, height: 45, resizeMode: 'contain', borderRadius: 30}} source={item.otherUser.photo ? {uri: `https://newapi.mediaplus.ma/storage/${item.otherUser.photo}`} : require('../assets/user_1.png')} />
+                            </View>
+                            <View style={{height: 80, justifyContent: "center"}}>
+                            <Text style={{ fontFamily: "Bold", fontSize: 14, color: '#020D6D', fontWeight: 'bold', textAlign:'right'}}>
+                                {item.otherUser.username}
+                            </Text>
+                            <Text style={{ fontFamily: "Bold", fontSize: 12, color: '#000', textAlign:'right'}}>
+                                {item.latestMessage ? item.latestMessage.text : ""}
+                            </Text>
+                            </View>
+                        </TouchableOpacity>
+                    )) }
                     
-                    <TouchableOpacity 
-                        key={index} 
-                        style={{ width: "100%", height: 90, flexDirection: 'row-reverse', backgroundColor: 'rgba(108, 99, 255, .05)', alignItems: "center", paddingHorizontal:15, borderBottomWidth:1, borderBottomColor:'rgba(108, 99, 255, .2)'}} 
-                        onPress={() => navigation.navigate("ChatScreen", {room_id: item.id, otherUser: item.otherUser})}
-                    >
-                        <View style={{ width: 60, height: 60, alignItems: "center", justifyContent: "center", backgroundColor: '#fff', borderRadius: 100, borderColor: "#4584FF", borderWidth: 4, marginLeft: 10}}>
-                            <Image style={{ width: 45, height: 45, resizeMode: 'contain', borderRadius: 30}} source={item.otherUser.photo ? {uri: `https://newapi.mediaplus.ma/storage/${item.otherUser.photo}`} : require('../assets/user_1.png')} />
-                        </View>
-                        <View style={{height: 80, justifyContent: "center"}}>
-                        <Text style={{ fontFamily: "Bold", fontSize: 14, color: '#020D6D', fontWeight: 'bold', textAlign:'right'}}>
-                            {item.otherUser.username}
-                        </Text>
-                        <Text style={{ fontFamily: "Bold", fontSize: 12, color: '#000', textAlign:'right'}}>
-                            {item.latestMessage ? item.latestMessage.text : ""}
-                        </Text>
-                        </View>
-                    </TouchableOpacity>
-                )) }
-                
-            </View>
+            </SafeAreaView> 
         )
     }
 }

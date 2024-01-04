@@ -1,7 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, View, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // import screen
@@ -10,7 +7,6 @@ import Add_product from '.././screen/add_product';
 import Search from '.././screen/search';
 import Messages from '.././screen/messages';
 import Profile from '.././screen/profile';
-import Product_detail from '.././screen/product_detail';
 
 
 
@@ -26,10 +22,11 @@ export default function BottomNav() {
           headerShown: false,
           tabBarStyle: [
             {
-              height:60,
+              height:70,
               width: '100%',
               backgroundColor:'#fff',
               display: "flex",
+              paddingTop: 20,
             },
           ],
         }}>
@@ -37,7 +34,7 @@ export default function BottomNav() {
           options={{
             headerShown: false,
             navigation :Tab.navigation,
-            title: 'Profile',
+            title: '',
             tabBarVisible: 'false',
             tabBarIcon: ({size,focused,color}) => {
               return (
@@ -53,7 +50,7 @@ export default function BottomNav() {
           options={{
             headerShown: false,
             navigation :Tab.navigation,
-            title: 'Messages',
+            title: '',
             tabBarVisible: 'false',
             tabBarIcon: ({size,focused,color}) => {
               return (
@@ -69,7 +66,7 @@ export default function BottomNav() {
           options={{
             headerShown: false,
             navigation :Tab.navigation,
-            title: 'Home',
+            title: '',
             tabBarVisible: 'false',
             tabBarIcon: ({size,focused,color}) => {
               return (
@@ -87,7 +84,7 @@ export default function BottomNav() {
           options={{
             headerShown: false,
             navigation :Tab.navigation,
-            title: 'Search',
+            title: '',
             tabBarVisible: 'false',
             tabBarIcon: ({size,focused,color}) => {
               return (
@@ -103,7 +100,7 @@ export default function BottomNav() {
           options={{
             headerShown: false,
             navigation :Tab.navigation,
-            title: 'Home',
+            title: '',
             tabBarVisible: 'false',
             tabBarIcon: ({size,focused,color}) => {
               return (

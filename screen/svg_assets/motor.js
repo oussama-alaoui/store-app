@@ -14,6 +14,10 @@ export default function Motor({alpha, number, w}) {
                 <WebView
                 source={{ html: `
                     <html>
+
+                        <head>
+                            <meta name="viewport" content="width=device-width, initial-scale=1" />
+                        </head>
                         <body style="padding:0;margin:0;">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" zoomAndPan="magnify" viewBox="0 0 404.88 202.499994" width="`+p_w+`" height="`+p_h+`" preserveAspectRatio="xMidYMid meet" version="1.0">
                             <defs>

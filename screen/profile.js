@@ -174,7 +174,6 @@ export default function Profile({navigation, route}) {
             get_rating();
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-            <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
             <View style={styles.header}>
 
                 <View style={styles.top}>
@@ -237,81 +236,81 @@ export default function Profile({navigation, route}) {
                         <Text style={{fontFamily: 'Bold', fontSize: 14, color: '#000000'}}>اللوحات المعروضة</Text>
 
                     </View>
-                <ScrollView horizontal='true' overScrollMode="never"   refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
-                    <View style={styles.body}>
+                <ScrollView overScrollMode="never" refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} >
+                    <View style={[styles.body, {} ]}>
                             {all_products.data != undefined ?  all_products.data.map((item, index) => {
                                 item.max = convertPrice(item.max);
                                 const date = new Date(item.created_at);
                                 const fulldate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
                                 return (
                                     console.log("here"),
-                                    <TouchableOpacity key={index} style={{width: '92%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1, marginRight: "5%"}} onPress={() => navigation.navigate('Product_detail_my', {product_id: item.id})}>
-                                    <View style={{width: '100%', height: '78%', borderRadius: 10, justifyContent: 'center', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
-                                    {/* 1st colum */}
-                                                <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
-                                                    <View style={{width: '100%', height: '35%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 4}}>
-                                                    <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>
-                                                            {
-                                                                item.max ? 
-                                                                    <>{item.max} <Text style={{fontSize: 10, color: '#fff'}}>﷼</Text></>
-                                                                : "لايوجد"
+                                    <TouchableOpacity key={index} style={{width: '95%', height: 101, backgroundColor: '#fff', borderRadius: 12, marginBottom: 10, flex: 1, overflow:'hidden', position:'relative'}} onPress={() => navigation.navigate('Product_detail_my', {product_id: item.id})}>
+                                        <View style={{width: '100%', height: '78%', borderRadius: 10, justifyContent: 'center', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row'}}>
+                                        {/* 1st colum */}
+                                                    <View style={{width: '22%', height: '100%', borderRadius: 10, top: '5%'}}>
+                                                        <View style={{width: '100%', height: '35%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: '#5E66EE', justifyContent: 'space-around', top: 16, borderRadius: 4}}>
+                                                        <Text style={{fontSize: 10, fontFamily: 'Bold', color: '#fff'}}>
+                                                                {
+                                                                    item.max ? 
+                                                                        <>{item.max} <Text style={{fontSize: 10, color: '#fff'}}>﷼</Text></>
+                                                                    : "لايوجد"
 
-                                                            }
-                                                        </Text>
-                                                        <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
-                                                        <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
-                                                    </View>
-                                                
-                                                </View>
-                                                
-                                                {/* 2st colum */}
-                                                <View style={{width: '35%', height: '60%', borderRadius: 10, marginTop: "1%"}}>
-                                                    <View style={{width: '100%', height: '100%', justifyContent: 'space-around', alignItems: 'center'}}>
-                                                        <View style={{width: '100%', height: '41%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black', left: 29, lineHeight: 25}}>الرياض</Text>
-                                                            <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray', left: 12, lineHeight: 25}}>المدينة </Text>
+                                                                }
+                                                            </Text>
+                                                            <View style={{width: 2, height: 16, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center'}}></View>
+                                                            <Text style={{fontSize: 10, fontFamily: 'Bold', letterSpacing: 2, color: '#fff'}}>الحد</Text>
                                                         </View>
-                                                        <View style={{width: '100%', height: '39%', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                                            <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5, lineHeight: 25}}>{item.bid[0]?.bid_price || item.price} ريال</Text>
-                                                            <Text style={{fontSize: 12, fontFamily: 'Small', letterSpacing: 2, color: 'gray', left: 4, lineHeight: 25}}>السعر </Text>
+                                                    
+                                                    </View>
+                                                    
+                                                    {/* 2st colum */}
+                                                    <View style={{width: '35%', height: '60%', borderRadius: 10, marginTop: "1%"}}>
+                                                        <View style={{width: '100%', height: '100%', justifyContent: 'space-around', alignItems: 'center'}}>
+                                                            <View style={{width: '100%', height: '41%', flexDirection: 'row', justifyContent: 'space-around'}}>
+                                                                <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: 'black', left: 29, lineHeight: 25}}>الرياض</Text>
+                                                                <Text style={{fontSize: 12, fontFamily: 'Small', color: 'gray', left: 12, lineHeight: 25}}>المدينة </Text>
+                                                            </View>
+                                                            <View style={{width: '100%', height: '39%', flexDirection: 'row', justifyContent: 'space-around'}}>
+                                                                <Text style={{fontSize: 12, fontFamily: 'X_Bold', color: '#9597DF', left: 5, lineHeight: 25}}>{item.bid[0]?.bid_price || item.price} ريال</Text>
+                                                                <Text style={{fontSize: 12, fontFamily: 'Small', letterSpacing: 2, color: 'gray', left: 4, lineHeight: 25}}>السعر </Text>
+                                                            </View>
                                                         </View>
                                                     </View>
-                                                </View>
 
-                                                {/* 3st colum */}
-                                                <View style={{width: '35%', height: '70%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
-                                                    <Matricule
-                                                        style={item.style} // basic_00 to basic_06, public_00 to public_01, motor
-                                                        type='listing' // detail, listing
-                                                        alpha={item.en_alpha}
-                                                        number={item.en_numbers}
-                                                    />
-                                                </View>
-                                    </View>
-                                    <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', height: '20%'}}>
-                                        <View style={{ flexDirection: 'row' }}>
-                                            <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 10, color: '#A8A6A6'}}>{fulldate}</Text>
-                                            <Image source={require('../assets/calendar.png')} style={{width: 13, height: 13, marginLeft: 3}}/>
+                                                    {/* 3st colum */}
+                                                    <View style={{width: '35%', height: '70%',borderColor: '#c2c0c0', borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
+                                                        <Matricule
+                                                            style={item.style} // basic_00 to basic_06, public_00 to public_01, motor
+                                                            type='listing' // detail, listing
+                                                            alpha={item.en_alpha}
+                                                            number={item.en_numbers}
+                                                        />
+                                                    </View>
                                         </View>
-                                        <View style={{ flexDirection: 'row'}}>
-                                            {item.type == 2 ?(
-                                                <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 10, color: '#A8A6A6'}}>خصوصي</Text>
-                                            ):(
-                                                <></>
-                                            )}
-                                            {item.type == 1 ?(
-                                                <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 10, color: '#A8A6A6'}}>نقل</Text>
-                                            ):(
-                                                <></>
-                                            )}
-                                            {item.type == 0 ?(
-                                                <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 10, color: '#A8A6A6'}}>دباب</Text>
-                                            ):(
-                                                <></>
-                                            )}
-                                            <Image source={require('../assets/filter.png')} style={{width: 15, height: 15, marginLeft: 3}}/>
+                                        <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', height: '20%'}}>
+                                            <View style={{ flexDirection: 'row' }}>
+                                                <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 10, color: '#A8A6A6'}}>{fulldate}</Text>
+                                                <Image source={require('../assets/calendar.png')} style={{width: 13, height: 13, marginLeft: 3}}/>
+                                            </View>
+                                            <View style={{ flexDirection: 'row'}}>
+                                                {item.type == 2 ?(
+                                                    <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 10, color: '#A8A6A6'}}>خصوصي</Text>
+                                                ):(
+                                                    <></>
+                                                )}
+                                                {item.type == 1 ?(
+                                                    <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 10, color: '#A8A6A6'}}>نقل</Text>
+                                                ):(
+                                                    <></>
+                                                )}
+                                                {item.type == 0 ?(
+                                                    <Text style={{fontFamily: 'Small',fontWeight: '600',fontSize: 10, color: '#A8A6A6'}}>دباب</Text>
+                                                ):(
+                                                    <></>
+                                                )}
+                                                <Image source={require('../assets/filter.png')} style={{width: 15, height: 15, marginLeft: 3}}/>
+                                            </View>
                                         </View>
-                                    </View>
                                     </TouchableOpacity>
                                 )
                             }) : <></>}
@@ -361,12 +360,14 @@ const styles = StyleSheet.create({
     },
 
     body: {
+        position: 'relative',
         marginBottom: '90%',
+        overflow: 'hidden',
         width: '100%',
+        maxWidth: '100%',
         flex: 1,
         height: 'auto',
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: '2.5%',
     },
 });

@@ -2,17 +2,17 @@ import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import screen
+// // import screen
 import Login from './screen/login';
 import Register from './screen/register';
 import Verification_phone from './screen/verification_phone';
-import Product_detail from './screen/product_detail';
+  import Product_detail from './screen/product_detail';
 import Search_results from './screen/search_results';
-import BottomNav from './navigator/BottomNavigator';
+  import BottomNav from './navigator/BottomNavigator';
 import Favorite_product from './screen/favorite_product';
 import User_Profile from './screen/user_profile';
 import ScreenWithLinks from './screen/pay_to_site';
-import Product_detail_my from './screen/product_detail_my';
+  import Product_detail_my from './screen/product_detail_my';
 import UserReview from './screen/user_review';
 import ChatScreen from './screen/messages_details';
 import Edit_product from './screen/edit_product';

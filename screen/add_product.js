@@ -11,6 +11,7 @@ import CheckBox from 'expo-checkbox';
 import { GetData, RemoveData, StoreData } from "../screen/Syncstorage";
 import Loadings from "./complement/loadings";
 import { Modal } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Add_product({navigation}) {
     const [data, setData] = useState([{}]);
@@ -120,9 +121,9 @@ export default function Add_product({navigation}) {
 
     return (
         console.log(city),
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <ModalPromise/>
-        <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: "10%", marginRight: 10, color: "#302C6B"}}>
+        <Text style={{ textAlign: 'right', fontFamily: "X_Bold", fontSize: 26, marginTop: "10%", marginRight: 10, color: "#302C6B"}}>
          إضافة إعلان جديد    
         </Text>
         {
@@ -147,7 +148,7 @@ export default function Add_product({navigation}) {
             </View>
             <ScrollView style={{ width: "100%", height: "100%", marginBottom:  error ? 60 : 10}} overScrollMode="never">
                 <View style={{ width: "90%", height: 40, flexDirection: "column-reverse", justifyContent: "space-between", marginLeft: "5%"}}>
-                    <Text style={{ fontFamily: "Small", fontSize: 12, color: "#000"}}>
+                    <Text style={{ textAlign: 'right', fontFamily: "Small", fontSize: 12, color: "#000"}}>
                     المرجو إدخال الحروف و الأ رقام التي تبحت عنها
                     </Text>
                 </View>
@@ -308,14 +309,14 @@ export default function Add_product({navigation}) {
                 </View>
 
                 <View style={{ width: "90%", borderBottomLeftRadius: 26, borderTopLeftRadius: 26, marginLeft: "5%", height: "120%"}}>
-                    <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>المدينة</Text>
+                    <Text style={{  textAlign: 'right', width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>المدينة</Text>
                     <SelectList 
                         setSelected={(val) => setCity(val)} 
                         data={data}
                         placeholder="اختر المدينة"
                         save="key"
                     />
-                    <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>السعر</Text>
+                    <Text style={{  textAlign: 'right', width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>السعر</Text>
                     <View style={{ width: "100%", borderRadius: 20, flexDirection: 'row', justifyContent: "space-between",}}>
                         <View style={{ width: "50%", height: 50, borderRadius: 8, justifyContent: "center", alignItems: "center", flexDirection: "row"}}>
                             <TextInput
@@ -342,7 +343,7 @@ export default function Add_product({navigation}) {
                             <Text style={{fontFamily: "Small", fontSize: 13, color: "gray"}}> سعر البدأ </Text>
                         </View>
                     </View>
-                    <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>الشكل</Text>
+                    <Text style={{  textAlign: 'right', width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>الشكل</Text>
                     {category == 2 ? (    
                         <View style={{ width: "100%", borderRadius: 8, justifyContent: "space-between", alignItems: "center", flexDirection: "row", marginTop: 10}}>
                             
@@ -450,7 +451,7 @@ export default function Add_product({navigation}) {
                         <></>
                     )}
                     <View style={{ width: "100%", alignItems: "center", marginTop: 20}}>
-                        <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000"}}>وصف الإعلان</Text>
+                        <Text style={{ textAlign: 'right',  width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000"}}>وصف الإعلان</Text>
                         <TextInput
                             style={{ width: "100%", height: 100, borderRadius: 8, alignItems: "center", flexDirection: "row", backgroundColor: "#fff", paddingHorizontal: 10, textAlign :  I18nManager.isRTL ? 'left' : 'right',}}
                             placeholder="وصف الإعلان"
@@ -462,7 +463,7 @@ export default function Add_product({navigation}) {
                         />
                     </View>
                     <View style={{ width: "90%", marginTop: 10, flexDirection: "row", justifyContent: "space-between"}}>
-                            <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginHorizontal: 10}}>إضهار رقم الهاتف</Text>
+                            <Text style={{  textAlign: 'right', width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginHorizontal: 10}}>إضهار رقم الهاتف</Text>
                             <CheckBox
                                 value={showphone}
                                 onValueChange={() => setShowphone(!showphone)}
@@ -477,7 +478,7 @@ export default function Add_product({navigation}) {
                 </View>
             </ScrollView>
         </View>
-    </View>
+        </SafeAreaView>
     )
 
     function to_ar(c, j)

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { SelectList } from 'react-native-dropdown-select-list'
 import Loadings from "./complement/loadings";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Search({navigation}) {
     const [category, setCategory] = useState(2);
@@ -60,8 +61,8 @@ export default function Search({navigation}) {
 
     return (
         console.log(category),
-        <View style={styles.container}>
-            <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: 20, marginRight: 10, color: "#302C6B"}}>
+        <SafeAreaView style={styles.container}>
+            <Text style={{ fontFamily: "X_Bold", fontSize: 26, marginTop: 20, marginRight: 10, color: "#302C6B", textAlign: 'right'}}>
                 البحث على إعلان
             </Text>
             <View style={{backgroundColor: "rgba(177, 156, 217, 0.2)", width: "100%", height: "90%", alignItems: "center"}}>
@@ -79,7 +80,7 @@ export default function Search({navigation}) {
                 <View style={{ width: "90%", height: 1, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", marginTop: 15}}>
                 </View>
                 <View style={{ width: "90%", height: 40, flexDirection: "column-reverse", justifyContent: "space-between"}}>
-                    <Text style={{ fontFamily: "Small", fontSize: 12, color: "#000"}}>
+                    <Text style={{ fontFamily: "Small", fontSize: 12, color: "#000", textAlign: 'right'}}>
                     المرجو إدخال الحروف و الأ رقام التي تبحت عنها
                     </Text>
                 </View>
@@ -252,7 +253,7 @@ export default function Search({navigation}) {
 </View>
 
                 <View style={{ width: "90%", borderBottomLeftRadius: 26, borderTopLeftRadius: 26}}>
-                    <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>المدينة</Text>
+                    <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10, textAlign: 'right'}}>المدينة</Text>
                     <SelectList 
                         setSelected={(val) => setCity(val)} 
                         data={data}
@@ -260,7 +261,7 @@ export default function Search({navigation}) {
                     />
                     <View style={{ width: "100%", height: 1, backgroundColor: '#CAC7C7', borderRadius: 20, flexDirection: 'row', justifyContent: "space-around", marginTop: 20}}>
                     </View>
-                    <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10}}>رقم الإعلان</Text>
+                    <Text style={{ width: "100%", fontFamily: "Bold", fontSize: 15, color: "#000", marginTop: 10, textAlign: 'right'}}>رقم الإعلان</Text>
                     <TextInput
                         style={{ width: "100%", height: 40, fontFamily: "Bold", fontSize: 15, color: "#000", backgroundColor: "#fff", paddingLeft: 15, borderRadius: 8}}
                         placeholderTextColor="#BCBCBC"
@@ -278,7 +279,7 @@ export default function Search({navigation}) {
                 </TouchableOpacity> 
 
             </View>
-        </View>
+        </SafeAreaView>
     )
 
     function searchNow()

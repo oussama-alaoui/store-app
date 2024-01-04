@@ -150,8 +150,8 @@ import { ActivityIndicator } from 'react-native';
         return <Loadings/>;
     else
         return(
-            <SafeAreaView horizontal='true' overScrollMode="never" style={{flex: 1}}>
-                <ScrollView horizontal='true' style={{flex:1}} overScrollMode="never"   refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} onScroll={(event) => handleLoadMore(event)}>
+            <SafeAreaView overScrollMode="never" style={{flex: 1}}>
+                <ScrollView style={{flex:1}} overScrollMode="never"   refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} onScroll={(event) => handleLoadMore(event)}>
                 <StatusBar style="dark" hidden={false} backgroundColor="#fff" translucent={false}/>
                 <View style={styles.container}>
                     <View style={styles.header}>
